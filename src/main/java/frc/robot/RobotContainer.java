@@ -66,9 +66,4 @@ public class RobotContainer {
    */
   private void configureBindings() {
   }
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 1c8e583 (src: RobotContainer: Remove move example methods)
 }
