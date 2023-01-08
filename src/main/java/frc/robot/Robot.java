@@ -21,7 +21,11 @@ public class Robot extends TimedRobot {
   @SuppressWarnings("unused")
   private RobotContainer robotContainer;
 
+<<<<<<< HEAD
   XboxController xboxController = new XboxController(Constants.JoystickConstants.kJoystickPort);
+=======
+  private RobotContainer robotContainer;
+>>>>>>> 9af6748 (src: Robot: Removed example auto command)
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -29,8 +33,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+<<<<<<< HEAD
     //Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     //autonomous chooser on the dashboard.
+=======
+    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+    // autonomous chooser on the dashboard.
+>>>>>>> 9af6748 (src: Robot: Removed example auto command)
     robotContainer = new RobotContainer();
   }
 
