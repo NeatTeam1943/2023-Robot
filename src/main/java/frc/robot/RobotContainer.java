@@ -33,6 +33,4 @@ public class RobotContainer {
    */
   private void configureBindings() {
   }
-
-
 }
