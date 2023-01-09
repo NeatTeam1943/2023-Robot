@@ -6,8 +6,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveArcade;
+import frc.robot.commands.DriveAuto;
 import frc.robot.subsystems.DriveTrain;
 
 /**
@@ -23,7 +25,9 @@ public class RobotContainer {
   public static final DriveTrain driveArcade = new DriveTrain();
   // Command
   public static final DriveArcade driveArcadeCommand = new DriveArcade();
+  public static final DriveAuto driveAuto = new DriveAuto(); 
   public static final XboxController joystick = new XboxController(Constants.kJoystickPort);
+  private static final JoystickButton controllerBButton = new JoystickButton(joystick, Constants.kJoystickBButton);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -41,5 +45,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    controllerBButton.whenPressed(driveAuto);
   }
 }
