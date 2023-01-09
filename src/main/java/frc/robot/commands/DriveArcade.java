@@ -22,7 +22,7 @@ public class DriveArcade extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double move = RobotContainer.joystick.getLeftX();
+    double move = RobotContainer.joystick.getLeftX() * -1;
     double rot = RobotContainer.joystick.getLeftY();
     RobotContainer.driveArcade.robotArcadeDrive(move,rot);
   }
