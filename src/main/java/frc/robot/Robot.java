@@ -4,9 +4,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import java.io.Console;
+
+import com.analog.adis16448.frc.ADIS16448_IMU;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -16,6 +21,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+
+  public static final ADIS16448_IMU imu = new ADIS16448_IMU();
+  AnalogGyro gyro = new AnalogGyro(0);
+
 
   private RobotContainer m_robotContainer;
 
@@ -92,5 +101,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically whilst in simulation. */
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+    System.out.println(imu.getAngle());
+  }
 }
