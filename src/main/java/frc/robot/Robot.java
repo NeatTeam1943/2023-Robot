@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -93,6 +94,19 @@ public class Robot extends TimedRobot {
   public void simulationInit() {}
 
   /** This function is called periodically whilst in simulation. */
+  
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+
+    RobotContainer.driveArcade.getfrontLeftMotor().setBusVoltage(RobotController.getBatteryVoltage());
+    RobotContainer.driveArcade.getfrontRightMotor().setBusVoltage(RobotController.getBatteryVoltage());
+
+    RobotContainer.driveArcade.getdifferentialDriveSim().setInputs(RobotContainer.driveArcade.getfrontLeftMotor().getMotorOutputLeadVoltage(), RobotContainer.driveArcade.getfrontRightMotor().getMotorOutputLeadVoltage() * -1);
+
+    RobotContainer.driveArcade.getdifferentialDriveSim().update(Constants.kUpdateTime);
+
+    // RobotContainer.driveArcade.getfrontLeftMotor().setQuadratureRawPosition(Constants.distanceToNativeUnits(
+    //       RobotContainer.driveArcade.getdifferentialDriveSim().getLeftPositionMeters()
+    //   ));
+  }
 }
