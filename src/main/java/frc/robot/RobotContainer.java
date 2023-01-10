@@ -34,7 +34,8 @@ public class RobotContainer {
   public static final DriveArcade driveArcadeCommand = new DriveArcade();
   public static final DriveAuto driveAuto = new DriveAuto(); 
   public static final XboxController joystick = new XboxController(Constants.kJoystickPort);
-  private static final JoystickButton controllerBButton = new JoystickButton(joystick, Constants.kJoystickBButton);
+  // button input
+  public static final JoystickButton controllerBButton = new JoystickButton(joystick, Constants.kJoystickBButton);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings

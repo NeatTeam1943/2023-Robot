@@ -28,7 +28,6 @@ public class DriveAuto extends CommandBase {
       RobotContainer.driveArcade.robotArcadeDrive(Constants.kAutoSpeed, 0);
     else
       RobotContainer.driveArcade.robotArcadeDrive(0, 0);
-
   }
 
   // Called once the command ends or is interrupted.
