@@ -4,11 +4,12 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveTrainConstants;
 
@@ -25,6 +26,12 @@ public class DriveTrain extends SubsystemBase {
 
   private ADIS16448_IMU m_imu;
 
+  protected TalonFXSimCollection backLeftMotorSim;
+  protected TalonFXSimCollection backRightMotorSim;
+  protected TalonFXSimCollection frontLeftMotorSim;
+  protected TalonFXSimCollection frontRightMotorSim;
+  protected DifferentialDrivetrainSim differentialDriveSim; 
+  
   public DriveTrain() {
     m_leftFront = new WPI_TalonFX(DriveTrainConstants.kLeftFrontPort);
     m_leftRear = new WPI_TalonFX(DriveTrainConstants.kLeftRearPort);
