@@ -12,9 +12,8 @@ import edu.wpi.first.wpilibj.simulation.AnalogGyroSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import java.io.Console;
-
-import com.analog.adis16448.frc.ADIS16448_IMU;
+// import com.analog.adis16448.frc.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.ADIS16448_IMU;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -26,10 +25,9 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   
-  AnalogGyro gyro = new AnalogGyro(null);
-
   ADIS16448_IMU imu = new ADIS16448_IMU();
-  ADIS16448_IMUSim simImu = new ADIS16448_IMUSim(null);
+  ADIS16448_IMUSim imuSim = new ADIS16448_IMUSim(imu);
+  
 
   private RobotContainer m_robotContainer;
 
@@ -115,7 +113,11 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationPeriodic() {
 
-    System.out.println();
+    
+
+    double test = imu.getGyroAngleX();
+
+    System.out.println(test);
     // note : simImu apparently doesn't have a getAngle() method, unlike the object "imu"
   }
 }
