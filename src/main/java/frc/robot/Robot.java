@@ -4,11 +4,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.simulation.ADIS16448_IMUSim;
-import edu.wpi.first.wpilibj.simulation.AnalogGyroSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -111,6 +108,5 @@ public class Robot extends TimedRobot {
     double test = imu.getGyroAngleX();
 
     System.out.println(test);
-    // note : simImu apparently doesn't have a getAngle() method, unlike the object "imu"
   }
 }
