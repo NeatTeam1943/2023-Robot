@@ -110,10 +110,25 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationPeriodic() {
 
+    // notable info about the charge station
+    // 34.25* before tilt
+    // 11* afer tilt for side 1
+    // 71.5* after tilt for side 2
+
+    if (imu.getGyroAngleX() >= 100 && imu.getGyroAngleX() <= 102)
+    {
+      // w.i.p , plan is to continue moving forward in cosnideration of the current backward acceleration
+
+    }
+
+    if (imu.getGyroAngleX() >= 78 && imu.getGyroAngleX() <= 80)
+    {
+      // w.i.p , plan is to continue moving forward in cosnideration of the current forward acceleration
+
+    }
     
-
     double test = imu.getGyroAngleX();
-
     System.out.println(test);
+    
   }
 }
