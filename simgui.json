@@ -1,7 +1,23 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "Talon FX[2]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo"
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "FMSInfo": {
+        "open": true
+      }
     }
   }
 }
