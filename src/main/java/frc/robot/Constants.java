@@ -33,11 +33,19 @@ public final class Constants {
     public static final double kWheelRadiusInches = 3;
     public static final double kSensorGearRatio = 1.0;
     public static final double kGearRatio = 10.71; 
+
     // Const methods
     public static int distanceToNativeUnits(double positionMeters){
         double wheelRotations = positionMeters/(2 * Math.PI * Units.inchesToMeters(kWheelRadiusInches));
         double motorRotations = wheelRotations * kSensorGearRatio;
         int sensorCounts = (int)(motorRotations * kCountsPerRev);
         return sensorCounts;
-      }
+    }
+
+    public static double nativeUnitsToDistanceMeters(double sensorCounts){
+      double motorRotations = (double)sensorCounts / kCountsPerRev;
+      double wheelRotations = motorRotations / kSensorGearRatio;
+      double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(kWheelRadiusInches));
+      return positionMeters;
+    }
 }
