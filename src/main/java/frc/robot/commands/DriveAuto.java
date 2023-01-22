@@ -24,7 +24,7 @@ public class DriveAuto extends CommandBase {
   @Override
   public void execute() {
     double drivingDistance = RobotContainer.driveArcade.getBackLeftMotor().getSelectedSensorPosition();
-    if (drivingDistance < 5) 
+    if (drivingDistance < 5)
       RobotContainer.driveArcade.robotArcadeDrive(Constants.kAutoSpeed, 0);
     else
       RobotContainer.driveArcade.robotArcadeDrive(0, 0);

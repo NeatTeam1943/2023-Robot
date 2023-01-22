@@ -4,11 +4,20 @@ the WPILib BSD license file in the root directory of this project.*/
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import org.photonvision.PhotonCamera;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+<<<<<<< HEAD
+=======
+import frc.robot.commands.DriveArcade;
+>>>>>>> 421e897 (added elevator teleop functionality)
 import frc.robot.commands.OperateElevator;
 
 /**
@@ -22,7 +31,16 @@ public class Robot extends TimedRobot {
   @SuppressWarnings("unused")
   private RobotContainer robotContainer;
 
+<<<<<<< HEAD
   XboxController xboxController = new XboxController(Constants.JoystickConstants.kJoystickPort);
+=======
+  PhotonCamera camera = new PhotonCamera(Constants.k_CameraName);
+  
+  PIDController forwardController = new PIDController(Constants.k_LinearP, Constants.k_LinearI, Constants.k_LinearD);
+  PIDController turnController = new PIDController(Constants.k_AngularP, Constants.k_AngularI, Constants.k_AngularD);
+
+  XboxController xboxController = new XboxController(Constants.kJoystickPort);
+>>>>>>> 421e897 (added elevator teleop functionality)
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -57,8 +75,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
