@@ -20,9 +20,12 @@ public final class Constants {
     public static final int kBackFrontMotor = 2;
     public static final int kFrontLeftMotor = 3;
     public static final int kFrontRightMotor = 4;
+    public static final int kElevatorMotorID = 5;
     // Joystick
     public static final int kJoystickPort = 0; 
     public static final int kJoystickBButton = 2;
+    public static final int kJoystickAbutton = 3;
+    public static final int kJoystickYbutton = 4;
     // Wpi encoder 
     public static final int kResetEncoder = 0;
     // Autonomous command
@@ -40,4 +43,19 @@ public final class Constants {
         int sensorCounts = (int)(motorRotations * kCountsPerRev);
         return sensorCounts;
       }
+
+    //PhotonVision constants
+    public static final double k_CameraHeightMeters = Units.inchesToMeters(24);
+    public static final double k_TargetHeightMeters = Units.feetToMeters(5);
+    public static final double k_CameraPitchRadians = Units.degreesToRadians(0);
+    public static final String k_CameraName = "photonvision";
+
+    //PID constants
+    public static final double k_LinearP = 0.1;
+    public static final double k_LinearI = 0.1;
+    public static final double k_LinearD = 0.1;
+    public static final double k_AngularP= 0.1;
+    public static final double k_AngularI = 0.1;
+    public static final double k_AngularD = 0.1;
+
 }

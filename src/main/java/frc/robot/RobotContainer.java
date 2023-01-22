@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.DriveAuto;
+import frc.robot.commands.OperateElevator;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Elevator;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,12 +25,15 @@ public class RobotContainer {
 
   // Subsystem
   public static final DriveTrain driveArcade = new DriveTrain();
+  public static final Elevator elevatorSubsystem = new Elevator();
   // Command
   public static final DriveArcade driveArcadeCommand = new DriveArcade();
-  public static final DriveAuto driveAuto = new DriveAuto(); 
+  public static final DriveAuto driveAuto = new DriveAuto();
   public static final XboxController joystick = new XboxController(Constants.kJoystickPort);
   // button input
   public static final JoystickButton controllerBButton = new JoystickButton(joystick, Constants.kJoystickBButton);
+  public static final JoystickButton controllerAbutton = new JoystickButton(joystick, Constants.kJoystickAbutton);
+  public static final JoystickButton controllerYbutton = new JoystickButton(joystick, Constants.kJoystickYbutton);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings

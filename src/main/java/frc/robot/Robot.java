@@ -4,10 +4,18 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import org.photonvision.PhotonCamera;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DriveArcade;
+import frc.robot.commands.OperateElevator;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,6 +27,13 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   @SuppressWarnings("unused")
   private RobotContainer robotContainer;
+
+  PhotonCamera camera = new PhotonCamera(Constants.k_CameraName);
+  
+  PIDController forwardController = new PIDController(Constants.k_LinearP, Constants.k_LinearI, Constants.k_LinearD);
+  PIDController turnController = new PIDController(Constants.k_AngularP, Constants.k_AngularI, Constants.k_AngularD);
+
+  XboxController xboxController = new XboxController(Constants.kJoystickPort);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -56,13 +71,11 @@ public class Robot extends TimedRobot {
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
-  public void autonomousInit() {
-  }
+  public void autonomousInit() {}
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
@@ -77,7 +90,37 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+    double forwardSpeed, rotationSpeed;
+
+    forwardSpeed = -xboxController.getRightY();
+
+    //move elevator up and down
+    RobotContainer.controllerYbutton.whileTrue(new OperateElevator(1));
+    RobotContainer.controllerAbutton.whileTrue(new OperateElevator(-1));
+
+    if(xboxController.getAButton()){
+      var result = camera.getLatestResult();
+
+      if(result.hasTargets()){
+        rotationSpeed = -turnController.calculate(result.getBestTarget().getYaw());
+      }
+      else{
+        // If we have no targets, stay still.
+        rotationSpeed = 0;
+      }
+    
+    }
+    else{
+       // Manual Driver Mode
+      rotationSpeed = xboxController.getLeftX();
+    }
+    RobotContainer.driveArcade.robotArcadeDrive(forwardSpeed,rotationSpeed);
+
+
+    
+  }
 
   @Override
   public void testInit() {
@@ -104,6 +147,9 @@ public class Robot extends TimedRobot {
     RobotContainer.driveArcade.getdifferentialDriveSim().setInputs(RobotContainer.driveArcade.getfrontLeftMotor().getMotorOutputLeadVoltage(), RobotContainer.driveArcade.getfrontRightMotor().getMotorOutputLeadVoltage() * -1);
 
     RobotContainer.driveArcade.getdifferentialDriveSim().update(Constants.kUpdateTime);
+
+    RobotContainer.controllerYbutton.whileTrue(new OperateElevator(1));
+    RobotContainer.controllerAbutton.whileTrue(new OperateElevator(-1));
 
     // RobotContainer.driveArcade.getfrontLeftMotor().setQuadratureRawPosition(Constants.distanceToNativeUnits(
     //       RobotContainer.driveArcade.getdifferentialDriveSim().getLeftPositionMeters()
