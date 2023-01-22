@@ -5,29 +5,30 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class DriveAuto extends CommandBase {
-  /** Creates a new DriveAuto. */
-  public DriveAuto() {
+public class OperateElevator extends CommandBase {
+  /** Creates a new Operate. */
+
+  private int direction;
+  private void moveElevator(int direction){
+    RobotContainer.elevatorSubsystem.elevate(direction*0.5);
+  }
+
+  public OperateElevator(int direction) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.elevatorSubsystem);
+    this.direction = direction;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    RobotContainer.driveArcade.getBackLeftMotor().setSelectedSensorPosition(Constants.kResetEncoder);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double drivingDistance = RobotContainer.driveArcade.getBackLeftMotor().getSelectedSensorPosition();
-    if (drivingDistance < 5)
-      RobotContainer.driveArcade.robotArcadeDrive(Constants.kAutoSpeed, 0);
-    else
-      RobotContainer.driveArcade.robotArcadeDrive(0, 0);
+    moveElevator(this.direction);
   }
 
   // Called once the command ends or is interrupted.
