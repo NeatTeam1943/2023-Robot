@@ -1,10 +1,10 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+/*Copyright (c) FIRST and other WPILib contributors.
+Open Source Software; you can modify and/or share it under the terms of
+the WPILib BSD license file in the root directory of this project.*/
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 
 import org.photonvision.PhotonCamera;
 
@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.DriveArcade;
 import frc.robot.commands.OperateElevator;
 
 /**
@@ -41,8 +40,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
+    //Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+    //autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
   }
 
@@ -55,10 +54,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
+    //Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+    //commands, running already-scheduled commands, removing finished or interrupted commands,
+    //and running subsystem periodic() methods.  This must be called from the robot's periodic
+    //block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
   }
 
@@ -75,14 +74,18 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    //move elevator up and down - autonomous
+    PhotonCamera camera = new PhotonCamera(Constants.k_CameraName);
+    
+  }
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
+    //This makes sure that the autonomous stops running when
+    //teleop starts running. If you want the autonomous to
+    //continue until interrupted by another command, remove
+    //this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -96,7 +99,7 @@ public class Robot extends TimedRobot {
 
     forwardSpeed = -xboxController.getRightY();
 
-    //move elevator up and down
+    //move elevator up and down - teleop
     RobotContainer.controllerYbutton.whileTrue(new OperateElevator(1));
     RobotContainer.controllerAbutton.whileTrue(new OperateElevator(-1));
 
@@ -107,13 +110,13 @@ public class Robot extends TimedRobot {
         rotationSpeed = -turnController.calculate(result.getBestTarget().getYaw());
       }
       else{
-        // If we have no targets, stay still.
+        //If we have no targets, stay still.
         rotationSpeed = 0;
       }
     
     }
     else{
-       // Manual Driver Mode
+       //Manual Driver Mode
       rotationSpeed = xboxController.getLeftX();
     }
     RobotContainer.driveArcade.robotArcadeDrive(forwardSpeed,rotationSpeed);
@@ -124,7 +127,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    // Cancels all running commands at the start of test mode.
+    //Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }
 
@@ -136,7 +139,7 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationInit() {}
 
-  /** This function is called periodically whilst in simulation. */
+  /* This function is called periodically whilst in simulation. */
   
   @Override
   public void simulationPeriodic() {
@@ -148,11 +151,14 @@ public class Robot extends TimedRobot {
 
     RobotContainer.driveArcade.getdifferentialDriveSim().update(Constants.kUpdateTime);
 
-    RobotContainer.controllerYbutton.whileTrue(new OperateElevator(1));
-    RobotContainer.controllerAbutton.whileTrue(new OperateElevator(-1));
-
+    
+    // //LIRAN2121
     // RobotContainer.driveArcade.getfrontLeftMotor().setQuadratureRawPosition(Constants.distanceToNativeUnits(
-    //       RobotContainer.driveArcade.getdifferentialDriveSim().getLeftPositionMeters()
+    //     RobotContainer.driveArcade.getdifferentialDriveSim().getLeftPositionMeters()
     //   ));
+
+    //UNNAMED
+    RobotContainer.driveArcade.getfrontLeftMotor().setIntegratedSensorRawPosition(Constants.distanceToNativeUnits(
+      RobotContainer.driveArcade.getdifferentialDriveSim().getLeftPositionMeters()));
   }
 }

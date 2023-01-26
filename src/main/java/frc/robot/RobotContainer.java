@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.DriveAuto;
-import frc.robot.commands.OperateElevator;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 
@@ -38,7 +37,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    driveArcade.setDefaultCommand(driveArcadeCommand);
+    //driveArcade.setDefaultCommand(driveArcadeCommand);
   }
 
   /**
@@ -51,6 +50,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    controllerBButton.whenPressed(driveAuto);
+    controllerBButton.onTrue(driveAuto);
   }
 }
