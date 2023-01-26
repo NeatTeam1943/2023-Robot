@@ -62,4 +62,12 @@ public class DriveTrain extends SubsystemBase {
   public void calibrateIMU() {
     m_imu.calibrate();
   }
+
+  public void arcadeDrive(double move, double rot) {
+    m_drive.arcadeDrive(move, rot);
+  }
+
+  public void tankDrive(double left, double right) {
+    m_drive.tankDrive(left, right);
+  }
 }
