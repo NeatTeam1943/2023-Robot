@@ -33,4 +33,12 @@ public class DriveTrain extends SubsystemBase {
 
     m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
   }
+
+  public void arcadeDrive(double move, double rot) {
+    m_drive.arcadeDrive(move, rot);
+  }
+
+  public void tankDrive(double left, double right) {
+    m_drive.tankDrive(left, right);
+  }
 }
