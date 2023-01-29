@@ -79,7 +79,14 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
+    if(RobotContainer.xboxController.getAButton()){
+      PhotonVision.camera.setPipelineIndex(VisionConstants.kAprilPipline);
+      System.out.println("april tag pipeline");
+    }
+    else if(RobotContainer.xboxController.getBButton()){
+      PhotonVision.camera.setPipelineIndex(VisionConstants.kRetroPipline);
+      System.out.println("retroreflective pipline");
+    }
   }
 
   @Override
