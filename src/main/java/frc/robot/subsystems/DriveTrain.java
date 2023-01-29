@@ -20,36 +20,38 @@ import frc.robot.RobotContainer;
 
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
-  private WPI_TalonFX backLeftMotor; 
-  private WPI_TalonFX backRightMotor;
-  private WPI_TalonFX frontLeftMotor; 
-  private WPI_TalonFX frontRightMotor;
-  private DifferentialDrive differentialDrive;
+  private WPI_TalonFX m_leftFront;
+  private WPI_TalonFX m_leftRear;
+  private WPI_TalonFX m_rightFront;
+  private WPI_TalonFX m_rightRear;
+  
+  private MotorControllerGroup m_leftMotors;
+  private MotorControllerGroup m_rightMotors;
+
+  private DifferentialDrive m_drive;
+
   private edu.wpi.first.math.kinematics.DifferentialDriveOdometry DifferentialDriveOdometry;
 
   protected TalonFXSimCollection backLeftMotorSim;
   protected TalonFXSimCollection backRightMotorSim;
   protected TalonFXSimCollection frontLeftMotorSim;
   protected TalonFXSimCollection frontRightMotorSim;
-  protected DifferentialDrivetrainSim differentialDriveSim;
+  protected DifferentialDrivetrainSim m_drive;
   protected Field2d simField;
 
   
   public DriveTrain() {
-    this.backLeftMotor = new WPI_TalonFX(Constants.kBackFrontMotor);
-    this.backRightMotor = new WPI_TalonFX(Constants.kBackLeftMotor);
-    this.frontLeftMotor = new WPI_TalonFX(Constants.kFrontLeftMotor);
-    this.frontRightMotor = new WPI_TalonFX(Constants.kFrontRightMotor);
+    m_leftFront = new WPI_TalonFX(DriveTrainConstants.kLeftFrontPort);
+    m_leftRear = new WPI_TalonFX(DriveTrainConstants.kLeftRearPort);
+    m_rightFront = new WPI_TalonFX(DriveTrainConstants.kRightFrontPort);
+    m_rightRear = new WPI_TalonFX(DriveTrainConstants.kRightRearPort);
 
-    this.frontLeftMotorSim = frontLeftMotor.getSimCollection();
-    this.frontRightMotorSim = frontRightMotor.getSimCollection();
+    m_leftMotors = new MotorControllerGroup(m_leftRear, m_leftFront);
+    m_rightMotors = new MotorControllerGroup(m_rightRear, m_rightFront);
 
-    this.backLeftMotor.follow(this.frontLeftMotor);
-    this.backRightMotor.follow(this.frontRightMotor);
-
-    this.differentialDrive = new DifferentialDrive(this.frontLeftMotor, this.frontRightMotor);
+    m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
     this.DifferentialDriveOdometry = new edu.wpi.first.math.kinematics.DifferentialDriveOdometry(new Rotation2d(), 0, 0);
-    // I currently dont know to real parameters of our robot's driveTrain, these are temp variables 
+    // I currently dont know the real parameters of our robot's driveTrain, these are temp variables 
     this.differentialDriveSim = new DifferentialDrivetrainSim(DCMotor.getCIM(2), Constants.kGearRatio, 2.1, 26.5, Units.inchesToMeters(Constants.kWheelRadiusInches), 0.546, null);
     
     this.simField = new Field2d();
@@ -64,11 +66,12 @@ public class DriveTrain extends SubsystemBase {
   public TalonFXSimCollection getfrontRightMotorSim(){return this.frontRightMotor.getSimCollection();}
   public DifferentialDrivetrainSim getdifferentialDriveSim(){return this.differentialDriveSim;}
   
-  public void robotArcadeDrive(double move, double rot){
-    if (move < 0.05) {move = 0;}
-    if (rot < 0.05) {rot = 0;}
-    differentialDrive.arcadeDrive(move, rot);
+  public void arcadeDrive(double move, double rot) {
+    m_drive.arcadeDrive(move, rot);
   }
+
+  public void tankDrive(double left, double right) {
+    m_drive.tankDrive(left, right);
 
   @Override
   public void periodic() {

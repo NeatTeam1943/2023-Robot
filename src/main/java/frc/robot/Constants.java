@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -15,11 +14,6 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    // Speed controller ports
-    public static final int kBackLeftMotor = 1;
-    public static final int kBackFrontMotor = 2;
-    public static final int kFrontLeftMotor = 3;
-    public static final int kFrontRightMotor = 4;
     // Joystick
     public static final int kJoystickPort = 0; 
     public static final int kJoystickBButton = 2;
@@ -47,5 +41,15 @@ public final class Constants {
       double wheelRotations = motorRotations / kSensorGearRatio;
       double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(kWheelRadiusInches));
       return positionMeters;
-    }
+
+  public static class OperatorConstants {
+    public static final int kDriverControllerPort = 0;
+  }
+
+  public static class DriveTrainConstants {
+    public static final int kLeftFrontPort = 1;
+    public static final int kLeftRearPort = 2;
+    public static final int kRightFrontPort = 3;
+    public static final int kRightRearPort = 4;
+  }
 }
