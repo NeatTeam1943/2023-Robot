@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
 
@@ -13,16 +14,27 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
 
 public class PhotonVision extends SubsystemBase {
-  /** Creates a new PhotonVision. */
 
-  public static PhotonCamera camera;
+  private static PhotonCamera camera;
+
   public PhotonVision() {
     camera = new PhotonCamera(VisionConstants.kCameraName);
+
+  }
+  public static PhotonCamera getCamera(){
+    return camera;
 
   }
 
   @Override
   public void periodic() {
+    var result = camera.getLatestResult();
+    if(result.hasTargets() != false){
+      var target = result.getBestTarget();
+      var fiducialId = target.getFiducialId();
+      Transform3d bestCameraToTarget = target.getBestCameraToTarget();
+
+    }
     // This method will be called once per scheduler run
   }
 }
