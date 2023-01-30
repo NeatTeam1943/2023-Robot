@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.VisionConstants;
+import frc.robot.subsystems.PhotonVision;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -44,6 +46,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
   }
   
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -70,11 +73,21 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if(RobotContainer.xboxController.getAButton()){
+      PhotonVision.camera.setPipelineIndex(VisionConstants.kAprilPipline);
+      System.out.println("april tag pipeline");
+    }
+    else if(RobotContainer.xboxController.getBButton()){
+      PhotonVision.camera.setPipelineIndex(VisionConstants.kRetroPipline);
+      System.out.println("retroreflective pipline");
+    }
+  }
 
   @Override
   public void testInit() {
