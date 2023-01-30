@@ -15,12 +15,10 @@ public final class Constants {
     public static final int kRightFrontPort = 3;
     public static final int kRightRearPort = 4;
   }
-<<<<<<< HEAD
-=======
+
   public static class VisionConstants{
     public static final String kCameraName = "photonvision";
     public static final int kAprilPipline = 0; 
     public static final int kRetroPipline = 1; 
   }
->>>>>>> 37d02cca808b42d908e15e52a74299fda427a2a9
 }
