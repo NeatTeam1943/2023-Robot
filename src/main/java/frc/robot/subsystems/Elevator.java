@@ -4,9 +4,8 @@
 
 package frc.robot.subsystems;
 
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.ElevatorConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -17,10 +16,10 @@ public class Elevator extends SubsystemBase {
   private CANSparkMax elevatorMotor;
 
   public Elevator() {
-    this.elevatorMotor = new CANSparkMax(Constants.kElevatorMotorID, MotorType.kBrushed);
+    this.elevatorMotor = new CANSparkMax(ElevatorConstants.kElevatorMotorID, MotorType.kBrushed);
   }
 
-  public void elevate(double speed){
+  public void elevate(double speed) {
     this.elevatorMotor.set(speed);
   }
 
