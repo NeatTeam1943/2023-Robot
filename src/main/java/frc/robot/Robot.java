@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -77,14 +79,16 @@ public class Robot extends TimedRobot {
   }
 
   /** This function is called periodically during operator control. */
+  PhotonVision camera = RobotContainer.camera;
   @Override
   public void teleopPeriodic() {
+    
     if(RobotContainer.xboxController.getAButton()){
-      PhotonVision.camera.setPipelineIndex(VisionConstants.kAprilPipline);
+      camera.getCamera().setPipelineIndex(VisionConstants.kAprilPipline);
       System.out.println("april tag pipeline");
     }
     else if(RobotContainer.xboxController.getBButton()){
-      PhotonVision.camera.setPipelineIndex(VisionConstants.kRetroPipline);
+      camera.getCamera().setPipelineIndex(VisionConstants.kRetroPipline);
       System.out.println("retroreflective pipline");
     }
   }
