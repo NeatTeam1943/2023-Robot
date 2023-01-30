@@ -65,6 +65,5 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    controllerBButton.onTrue(driveAuto);
   }
 }
