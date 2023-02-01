@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,6 +23,8 @@ public class DriveTrain extends SubsystemBase {
 
   private DifferentialDrive m_drive;
 
+  private ADIS16448_IMU m_imu;
+
   public DriveTrain() {
     m_leftFront = new WPI_TalonFX(DriveTrainConstants.kLeftFrontPort);
     m_leftRear = new WPI_TalonFX(DriveTrainConstants.kLeftRearPort);
@@ -32,6 +35,8 @@ public class DriveTrain extends SubsystemBase {
     m_rightMotors = new MotorControllerGroup(m_rightRear, m_rightFront);
 
     m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+
+    m_imu = new ADIS16448_IMU();
   }
 
   public void arcadeDrive(double move, double rot) {
@@ -40,5 +45,21 @@ public class DriveTrain extends SubsystemBase {
 
   public void tankDrive(double left, double right) {
     m_drive.tankDrive(left, right);
+  }
+
+  public double getHeading() {
+    return m_imu.getAngle();
+  }
+
+  public double getRotationRate() {
+    return m_imu.getRate();
+  }
+
+  public ADIS16448_IMU getIMU() {
+    return m_imu;
+  }
+
+  public void calibrateIMU() {
+    m_imu.calibrate();
   }
 }
