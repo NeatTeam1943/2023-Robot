@@ -39,14 +39,6 @@ public class DriveTrain extends SubsystemBase {
     m_imu = new ADIS16448_IMU();
   }
 
-  public void arcadeDrive(double move, double rot) {
-    m_drive.arcadeDrive(move, rot);
-  }
-
-  public void tankDrive(double left, double right) {
-    m_drive.tankDrive(left, right);
-  }
-
   public double getHeading() {
     return m_imu.getAngle();
   }
