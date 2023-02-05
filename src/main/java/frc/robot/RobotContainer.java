@@ -5,10 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -25,8 +22,6 @@ import frc.robot.subsystems.Elevator;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private final DriveTrain m_driveTrain = new DriveTrain();
-
   // The robot's subsystems and commands are defined here...
 
   // Subsystem
@@ -35,7 +30,7 @@ public class RobotContainer {
   public static final XboxController joystick = new XboxController(Constants.JoystickConstants.kJoystickPort);
   // button input
   public static final JoystickButton controllerBButton = new JoystickButton(joystick,
-      Constants.JoystickConstants.kJoystickBButton);
+      Constants.JoystickConstants.kJoystickBbutton);
   public static final JoystickButton controllerAbutton = new JoystickButton(joystick,
       Constants.JoystickConstants.kJoystickAbutton);
   public static final JoystickButton controllerYbutton = new JoystickButton(joystick,
