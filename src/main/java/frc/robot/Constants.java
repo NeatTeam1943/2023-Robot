@@ -15,4 +15,15 @@ public final class Constants {
     public static final int kRightFrontPort = 3;
     public static final int kRightRearPort = 4;
   }
+
+  public static class ElevatorConstants{
+    public static final int kElevatorMotorID = 5;
+  }
+
+  public static class JoystickConstants{
+    public static final int kJoystickPort = 0;
+    public static final int kJoystickAbutton = 1;
+    public static final int kJoystickBbutton = 2;
+    public static final int kJoystickYbutton = 3;
+  }
 }
