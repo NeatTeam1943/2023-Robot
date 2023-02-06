@@ -79,4 +79,21 @@ public class DriveTrain extends SubsystemBase {
     m_rightFront.setSelectedSensorPosition(0);
     m_rightRear.setSelectedSensorPosition(0);
   }
+
+  private double rawSpeedToRPM(double rawSpeed) {
+    return rawSpeed * DriveTrainConstants.k100msTo60sRatio / DriveTrainConstants.kEncoderResolution
+        / DriveTrainConstants.kMotorToWheelRatio;
+  }
+
+  public double getLeftWheelsRPM() {
+    return rawSpeedToRPM((m_leftFront.getSelectedSensorVelocity() + m_leftRear.getSelectedSensorVelocity()) / 2);
+  }
+
+  public double getRightWheelsRPM() {
+    return rawSpeedToRPM((m_rightFront.getSelectedSensorVelocity() + m_rightRear.getSelectedSensorVelocity()) / 2);
+  }
+
+  public double getAverageWheelsRPM() {
+    return (getLeftWheelsRPM() + getRightWheelsRPM()) / 2;
+  }
 }
