@@ -10,9 +10,13 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
 public class DriveRobotArcade extends CommandBase {
-  /** Creates a new DriveRobotArcade. */
-  public DriveRobotArcade() {
-    addRequirements(RobotContainer.getDriveTrain());
+    private DriveTrain m_driveTrain;
+    private XboxController joystick;
+
+  public DriveRobotArcade(RobotContainer robotContainer) {
+    this.m_driveTrain = robotContainer.m_driveTrain;
+    this.joystick = robotContainer.joystick;
+    addRequirements(this.m_driveTrain);
   }
 
   // Called when the command is initially scheduled.
@@ -22,9 +26,9 @@ public class DriveRobotArcade extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double move = RobotContainer.getJoystick().getLeftY(); 
-    double rot = RobotContainer.getJoystick().getLeftX();
-    RobotContainer.getDriveTrain().arcadeDrive(-move, rot);
+    double move = this.joystick.getLeftY(); 
+    double rot = this.joystick.getLeftX();
+    this.m_driveTrain.arcadeDrive(-move, rot);
   }
 
   // Called once the command ends or is interrupted.
