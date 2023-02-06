@@ -15,4 +15,8 @@ public final class Constants {
     public static final int kRightFrontPort = 3;
     public static final int kRightRearPort = 4;
   }
+
+  public static class Joystick{
+    public static final int kJoystickPort = 0; 
+  }
 }
