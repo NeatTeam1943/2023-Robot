@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
@@ -25,7 +26,15 @@ public class DriveTrain extends SubsystemBase {
 
   private ADIS16448_IMU m_imu;
 
+  /*simulation */
+  private TalonFXSimCollection m_leftFrontSim; 
+  private TalonFXSimCollection m_leftRearSim;
+  private TalonFXSimCollection m_rightFrontSim;
+  private TalonFXSimCollection m_rightRearSim;;
+
+
   public DriveTrain() {
+
     m_leftFront = new WPI_TalonFX(DriveTrainConstants.kLeftFrontPort);
     m_leftRear = new WPI_TalonFX(DriveTrainConstants.kLeftRearPort);
     m_rightFront = new WPI_TalonFX(DriveTrainConstants.kRightFrontPort);
@@ -37,6 +46,13 @@ public class DriveTrain extends SubsystemBase {
     m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
     m_imu = new ADIS16448_IMU();
+
+    
+    /*simulation */
+    this.m_leftFrontSim = m_leftFront.getSimCollection();
+    this.m_leftFrontSim = m_leftRear.getSimCollection();
+    this.m_leftFrontSim = m_rightFront.getSimCollection();
+    this.m_leftFrontSim = m_rightRear.getSimCollection();
   }
 
   public void arcadeDrive(double move, double rot) {
