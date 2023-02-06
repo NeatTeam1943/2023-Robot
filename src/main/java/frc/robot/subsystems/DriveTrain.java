@@ -62,4 +62,21 @@ public class DriveTrain extends SubsystemBase {
   public void calibrateIMU() {
     m_imu.calibrate();
   }
+
+  public double getDistance() {
+    double leftAvgPos = (m_leftFront.getSelectedSensorPosition() + m_leftRear.getSelectedSensorPosition()) / 2;
+    double rightAvgPos = (m_rightFront.getSelectedSensorPosition() + m_rightRear.getSelectedSensorPosition()) / 2;
+    double centralAvg = (leftAvgPos + rightAvgPos) / 2;
+    double centralMotorAvg = centralAvg / DriveTrainConstants.kEncoderResolution;
+    double centralWheelAvg = centralMotorAvg / DriveTrainConstants.kMotorToWheelRatio;
+
+    return centralWheelAvg * DriveTrainConstants.kWheelCircumference;
+  }
+
+  public void resetEncoders() {
+    m_leftFront.setSelectedSensorPosition(0);
+    m_leftRear.setSelectedSensorPosition(0);
+    m_rightFront.setSelectedSensorPosition(0);
+    m_rightRear.setSelectedSensorPosition(0);
+  }
 }
