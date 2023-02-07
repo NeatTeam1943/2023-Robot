@@ -49,10 +49,10 @@ public class DriveTrain extends SubsystemBase {
 
     
     /*simulation */
-    this.m_leftFrontSim = m_leftFront.getSimCollection();
-    this.m_leftFrontSim = m_leftRear.getSimCollection();
-    this.m_leftFrontSim = m_rightFront.getSimCollection();
-    this.m_leftFrontSim = m_rightRear.getSimCollection();
+    m_leftFrontSim = m_leftFront.getSimCollection();
+    m_leftFrontSim = m_leftRear.getSimCollection();
+    m_leftFrontSim = m_rightFront.getSimCollection();
+    m_leftFrontSim = m_rightRear.getSimCollection();
   }
 
   public void arcadeDrive(double move, double rot) {
