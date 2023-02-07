@@ -17,6 +17,15 @@ public final class Constants {
     public static final int kLeftRearPort = 2;
     public static final int kRightFrontPort = 3;
     public static final int kRightRearPort = 4;
+    
+    // Feed Forward constants
+    public static final double kS = 0.0;
+    public static final double kV = 0.0;
+
+    // PID constants
+    public static final double kP = 0.0;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
 
     // Encoder calculation for rate and distance
     public static final double k100msTo60sRatio = 600;
