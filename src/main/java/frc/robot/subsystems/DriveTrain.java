@@ -78,4 +78,8 @@ public class DriveTrain extends SubsystemBase {
   public void calibrateIMU() {
     m_imu.calibrate();
   }
+  // temp function. it should function like the getRotation2d function from ctre
+  public Rotation2d doubleToRotation2d(double deg){
+    return Rotation2d.fromDegrees(deg);
+  }
 }
