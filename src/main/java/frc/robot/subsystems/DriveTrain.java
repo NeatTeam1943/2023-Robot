@@ -12,8 +12,10 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.simulation.ADIS16448_IMUSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,6 +46,8 @@ public class DriveTrain extends SubsystemBase {
 
   private DifferentialDrivetrainSim m_driveSim;
 
+  private ADIS16448_IMUSim m_imuSim;
+
   private Field2d m_simField;
 
   public DriveTrain() {
@@ -68,6 +72,8 @@ public class DriveTrain extends SubsystemBase {
     m_leftFrontSim = m_rightRear.getSimCollection();
 
     m_driveOdometry = new DifferentialDriveOdometry(doubleToRotation2d(m_imu.getAngle()), 0, 0);
+
+    m_imuSim = new ADIS16448_IMUSim(m_imu);
 
     m_driveSim = new DifferentialDrivetrainSim(DCMotor.getCIM(2), DriveTrainSimulation.kGearRatio, 2.1, 50, Units.inchesToMeters(DriveTrainSimulation.kWheelRadiusInches), 0.546, null);
 
@@ -95,6 +101,35 @@ public class DriveTrain extends SubsystemBase {
     m_simField.setRobotPose(m_driveOdometry.getPoseMeters());
   }
 
+  public void simulationPeriodic(){
+    m_leftFrontSim.setBusVoltage(RobotController.getBatteryVoltage());
+    m_rightFrontSim.setBusVoltage(RobotController.getBatteryVoltage());
+
+    m_leftRearSim.setBusVoltage(RobotController.getBatteryVoltage());
+    m_rightRearSim.setBusVoltage(RobotController.getBatteryVoltage());
+
+    double leftMotorVolt = m_leftFrontSim.getMotorOutputLeadVoltage();
+    double rightMotorVolt = m_rightFrontSim.getMotorOutputLeadVoltage();
+
+    m_driveSim.setInputs(leftMotorVolt, -rightMotorVolt);
+    
+    m_driveSim.update(DriveTrainSimulation.kUpdateTime);
+
+    m_leftFrontSim.setIntegratedSensorRawPosition(distanceToNativeUnits(m_driveSim.getLeftPositionMeters() * -1));
+    m_leftFrontSim.setIntegratedSensorVelocity(velocityToNativeUnits(m_driveSim.getLeftVelocityMetersPerSecond()));
+
+    m_rightFrontSim.setIntegratedSensorRawPosition(distanceToNativeUnits(m_driveSim.getRightPositionMeters() * -1));
+    m_rightFrontSim.setIntegratedSensorVelocity(velocityToNativeUnits(m_driveSim.getRightVelocityMetersPerSecond()));
+    
+    m_leftRearSim.setIntegratedSensorRawPosition(distanceToNativeUnits(m_driveSim.getLeftPositionMeters() * -1));
+    m_leftRearSim.setIntegratedSensorVelocity(velocityToNativeUnits(m_driveSim.getLeftVelocityMetersPerSecond()));
+
+    m_rightRearSim.setIntegratedSensorRawPosition(distanceToNativeUnits(m_driveSim.getRightPositionMeters() * -1));
+    m_rightRearSim.setIntegratedSensorVelocity(velocityToNativeUnits(m_driveSim.getRightVelocityMetersPerSecond() * -1));
+
+    m_imuSim.setGyroAngleX(m_driveSim.getHeading().getDegrees());
+  }
+  
   public double getHeading() {
     return m_imu.getAngle();
   }
