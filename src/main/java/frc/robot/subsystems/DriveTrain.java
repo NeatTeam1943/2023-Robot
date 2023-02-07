@@ -83,6 +83,18 @@ public class DriveTrain extends SubsystemBase {
     m_drive.tankDrive(left, right);
   }
 
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    // Currently we don't have a configured gyro so the angle should always be 0, thats why we have a new object in the constructor
+    double meterUnits = nativeUnitsToDistanceMeters(m_leftFront.getSelectedSensorPosition()); 
+    double distance = nativeUnitsToDistanceMeters(m_rightFront.getSelectedSensorPosition());
+
+    m_driveOdometry.update(doubleToRotation2d(m_imu.getAngle()), meterUnits, distance);
+    
+    m_simField.setRobotPose(m_driveOdometry.getPoseMeters());
+  }
+
   public double getHeading() {
     return m_imu.getAngle();
   }
@@ -102,4 +114,25 @@ public class DriveTrain extends SubsystemBase {
   public Rotation2d doubleToRotation2d(double deg){
     return Rotation2d.fromDegrees(deg);
   }
+  public static int distanceToNativeUnits(double positionMeters){
+    double wheelRotations = positionMeters/(2 * Math.PI * Units.inchesToMeters(DriveTrainSimulation.kWheelRadiusInches));
+    double motorRotations = wheelRotations * DriveTrainSimulation.kSensorGearRatio;
+    int sensorCounts = (int)(motorRotations * DriveTrainSimulation.kCountsPerRev);
+    return sensorCounts;
+  }
+  
+  public static double nativeUnitsToDistanceMeters(double sensorCounts){
+    double motorRotations = (double)sensorCounts / DriveTrainSimulation.kCountsPerRev;
+    double wheelRotations = motorRotations / DriveTrainSimulation.kSensorGearRatio;
+    double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(DriveTrainSimulation.kWheelRadiusInches));
+    return positionMeters;
+  }
+  
+  public static int velocityToNativeUnits(double velocityMetersPerSecond){
+    double wheelRotationsPerSecond = velocityMetersPerSecond/(2 * Math.PI * Units.inchesToMeters(DriveTrainSimulation.kWheelRadiusInches));
+    double motorRotationsPerSecond = wheelRotationsPerSecond * DriveTrainSimulation.kSensorGearRatio;
+    double motorRotationsPer100ms = motorRotationsPerSecond / DriveTrainSimulation.k100msPerSecond;
+    int sensorCountsPer100ms = (int)(motorRotationsPer100ms * DriveTrainSimulation.kCountsPerRev);
+    return sensorCountsPer100ms;
+  }  
 }
