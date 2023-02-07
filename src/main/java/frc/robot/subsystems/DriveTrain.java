@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.DriveTrainSimulation;
@@ -42,6 +44,8 @@ public class DriveTrain extends SubsystemBase {
 
   private DifferentialDrivetrainSim m_driveSim;
 
+  private Field2d m_simField;
+
   public DriveTrain() {
 
     m_leftFront = new WPI_TalonFX(DriveTrainConstants.kLeftFrontPort);
@@ -66,7 +70,10 @@ public class DriveTrain extends SubsystemBase {
     m_driveOdometry = new DifferentialDriveOdometry(doubleToRotation2d(m_imu.getAngle()), 0, 0);
 
     m_driveSim = new DifferentialDrivetrainSim(DCMotor.getCIM(2), DriveTrainSimulation.kGearRatio, 2.1, 50, Units.inchesToMeters(DriveTrainSimulation.kWheelRadiusInches), 0.546, null);
-  }
+
+    m_simField = new Field2d();
+    SmartDashboard.putData("Field", m_simField);
+  } 
 
   public void arcadeDrive(double move, double rot) {
     m_drive.arcadeDrive(move, rot);
