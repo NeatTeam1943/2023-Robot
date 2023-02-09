@@ -13,9 +13,8 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.DriveArcade;
 import frc.robot.subsystems.SimDrive;
-
-import java.net.Authenticator.RequestorType;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -87,8 +86,4 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return null; 
-  }
 }
