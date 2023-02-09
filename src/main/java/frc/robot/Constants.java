@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
 
 public final class Constants {
   public static class OperatorConstants {
@@ -40,5 +41,14 @@ public final class Constants {
     public static final int kElevatorMotor = 5;
     public static final int kTopSwitchPort = 0;
     public static final int kBotomSwitchPort = 1;
+  }
+  
+  public static class ArmConstants {
+    public static final int kRotateArmMotorPort = 5;
+    public static final int kGrabArmMotorPort = 6;
+    public static final int kLimitSwitchUpPort = 2;
+    public static final int kLimitSwitchDownPort = 3;
+    public static final Color kCubeColor = new Color(0, 0, 0);
+    public static final Color kConeColor = new Color(0, 0, 0);
   }
 }
