@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.ExampleCommand;
@@ -14,6 +15,9 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.commands.TogglePipeline;
+import frc.robot.subsystems.PhotonVision;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -33,6 +37,7 @@ public class RobotContainer {
   private final Arm m_armSubsystem = new Arm();
 
   private final Intake m_intakeSubsystem = new Intake();
+  private final PhotonVision m_camera = new PhotonVision();
 
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -89,6 +94,10 @@ public class RobotContainer {
     m_driverController.x().whileTrue(new RunCommand(() -> {
       m_armSubsystem.grabArm(0.1);
     }, m_armSubsystem));
+
+    m_driverController.a().onTrue(new TogglePipeline(m_camera, VisionConstants.kAprilPipline));
+    
+    m_driverController.b().onTrue(new TogglePipeline(m_camera, VisionConstants.kRetroPipline));
   }
 
   /**
