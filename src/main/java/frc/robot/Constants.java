@@ -60,4 +60,10 @@ public final class Constants {
     public static final Color kCubeColor = new Color(0, 0, 0);
     public static final Color kConeColor = new Color(0, 0, 0);
   }
+
+  public static class VisionConstants {
+    public static final String kCameraName = "photonvision";
+    public static final int kAprilPipline = 0;
+    public static final int kRetroPipline = 1;
+  }
 }
