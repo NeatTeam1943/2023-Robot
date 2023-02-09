@@ -13,6 +13,8 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -40,7 +42,15 @@ public class RobotContainer {
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
+
+  private final SendableChooser<Command> m_chooser = new SendableChooser<>();
+
   public RobotContainer() {
+    m_chooser.setDefaultOption("first trajectory", null);
+    m_chooser.addOption("second trajectory", m_driveArcadeCommand);
+
+    SmartDashboard.putData("Auto selector", m_chooser);
+
     // Configure the trigger bindings
     configureBindings();
   }
