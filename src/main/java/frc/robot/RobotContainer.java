@@ -6,13 +6,18 @@ package frc.robot;
 
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.SimDrive;
+
+import java.net.Authenticator.RequestorType;
+
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -40,9 +45,11 @@ public class RobotContainer {
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  private final SimDrive m_simDrive = new SimDrive();
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    m_simDrive.setDefaultCommand(m_driveArcadeCommand);
   }
 
   /**
@@ -82,6 +89,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return null; 
   }
 }
