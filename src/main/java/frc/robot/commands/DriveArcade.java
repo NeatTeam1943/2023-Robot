@@ -1,15 +1,15 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.SimDrive;
 
 public class DriveArcade extends CommandBase {
-  private DriveTrain m_driveTrain;
-  private CommandXboxController m_joystick;
+  private SimDrive m_driveTrain;
+  private XboxController m_joystick;
 
-  public DriveArcade(DriveTrain driveTrain, CommandXboxController joystick) {
-    m_driveTrain = driveTrain;
+  public DriveArcade(SimDrive m_simDrive, XboxController joystick) {
+    m_driveTrain = m_simDrive;
     m_joystick = joystick;
 
     addRequirements(m_driveTrain);
@@ -23,10 +23,9 @@ public class DriveArcade extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double mov = m_joystick.getLeftY();
-    double rot = m_joystick.getLeftX();
-
-    m_driveTrain.arcadeDrive(-mov, rot);
+    double mov = m_joystick.getLeftX();
+    double rot = m_joystick.getLeftY();
+    m_driveTrain.robotArcadeDrive(-mov, -rot);
   }
 
   // Called once the command ends or is interrupted.
