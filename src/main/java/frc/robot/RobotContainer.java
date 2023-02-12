@@ -76,6 +76,7 @@ public class RobotContainer {
     
     m_driverController.a().whileTrue(new RunCommand(() -> m_intakeSubsystem.lift(IntakeConstants.kLiftMotorSpeed)));
     m_driverController.y().whileTrue(new RunCommand(() -> m_intakeSubsystem.lift(-IntakeConstants.kLiftMotorSpeed)));
+    
     // rotate arm
     m_driverController.povUp().whileTrue(new RunCommand(() -> {
       m_armSubsystem.rotateArm(0.5);
