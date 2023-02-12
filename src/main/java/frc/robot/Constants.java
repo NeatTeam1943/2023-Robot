@@ -28,6 +28,7 @@ public final class Constants {
     public static final int kLeftIntakeMotorID = -1;
     public static final int kRightIntakeMotorID = -1;
     public static final int kLiftMotorID = -1;
+    public static final double kLiftMotorSpeed = .5;
   }
 
   public static class SensorConstants{

@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.SensorConstants;
 
@@ -40,8 +39,13 @@ public class Intake extends SubsystemBase {
     m_rightIntakeMotor.set(speed);
   }
 
-  public void moveIntakeMechanism(double speed) {
-    m_liftMotor.set(speed);
+  public void lift(double speed) {
+    if (m_topLimitSwitch.get() && speed > 0)
+      m_liftMotor.set(0);
+    else if (m_bottomLimitSwitch.get() && speed < 0)
+      m_liftMotor.set(0);
+    else
+      m_liftMotor.set(speed);
   }
 
   public Color getColor() {
