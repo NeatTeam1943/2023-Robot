@@ -35,4 +35,9 @@ public final class Constants {
     public static final int kBottomLimitSwitchPort = 0;
     public static final I2C.Port kI2cPort = I2C.Port.kOnboard;
   }
+  public static class ElevatorConstants{
+    public static final int kElevatorMotor = 5;
+    public static final int kTopSwitchPort = 0;
+    public static final int kBotomSwitchPort = 1;
+  }
 }
