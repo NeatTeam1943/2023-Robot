@@ -28,7 +28,7 @@ public class RobotContainer {
   private final Elevator m_elevatorSubsystem = new Elevator();
 
   // The robot's subsystems and commands are defined here...
-  // private final Intake m_intakeSubsystem = new Intake();
+  private final Intake m_intakeSubsystem = new Intake();
   
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
@@ -64,8 +64,8 @@ public class RobotContainer {
       m_elevatorSubsystem.moveElevator(-0.5);
     }, m_elevatorSubsystem));
     
-    // m_driverController.a().whileTrue(new RunCommand(() -> m_intakeSubsystem.lift(IntakeConstants.kLiftMotorSpeed)));
-    // m_driverController.y().whileTrue(new RunCommand(() -> m_intakeSubsystem.lift(-IntakeConstants.kLiftMotorSpeed)));
+    m_driverController.a().whileTrue(new RunCommand(() -> m_intakeSubsystem.lift(IntakeConstants.kLiftMotorSpeed)));
+    m_driverController.y().whileTrue(new RunCommand(() -> m_intakeSubsystem.lift(-IntakeConstants.kLiftMotorSpeed)));
   }
 }
 
