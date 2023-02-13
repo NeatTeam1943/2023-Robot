@@ -25,15 +25,15 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    public static final int kLeftIntakeMotorID = -1;
-    public static final int kRightIntakeMotorID = -1;
-    public static final int kLiftMotorID = -1;
+    public static final int kLeftIntakeMotorID = 1;
+    public static final int kRightIntakeMotorID = 2;
+    public static final int kLiftMotorID = 3;
     public static final double kLiftMotorSpeed = .5;
   }
 
   public static class SensorConstants {
-    public static final int kTopLimitSwitchPort = 0;
-    public static final int kBottomLimitSwitchPort = 0;
+    public static final int kTopLimitSwitchPort = 1;
+    public static final int kBottomLimitSwitchPort = 2;
     public static final I2C.Port kI2cPort = I2C.Port.kOnboard;
 
     public static class DriveSimulation {
