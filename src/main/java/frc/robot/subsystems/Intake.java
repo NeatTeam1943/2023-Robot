@@ -5,28 +5,30 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.SensorConstants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.fasterxml.jackson.databind.type.PlaceholderForType;
 import com.revrobotics.ColorSensorV3;
 
 public class Intake extends SubsystemBase {
-  private WPI_TalonFX m_leftIntakeMotor;
-  private WPI_TalonFX m_rightIntakeMotor;
-  private WPI_TalonFX m_liftMotor;
+  private Talon m_leftIntakeMotor;
+  private Talon m_rightIntakeMotor;
+  private Talon m_liftMotor;
 
   private DigitalInput m_topLimitSwitch;
   private DigitalInput m_bottomLimitSwitch;
 
-  private final ColorSensorV3 m_colorSensor;
-
+  private ColorSensorV3 m_colorSensor;
+  
   public Intake() {
-    m_leftIntakeMotor = new WPI_TalonFX(IntakeConstants.kLeftIntakeMotorID);
-    m_rightIntakeMotor = new WPI_TalonFX(IntakeConstants.kRightIntakeMotorID);
-    m_liftMotor = new WPI_TalonFX(IntakeConstants.kLiftMotorID);
+    m_leftIntakeMotor = new Talon(IntakeConstants.kLeftIntakeMotorID);
+    m_rightIntakeMotor = new Talon(IntakeConstants.kRightIntakeMotorID);
+    m_liftMotor = new Talon(IntakeConstants.kLiftMotorID);
 
     m_topLimitSwitch = new DigitalInput(SensorConstants.kTopLimitSwitchPort);
     m_bottomLimitSwitch = new DigitalInput(SensorConstants.kBottomLimitSwitchPort);
