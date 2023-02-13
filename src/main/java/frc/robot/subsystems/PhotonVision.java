@@ -8,30 +8,47 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
 
+import java.util.List;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import org.photonvision.targeting.TargetCorner;
 
 public class PhotonVision extends SubsystemBase {
-  private PhotonCamera camera;
+  private PhotonCamera m_camera;
+  private PhotonTrackedTarget target;
+  private int fiducialId;
+  private Transform3d bestCameraToTarget;
+  private double yaw;
+  private double pitch;
+  private double area;
+  private double skew;
+  private Transform3d pose;
+  private List<TargetCorner> corners;
+  private double poseAmbiguity;
+  private Transform3d alternateCameraToTarget;
 
   public PhotonVision() {
-    camera = new PhotonCamera(VisionConstants.kCameraName);
+    m_camera = new PhotonCamera(VisionConstants.kCameraName);
   }
 
-  public PhotonCamera GetCamera(){
-    return camera;
+  public PhotonCamera getCamera(){
+    return m_camera;
   }
 
   @Override
   public void periodic() {
-    PhotonPipelineResult result = camera.getLatestResult();
+    PhotonPipelineResult result = m_camera.getLatestResult();
     if (result.hasTargets() != false) {
-      PhotonTrackedTarget target = result.getBestTarget();
-      int fiducialId = target.getFiducialId();
-      Transform3d bestCameraToTarget = target.getBestCameraToTarget();
-
-      // TODO: Save the fucking data somewhere (Use it)
+      target = result.getBestTarget();
+      fiducialId = target.getFiducialId();
+      bestCameraToTarget = target.getBestCameraToTarget();
+      yaw = target.getYaw();
+      pitch = target.getPitch();
+      area = target.getArea();
+      skew = target.getSkew();
+      corners = target.getDetectedCorners();
     }
   }
 }
