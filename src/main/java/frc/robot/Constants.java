@@ -65,5 +65,15 @@ public final class Constants {
     public static final String kCameraName = "photonvision";
     public static final int kAprilPipline = 0;
     public static final int kRetroPipline = 1;
+    public static final double kForwardP = 0;
+    public static final double kForwardI = 0;
+    public static final double kForwardD = 0;
+    public static final double kTurnP = 0;
+    public static final double kTurnI = 0;
+    public static final double kTurnD = 0;
+    public static final double kCameraHeight = 69;
+    public static final double kCameraPitchRadians = 69;
+    public static final double kRetroReflectiveHeight = 69;
+    public static final double kAprilTagHeight = 69;
   }
 }
