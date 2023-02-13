@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.commands.AimAtTarget;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.ExampleCommand;
@@ -17,6 +18,8 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.commands.TogglePipeline;
 import frc.robot.subsystems.PhotonVision;
+
+import org.photonvision.PhotonCamera;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -37,7 +40,9 @@ public class RobotContainer {
   private final Arm m_armSubsystem = new Arm();
 
   private final Intake m_intakeSubsystem = new Intake();
-  private final PhotonVision m_camera = new PhotonVision();
+  private final PhotonVision m_photonVision = new PhotonVision();
+
+  private final PhotonCamera m_camera = m_photonVision.getCamera();
 
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -47,6 +52,8 @@ public class RobotContainer {
 
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
   
+  private final AimAtTarget m_aim = new AimAtTarget(m_camera);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -69,7 +76,6 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
     m_driverController.povRight().whileTrue(new RunCommand(() -> {
       m_elevatorSubsystem.moveElevator(0.5);
@@ -95,9 +101,9 @@ public class RobotContainer {
       m_armSubsystem.grabArm(0.1);
     }, m_armSubsystem));
 
-    m_driverController.a().onTrue(new TogglePipeline(m_camera, VisionConstants.kAprilPipline));
+    m_driverController.a().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kAprilPipline));
     
-    m_driverController.b().onTrue(new TogglePipeline(m_camera, VisionConstants.kRetroPipline));
+    m_driverController.b().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kRetroPipline));
   }
 
   /**
