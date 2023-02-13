@@ -26,7 +26,7 @@ public class TogglePipeline extends CommandBase {
   @Override
   public void execute() {
     // TODO: You don't know what this means, test it
-    m_photonVision.GetCamera().setPipelineIndex(m_pipelineIndex);
+    m_photonVision.getCamera().setPipelineIndex(m_pipelineIndex);
   }
 
   // Called once the command ends or is interrupted.
