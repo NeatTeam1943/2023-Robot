@@ -9,6 +9,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -28,11 +29,13 @@ public class RobotContainer {
   private final DriveTrain m_driveTrain = new DriveTrain();
 
   private final Elevator m_elevatorSubsystem = new Elevator();
+  
+  private final Arm m_armSubsystem = new Arm();
+
+  private final Intake m_intakeSubsystem = new Intake();
 
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  private final Intake m_intakeSubsystem = new Intake();
   
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
@@ -73,6 +76,19 @@ public class RobotContainer {
     
     m_driverController.a().whileTrue(new RunCommand(() -> m_intakeSubsystem.lift(IntakeConstants.kLiftMotorSpeed)));
     m_driverController.y().whileTrue(new RunCommand(() -> m_intakeSubsystem.lift(-IntakeConstants.kLiftMotorSpeed)));
+    
+    // rotate arm
+    m_driverController.povUp().whileTrue(new RunCommand(() -> {
+      m_armSubsystem.rotateArm(0.5);
+    }, m_armSubsystem));
+    m_driverController.povDown().whileTrue(new RunCommand(() -> {
+      m_armSubsystem.rotateArm(-0.5);
+    }, m_armSubsystem));
+
+    // grab arm
+    m_driverController.x().whileTrue(new RunCommand(() -> {
+      m_armSubsystem.grabArm(0.1);
+    }, m_armSubsystem));
   }
 
   /**
