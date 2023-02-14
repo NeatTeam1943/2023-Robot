@@ -12,10 +12,12 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.PhotonVision;
 
 public class AimAtTarget extends CommandBase {
   private PhotonVision m_photonVision;
+  private DriveTrain m_driveTrain;
   private PhotonCamera m_camera;
   private PIDController m_forwardController;
   private PIDController m_turnController;
@@ -31,7 +33,7 @@ public class AimAtTarget extends CommandBase {
   public AimAtTarget(PhotonCamera camera) {
     m_photonVision = new PhotonVision();
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_photonVision);
+    addRequirements(m_photonVision, m_driveTrain);
 
     m_camera = camera;
 
@@ -62,6 +64,8 @@ public class AimAtTarget extends CommandBase {
 
     m_forwardSpeed = m_forwardController.calculate(m_distance);
     m_angularSpeed = m_turnController.calculate(result.getBestTarget().getYaw());
+
+    m_driveTrain.arcadeDrive(m_forwardSpeed, m_angularSpeed);
   }
 
   // Called once the command ends or is interrupted.
