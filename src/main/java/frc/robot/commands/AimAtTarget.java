@@ -65,7 +65,7 @@ public class AimAtTarget extends CommandBase {
     m_forwardSpeed = m_forwardController.calculate(m_distance);
     m_angularSpeed = m_turnController.calculate(result.getBestTarget().getYaw());
 
-    m_driveTrain.arcadeDrive(m_forwardSpeed, m_angularSpeed);
+    m_driveTrain.arcadeDrive(m_forwardSpeed, m_angularSpeed, true);
   }
 
   // Called once the command ends or is interrupted.

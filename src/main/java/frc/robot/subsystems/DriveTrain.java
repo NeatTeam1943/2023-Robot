@@ -47,8 +47,13 @@ public class DriveTrain extends PIDSubsystem {
     m_imu = new ADIS16448_IMU();
   }
 
-  public void arcadeDrive(double move, double rot) {
-    m_drive.arcadeDrive(move, rot);
+  public void arcadeDrive(double move, double rot, boolean squareInputs) {
+    /*
+     * move - robot movement speed across the x axis.
+     * rot - robot rotation speed in the z axis.
+     * squareInputs - If set to true, it decreases the input sensitivity at low speeds.
+     */
+    m_drive.arcadeDrive(move, rot, squareInputs);
   }
 
   public void tankDrive(double left, double right) {
