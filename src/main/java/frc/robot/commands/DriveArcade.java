@@ -26,7 +26,7 @@ public class DriveArcade extends CommandBase {
     double mov = m_joystick.getLeftY();
     double rot = m_joystick.getLeftX();
 
-    m_driveTrain.arcadeDrive(-mov, rot);
+    m_driveTrain.arcadeDrive(-mov, rot, true);
   }
 
   // Called once the command ends or is interrupted.
