@@ -67,34 +67,46 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-
+       // ELEVATOR:
+    // up
     m_driverController.povRight().whileTrue(new RunCommand(() -> {
       m_elevatorSubsystem.moveElevator(0.5);
     }, m_elevatorSubsystem));
 
+    // down
     m_driverController.povLeft().whileTrue(new RunCommand(() -> {
       m_elevatorSubsystem.moveElevator(-0.5);
     }, m_elevatorSubsystem));
-    
-    m_driverController.a().whileTrue(new RunCommand(() -> m_intakeSubsystem.lift(IntakeConstants.kLiftMotorSpeed)));
-    m_driverController.y().whileTrue(new RunCommand(() -> m_intakeSubsystem.lift(-IntakeConstants.kLiftMotorSpeed)));
-    
-    // rotate arm
+
+    // INTAKE:
+    // get out
+    m_driverController.y().whileTrue(new RunCommand(() -> {
+      m_intakeSubsystem.lift(IntakeConstants.kLiftMotorSpeed);
+    }, m_intakeSubsystem));
+
+    // get in
+    m_driverController.b().whileTrue(new RunCommand(() -> {
+      m_intakeSubsystem.lift(-IntakeConstants.kLiftMotorSpeed);
+    }, m_intakeSubsystem));
+
+    // grab
+    m_driverController.x().whileTrue(new RunCommand(() -> {
+      m_intakeSubsystem.grab(0.7);
+    }, m_intakeSubsystem));
+
+    // ARM:
+    // rotate up
     m_driverController.povUp().whileTrue(new RunCommand(() -> {
       m_armSubsystem.rotateArm(0.5);
     }, m_armSubsystem));
+
+    // rotate down
     m_driverController.povDown().whileTrue(new RunCommand(() -> {
       m_armSubsystem.rotateArm(-0.5);
     }, m_armSubsystem));
 
-    // grab arm
-    m_driverController.x().whileTrue(new RunCommand(() -> {
+    // grab
+    m_driverController.a().whileTrue(new RunCommand(() -> {
       m_armSubsystem.grabArm(0.1);
     }, m_armSubsystem));
 
