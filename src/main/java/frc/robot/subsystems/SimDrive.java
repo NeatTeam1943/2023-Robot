@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.BasePigeonSimCollection;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
@@ -31,7 +33,7 @@ public class SimDrive extends SubsystemBase {
   private MotorControllerGroup m_rightGroup;
   private WPI_PigeonIMU m_pigeon;
   private DifferentialDrive m_drive;
-  private edu.wpi.first.math.kinematics.DifferentialDriveOdometry m_odomantery;
+  private edu.wpi.first.math.kinematics.DifferentialDriveOdometry m_odometry;
   private TalonFXSimCollection m_frontLeftSim;
   private TalonFXSimCollection m_frontRightSim;
   private TalonFXSimCollection m_rearLeftSim;
@@ -40,8 +42,8 @@ public class SimDrive extends SubsystemBase {
   private DifferentialDrivetrainSim m_driveSim;
   private Field2d m_simField;
 
+  private Pose2d m_resetLocation; 
   
-  private final Timer m_timer = new Timer();
 
   private double m_gyroOffset;
 
@@ -63,13 +65,14 @@ public class SimDrive extends SubsystemBase {
     m_rightGroup = new MotorControllerGroup(m_rearRight, m_frontRight);
 
     m_drive = new DifferentialDrive(m_frontLeft, m_frontRight);
-    m_odomantery = new edu.wpi.first.math.kinematics.DifferentialDriveOdometry(
+    m_odometry = new edu.wpi.first.math.kinematics.DifferentialDriveOdometry(
         m_pigeon.getRotation2d(), 0, 0);
 
     m_driveSim = new DifferentialDrivetrainSim(DCMotor.getCIM(2), DriveSimulation.kGearRatio, 2.1, 25,
         Units.inchesToMeters(DriveSimulation.kWheelRadiusInches), 0.546, null);
 
     m_simField = new Field2d();
+    m_resetLocation = m_simField.getRobotPose();
     SmartDashboard.putData("Field", m_simField);
   }
 
@@ -145,10 +148,24 @@ public class SimDrive extends SubsystemBase {
     // This method will be called once per scheduler run
     // Currently we don't have a configured gyro so the angle should always be 0,
     // thats why we have a new object in the constructor
-    m_odomantery.update(m_pigeon.getRotation2d(),
+    m_odometry.update(m_pigeon.getRotation2d(),
         nativeUnitsToDistanceMeters(m_frontLeft.getSelectedSensorPosition()),
         nativeUnitsToDistanceMeters(m_frontRight.getSelectedSensorPosition()));
-    m_simField.setRobotPose(m_odomantery.getPoseMeters());
+    m_simField.setRobotPose(m_odometry.getPoseMeters());
+  }
+
+  public void resetRobotPosition(){
+    // m_odomantery.resetPosition(new Rotation2d(), 0, 0, new Pose2d());
+    // m_simField.setRobotPose(m_resetLocation);
+    // setPigeon(0);
+    // m_odomantery.resetPosition(m_pigeon.getRotation2d(), 0, 0, m_resetLocation);
+    m_simField.setRobotPose(0, 0, m_pigeon.getRotation2d());
+    m_frontLeft.setSelectedSensorPosition(0);
+    m_frontRight.setSelectedSensorPosition(0);
+    m_pigeon.reset();
+    m_odometry.update(m_pigeon.getRotation2d(),
+    0, 0);
+    m_odometry.resetPosition(m_pigeon.getRotation2d(), 0, 0, m_resetLocation);
   }
 
   public void simulationInit() {
