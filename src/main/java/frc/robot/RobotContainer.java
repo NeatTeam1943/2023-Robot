@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveArcade;
+import frc.robot.commands.autoDrive;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -39,7 +40,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    // configureBindings();
+    configureBindings();
     m_simDrive.setDefaultCommand(m_driveArcadeCommandSim);
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
   }
@@ -66,6 +67,8 @@ public class RobotContainer {
     
     m_driverController.a().whileTrue(new RunCommand(() -> m_intakeSubsystem.lift(IntakeConstants.kLiftMotorSpeed)));
     m_driverController.y().whileTrue(new RunCommand(() -> m_intakeSubsystem.lift(-IntakeConstants.kLiftMotorSpeed)));
+    m_driverController.b().whileTrue(new RunCommand(() -> m_simDrive.resetRobotPosition()));
+    m_driverController.x().whileTrue(new autoDrive(m_simDrive));
   }
 }
 
