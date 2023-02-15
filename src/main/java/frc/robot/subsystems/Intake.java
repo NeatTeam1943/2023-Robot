@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.SensorConstants;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.fasterxml.jackson.databind.type.PlaceholderForType;
 import com.revrobotics.ColorSensorV3;
 
 public class Intake extends SubsystemBase {
