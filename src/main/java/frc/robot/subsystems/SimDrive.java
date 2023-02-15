@@ -10,7 +10,6 @@ import com.ctre.phoenix.sensors.BasePigeonSimCollection;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
@@ -155,10 +154,6 @@ public class SimDrive extends SubsystemBase {
   }
 
   public void resetRobotPosition(){
-    // m_odomantery.resetPosition(new Rotation2d(), 0, 0, new Pose2d());
-    // m_simField.setRobotPose(m_resetLocation);
-    // setPigeon(0);
-    // m_odomantery.resetPosition(m_pigeon.getRotation2d(), 0, 0, m_resetLocation);
     m_simField.setRobotPose(0, 0, m_pigeon.getRotation2d());
     m_frontLeft.setSelectedSensorPosition(0);
     m_frontRight.setSelectedSensorPosition(0);
