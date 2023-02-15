@@ -12,6 +12,7 @@ import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
@@ -25,19 +26,22 @@ public class SimDrive extends SubsystemBase {
   private WPI_TalonFX m_rearLeft;
   private WPI_TalonFX m_rearRight;
   private WPI_TalonFX m_frontLeft;
-  private WPI_TalonFX frontRightMotor;
+  private WPI_TalonFX m_frontRight;
   private MotorControllerGroup m_leftMotorGroup;
   private MotorControllerGroup m_rightGroup;
   private WPI_PigeonIMU m_pigeon;
   private DifferentialDrive m_drive;
   private edu.wpi.first.math.kinematics.DifferentialDriveOdometry m_odomantery;
   private TalonFXSimCollection m_frontLeftSim;
-  private TalonFXSimCollection frontRightMotorSim;
+  private TalonFXSimCollection m_frontRightSim;
   private TalonFXSimCollection m_rearLeftSim;
   private TalonFXSimCollection m_rearRightSim;
   private BasePigeonSimCollection m_pigeonSim;
   private DifferentialDrivetrainSim m_driveSim;
   private Field2d m_simField;
+
+  
+  private final Timer m_timer = new Timer();
 
   private double m_gyroOffset;
 
@@ -45,20 +49,20 @@ public class SimDrive extends SubsystemBase {
     m_rearLeft = new WPI_TalonFX(DriveSimulation.kBackLeftMotor);
     m_rearRight = new WPI_TalonFX(DriveSimulation.kBackRightMotor);
     m_frontLeft = new WPI_TalonFX(DriveSimulation.kFrontLeftMotor);
-    frontRightMotor = new WPI_TalonFX(DriveSimulation.kFrontRightMotor);
+    m_frontRight = new WPI_TalonFX(DriveSimulation.kFrontRightMotor);
 
     m_rearLeftSim = m_frontLeft.getSimCollection();
-    m_rearRightSim = frontRightMotor.getSimCollection();
+    m_rearRightSim = m_frontRight.getSimCollection();
     m_frontLeftSim = m_rearLeft.getSimCollection();
-    frontRightMotorSim = m_rearRight.getSimCollection();
+    m_frontRightSim = m_rearRight.getSimCollection();
 
     m_pigeon = new WPI_PigeonIMU(0);
     m_pigeonSim = m_pigeon.getSimCollection();
 
     m_leftMotorGroup = new MotorControllerGroup(m_rearLeft, m_frontLeft);
-    m_rightGroup = new MotorControllerGroup(m_rearRight, frontRightMotor);
+    m_rightGroup = new MotorControllerGroup(m_rearRight, m_frontRight);
 
-    m_drive = new DifferentialDrive(m_frontLeft, frontRightMotor);
+    m_drive = new DifferentialDrive(m_frontLeft, m_frontRight);
     m_odomantery = new edu.wpi.first.math.kinematics.DifferentialDriveOdometry(
         m_pigeon.getRotation2d(), 0, 0);
 
@@ -86,7 +90,7 @@ public class SimDrive extends SubsystemBase {
   }
 
   public TalonFXSimCollection getfrontRightMotorSim() {
-    return frontRightMotor.getSimCollection();
+    return m_frontRight.getSimCollection();
   }
 
   public DifferentialDrivetrainSim getdifferentialDriveSim() {
@@ -143,20 +147,19 @@ public class SimDrive extends SubsystemBase {
     // thats why we have a new object in the constructor
     m_odomantery.update(m_pigeon.getRotation2d(),
         nativeUnitsToDistanceMeters(m_frontLeft.getSelectedSensorPosition()),
-        nativeUnitsToDistanceMeters(frontRightMotor.getSelectedSensorPosition()));
+        nativeUnitsToDistanceMeters(m_frontRight.getSelectedSensorPosition()));
     m_simField.setRobotPose(m_odomantery.getPoseMeters());
   }
 
   public void simulationInit() {
   }
   
-
   public void simulationPeriodic() {
     m_rearLeftSim.setBusVoltage(RobotController.getBatteryVoltage());
     m_rearRightSim.setBusVoltage(RobotController.getBatteryVoltage());
 
     m_frontLeftSim.setBusVoltage(RobotController.getBatteryVoltage());
-    frontRightMotorSim.setBusVoltage(RobotController.getBatteryVoltage());
+    m_frontRightSim.setBusVoltage(RobotController.getBatteryVoltage());
 
     m_driveSim.setInputs(
     m_rearLeftSim.getMotorOutputLeadVoltage(),
@@ -179,9 +182,9 @@ public class SimDrive extends SubsystemBase {
     m_frontLeftSim
         .setIntegratedSensorVelocity(velocityToNativeUnits(m_driveSim.getLeftVelocityMetersPerSecond()));
 
-    frontRightMotorSim
+    m_frontRightSim
         .setIntegratedSensorRawPosition(distanceToNativeUnits(m_driveSim.getRightPositionMeters() * -1));
-    frontRightMotorSim.setIntegratedSensorVelocity(
+    m_frontRightSim.setIntegratedSensorVelocity(
         velocityToNativeUnits(m_driveSim.getRightVelocityMetersPerSecond() * -1));
 
     m_pigeonSim.setRawHeading(m_driveSim.getHeading().getDegrees());
