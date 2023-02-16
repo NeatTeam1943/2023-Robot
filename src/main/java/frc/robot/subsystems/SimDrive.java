@@ -13,7 +13,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
@@ -28,7 +27,7 @@ public class SimDrive extends SubsystemBase {
   private WPI_TalonFX m_rearRight;
   private WPI_TalonFX m_frontLeft;
   private WPI_TalonFX m_frontRight;
-  private MotorControllerGroup m_leftMotorGroup;
+  private MotorControllerGroup m_leftMotorGroup;      
   private MotorControllerGroup m_rightGroup;
   private WPI_PigeonIMU m_pigeon;
   private DifferentialDrive m_drive;
@@ -41,9 +40,8 @@ public class SimDrive extends SubsystemBase {
   private DifferentialDrivetrainSim m_driveSim;
   private Field2d m_simField;
 
+  // temp objects
   private Pose2d m_resetLocation; 
-  
-
   private double m_gyroOffset;
 
   public SimDrive() {
@@ -64,11 +62,10 @@ public class SimDrive extends SubsystemBase {
     m_rightGroup = new MotorControllerGroup(m_rearRight, m_frontRight);
 
     m_drive = new DifferentialDrive(m_frontLeft, m_frontRight);
-    m_odometry = new edu.wpi.first.math.kinematics.DifferentialDriveOdometry(
-        m_pigeon.getRotation2d(), 0, 0);
-
     m_driveSim = new DifferentialDrivetrainSim(DCMotor.getCIM(2), DriveSimulation.kGearRatio, 2.1, 25,
-        Units.inchesToMeters(DriveSimulation.kWheelRadiusInches), 0.546, null);
+    Units.inchesToMeters(DriveSimulation.kWheelRadiusInches), 0.546, null);
+
+    m_odometry = new edu.wpi.first.math.kinematics.DifferentialDriveOdometry(m_pigeon.getRotation2d(), 0, 0);
 
     m_simField = new Field2d();
     m_resetLocation = m_simField.getRobotPose();
@@ -79,23 +76,23 @@ public class SimDrive extends SubsystemBase {
     return m_rearLeft;
   }
 
-  public TalonFXSimCollection getbackLeftMotorSim() {
+  public TalonFXSimCollection getBackLeftMotorSim() {
     return m_rearLeft.getSimCollection();
   }
 
-  public TalonFXSimCollection getbackRightMotorSim() {
+  public TalonFXSimCollection getBackRightMotorSim() {
     return m_rearRight.getSimCollection();
   }
 
-  public TalonFXSimCollection getfrontLeftMotorSim() {
+  public TalonFXSimCollection getFrontLeftMotorSim() {
     return m_frontLeft.getSimCollection();
   }
 
-  public TalonFXSimCollection getfrontRightMotorSim() {
+  public TalonFXSimCollection getFrontRightMotorSim() {
     return m_frontRight.getSimCollection();
   }
 
-  public DifferentialDrivetrainSim getdifferentialDriveSim() {
+  public DifferentialDrivetrainSim getDifferentialDriveSim() {
     return m_driveSim;
   }
 
@@ -163,8 +160,7 @@ public class SimDrive extends SubsystemBase {
     m_odometry.resetPosition(m_pigeon.getRotation2d(), 0, 0, m_resetLocation);
   }
 
-  public void simulationInit() {
-  }
+  public void simulationInit() {}
   
   public void simulationPeriodic() {
     m_rearLeftSim.setBusVoltage(RobotController.getBatteryVoltage());
