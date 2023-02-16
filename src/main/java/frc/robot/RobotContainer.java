@@ -61,7 +61,7 @@ public class RobotContainer {
     m_chooser.setDefaultOption("first trajectory", null);
     m_chooser.addOption("second trajectory", m_driveArcadeCommand);
 
-    SmartDashboard.putData("Auto selector", m_chooser);
+    SmartDashboard.putData("Routine selector", m_chooser);
 
     // Configure the trigger bindings
     configureBindings();
