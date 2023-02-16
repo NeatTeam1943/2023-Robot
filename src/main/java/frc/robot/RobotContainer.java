@@ -7,7 +7,6 @@ package frc.robot;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.VisionConstants;
-import frc.robot.commands.AimAtTarget;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.ExampleCommand;
@@ -52,8 +51,6 @@ public class RobotContainer {
 
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
   
-  private final AimAtTarget m_aim = new AimAtTarget(m_camera);
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -102,7 +99,6 @@ public class RobotContainer {
     }, m_armSubsystem));
 
     m_driverController.a().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kAprilPipline));
-    
     m_driverController.b().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kRetroPipline));
   }
 
