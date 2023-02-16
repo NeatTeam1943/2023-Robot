@@ -18,11 +18,11 @@ public class PhotonVision extends SubsystemBase {
     m_camera = new PhotonCamera(VisionConstants.kCameraName);
   }
 
-  public PhotonCamera getCamera(){
+  public PhotonCamera getCamera() {
     return m_camera;
   }
 
-  public double getDistance(double targetHeight, double targetPitch){
+  public double getDistance(double targetHeight, double targetPitch) {
     double distance = PhotonUtils.calculateDistanceToTargetMeters(VisionConstants.kCameraHeight,
     targetHeight,
     VisionConstants.kCameraPitchRadians,
