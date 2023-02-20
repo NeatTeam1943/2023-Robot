@@ -116,14 +116,4 @@ public class RobotContainer {
     m_driverController.a().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kAprilPipline));
     m_driverController.b().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kRetroPipline));
   }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return null;
-  }
 }
