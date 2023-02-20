@@ -38,14 +38,14 @@ public final class Constants {
     public static final I2C.Port kI2cPort = I2C.Port.kOnboard;
   }
   public static class ElevatorConstants{
-    public static final int kElevatorMotor = 5;
+    public static final int kElevatorMotorID = 5;
     public static final int kTopSwitchPort = 0;
     public static final int kBotomSwitchPort = 1;
   }
   
   public static class ArmConstants {
-    public static final int kRotateArmMotorPort = 5;
-    public static final int kGrabArmMotorPort = 6;
+    public static final int kRotateArmMotorID = 5;
+    public static final int kGrabArmMotorID = 6;
     public static final int kLimitSwitchUpPort = 2;
     public static final int kLimitSwitchDownPort = 3;
     public static final Color kCubeColor = new Color(0, 0, 0);
