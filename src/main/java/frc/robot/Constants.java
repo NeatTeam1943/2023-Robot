@@ -51,4 +51,13 @@ public final class Constants {
     public static final Color kCubeColor = new Color(0, 0, 0);
     public static final Color kConeColor = new Color(0, 0, 0);
   }
+
+  public static class TurnPIDConstants {
+    public static final double kTurnP = 0;
+    public static final double kTurnI = 0;
+    public static final double kTurnD = 0;
+
+    public static final double kTurnToleranceDeg =0;
+    public static final double kTurnRateToleranceDegPerS = 0;
+  }
 }
