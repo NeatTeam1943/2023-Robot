@@ -14,8 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.ColorSensorV3;
 
 public class Intake extends SubsystemBase {
-  private WPI_TalonFX m_leftIntakeMotor;
-  private WPI_TalonFX m_rightIntakeMotor;
+  private WPI_TalonFX m_intakeMotor;
   private WPI_TalonFX m_liftMotor;
 
   private DigitalInput m_topLimitSwitch;
@@ -24,8 +23,7 @@ public class Intake extends SubsystemBase {
   private final ColorSensorV3 m_colorSensor;
 
   public Intake() {
-    m_leftIntakeMotor = new WPI_TalonFX(IntakeConstants.kLeftIntakeMotorID);
-    m_rightIntakeMotor = new WPI_TalonFX(IntakeConstants.kRightIntakeMotorID);
+    m_intakeMotor = new WPI_TalonFX(IntakeConstants.kLeftIntakeMotorID);
     m_liftMotor = new WPI_TalonFX(IntakeConstants.kLiftMotorID);
 
     m_topLimitSwitch = new DigitalInput(SensorConstants.kTopLimitSwitchPort);
@@ -35,8 +33,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void grab(double speed) {
-    m_leftIntakeMotor.set(speed);
-    m_rightIntakeMotor.set(speed);
+    m_intakeMotor.set(speed);
   }
 
   public void lift(double speed) {
