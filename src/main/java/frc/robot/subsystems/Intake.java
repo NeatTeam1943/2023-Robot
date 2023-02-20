@@ -53,11 +53,11 @@ public class Intake extends SubsystemBase {
     return m_colorSensor.getProximity();
   }
 
-  public boolean isTopSwitchPressed(){
+  public boolean getTopSwitchState(){
     return m_topLimitSwitch.get();
   }
 
-  public boolean isBottomSwitchPressed(){
+  public boolean getBottomSwitchState(){
     return m_bottomLimitSwitch.get();
   }
 
