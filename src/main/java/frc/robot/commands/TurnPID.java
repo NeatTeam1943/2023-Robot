@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.TurnPIDConstants;
@@ -12,6 +13,9 @@ import frc.robot.subsystems.DriveTrain;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TurnPID extends PIDCommand {
+
+  private static SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(TurnPIDConstants.kS, TurnPIDConstants.kV, TurnPIDConstants.kA);
+
   /** Creates a new TurnPID. */
   public TurnPID(DriveTrain drivetrain, double angleGoal) {
     super(
@@ -23,7 +27,7 @@ public class TurnPID extends PIDCommand {
         () -> drivetrain.getHeading() + angleGoal,
         // This uses the output
         output -> {
-          drivetrain.arcadeDrive(0, output);
+          drivetrain.arcadeDrive(0, output + m_feedforward.calculate(drivetrain.getHeading() + angleGoal));
         });
     // Use addRequirements() here to declare subsystem dependencies.
     getController().enableContinuousInput(-180, 180);
