@@ -59,12 +59,17 @@ public final class Constants {
     public static final double kForwardP = 0;
     public static final double kForwardI = 0;
     public static final double kForwardD = 0;
-    public static final double kTurnP = 0;
-    public static final double kTurnI = 0;
-    public static final double kTurnD = 0;
     public static final double kCameraHeight = 69;
     public static final double kCameraPitchRadians = 69;
     public static final double kRetroReflectiveHeight = 69;
     public static final double kAprilTagHeight = 69;
+
+  public static class TurnPIDConstants {
+    public static final double kTurnP = 0;
+    public static final double kTurnI = 0;
+    public static final double kTurnD = 0;
+
+    public static final double kTurnToleranceDeg =0;
+    public static final double kTurnRateToleranceDegPerS = 0;
   }
 }
