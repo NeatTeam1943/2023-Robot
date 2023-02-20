@@ -16,24 +16,24 @@ public class Arm extends SubsystemBase {
   private WPI_TalonSRX m_rotateArmMotor;
   private WPI_TalonSRX m_grabArmMotor;
 
-  private DigitalInput m_limitSwitchUp;
-  private DigitalInput m_limitSwitchDown;
+  private DigitalInput m_topLimitSwitch;
+  private DigitalInput m_bottomLimitSwitch;
 
   private Color m_color;
   private Intake m_intake;
 
   public Arm() {
-    m_rotateArmMotor = new WPI_TalonSRX(ArmConstants.kRotateArmMotorPort);
-    m_grabArmMotor = new WPI_TalonSRX(ArmConstants.kGrabArmMotorPort);
+    m_rotateArmMotor = new WPI_TalonSRX(ArmConstants.kRotateArmMotorID);
+    m_grabArmMotor = new WPI_TalonSRX(ArmConstants.kGrabArmMotorID);
 
-    m_limitSwitchUp = new DigitalInput(ArmConstants.kLimitSwitchUpPort);
-    m_limitSwitchDown = new DigitalInput(ArmConstants.kLimitSwitchDownPort);
+    m_topLimitSwitch = new DigitalInput(ArmConstants.kLimitSwitchUpPort);
+    m_bottomLimitSwitch = new DigitalInput(ArmConstants.kLimitSwitchDownPort);
   }
 
   public void rotateArm(double value){
-    if (m_limitSwitchUp.get() && value > 0) {
+    if (m_topLimitSwitch.get() && value > 0) {
       m_rotateArmMotor.set(0);
-    } else if (m_limitSwitchDown.get() && value < 0) {
+    } else if (m_bottomLimitSwitch.get() && value < 0) {
       m_rotateArmMotor.set(0);
     } else {
       m_rotateArmMotor.set(value);
