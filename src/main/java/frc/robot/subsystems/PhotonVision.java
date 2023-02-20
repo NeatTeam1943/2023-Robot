@@ -12,7 +12,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class PhotonVision extends SubsystemBase {
   private PhotonCamera m_camera;
-  private PhotonTrackedTarget target;
+  private PhotonTrackedTarget m_target;
 
   public PhotonVision() {
     m_camera = new PhotonCamera(VisionConstants.kCameraName);
@@ -23,19 +23,23 @@ public class PhotonVision extends SubsystemBase {
   }
 
   public double getDistance(double targetHeight, double targetPitch) {
-    double distance = PhotonUtils.calculateDistanceToTargetMeters(VisionConstants.kCameraHeight,
+    double m_distance = PhotonUtils.calculateDistanceToTargetMeters(VisionConstants.kCameraHeight,
     targetHeight,
     VisionConstants.kCameraPitchRadians,
     targetPitch);
 
-    return distance;
+    return m_distance;
+  }
+
+  public PhotonTrackedTarget getM_target(){
+    return m_target;
   }
 
   @Override
   public void periodic() {
-    PhotonPipelineResult result = m_camera.getLatestResult();
-    if (result.hasTargets() != false) {
-      target = result.getBestTarget();
+    PhotonPipelineResult m_result = m_camera.getLatestResult();
+    if (m_result.hasTargets() != false) {
+      m_target = m_result.getBestTarget();
     }
   }
 }

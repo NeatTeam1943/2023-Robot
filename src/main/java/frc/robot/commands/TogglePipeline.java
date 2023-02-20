@@ -25,7 +25,6 @@ public class TogglePipeline extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // TODO: You don't know what this means, test it
     m_photonVision.getCamera().setPipelineIndex(m_pipelineIndex);
   }
 
