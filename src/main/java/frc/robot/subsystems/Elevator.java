@@ -14,7 +14,7 @@ public class Elevator extends SubsystemBase {
   private DigitalInput m_botomSwitch;
   /** Creates a new Elevator. */
   public Elevator() {
-    m_motor = new WPI_TalonSRX(ElevatorConstants.kElevatorMotor);
+    m_motor = new WPI_TalonSRX(ElevatorConstants.kElevatorMotorID);
   }
   
   public void moveElevator(double value) {
@@ -26,7 +26,6 @@ public class Elevator extends SubsystemBase {
       m_motor.set(value);
     }
   }
-
 
   @Override
   public void periodic() {
