@@ -112,9 +112,6 @@ public class RobotContainer {
     m_driverController.a().whileTrue(new RunCommand(() -> {
       m_armSubsystem.grabArm(0.1);
     }, m_armSubsystem));
-
-    m_driverController.a().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kAprilPipline));
-    m_driverController.b().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kRetroPipline));
   }
 
   /**

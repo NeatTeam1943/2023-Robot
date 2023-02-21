@@ -63,7 +63,7 @@ public final class Constants {
     public static final double kCameraPitchRadians = 69;
     public static final double kRetroReflectiveHeight = 69;
     public static final double kAprilTagHeight = 69;
-
+  }
   public static class TurnPIDConstants {
     public static final double kTurnP = 0;
     public static final double kTurnI = 0;
@@ -71,5 +71,11 @@ public final class Constants {
 
     public static final double kTurnToleranceDeg =0;
     public static final double kTurnRateToleranceDegPerS = 0;
+  }
+  public static class ColorSensorConstants{
+    public static double[] kConemin = {69,69,69};
+    public static double[] kConemax = {69,69,69};
+    public static double[] kCubemin = {69,69,69};
+    public static double[] kCubemax = {69,69,69};
   }
 }
