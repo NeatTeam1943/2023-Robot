@@ -7,8 +7,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ColorSensorConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.SensorConstants;
+import frc.robot.Constants.VisionConstants;
+import frc.robot.commands.TogglePipeline;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.ColorSensorV3;
@@ -21,6 +24,8 @@ public class Intake extends SubsystemBase {
   private DigitalInput m_bottomLimitSwitch;
 
   private final ColorSensorV3 m_colorSensor;
+
+  private PhotonVision m_PhotonVision;
 
   public Intake() {
     m_intakeMotor = new WPI_TalonFX(IntakeConstants.kLeftIntakeMotorID);
@@ -63,6 +68,12 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if(m_colorSensor.getRed() >= ColorSensorConstants.kConemin[0] && m_colorSensor.getRed() <= ColorSensorConstants.kConemax[0] && m_colorSensor.getGreen() >= ColorSensorConstants.kConemin[1] && m_colorSensor.getGreen() <= ColorSensorConstants.kConemax[1] && m_colorSensor.getBlue() >= ColorSensorConstants.kConemin[2] && m_colorSensor.getBlue() <= ColorSensorConstants.kConemax[2]){
+      new TogglePipeline(m_PhotonVision,VisionConstants.kRetroPipline);
+    }
+    if(m_colorSensor.getRed() >= ColorSensorConstants.kCubemin[0] && m_colorSensor.getRed() <= ColorSensorConstants.kCubemax[0] && m_colorSensor.getGreen() >= ColorSensorConstants.kCubemin[1] && m_colorSensor.getGreen() <= ColorSensorConstants.kCubemax[1] && m_colorSensor.getBlue() >= ColorSensorConstants.kCubemin[2] && m_colorSensor.getBlue() <= ColorSensorConstants.kCubemax[2]){
+      new TogglePipeline(m_PhotonVision,VisionConstants.kAprilPipline);
+    }
     // This method will be called once per scheduler run
   }
 }
