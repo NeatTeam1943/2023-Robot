@@ -8,22 +8,28 @@ import frc.robot.Constants.ElevatorConstants;
 
 public class Elevator extends SubsystemBase {
 
-  private WPI_TalonSRX m_motor;
+  private WPI_TalonSRX m_leftMotor;
+  private WPI_TalonSRX m_rightMotor;
 
   private DigitalInput m_topSwitch;
   private DigitalInput m_botomSwitch;
   /** Creates a new Elevator. */
   public Elevator() {
-    m_motor = new WPI_TalonSRX(ElevatorConstants.kElevatorMotorID);
+    m_leftMotor = new WPI_TalonSRX(ElevatorConstants.kElevatorLeftMotorID);
+    m_rightMotor = new WPI_TalonSRX(ElevatorConstants.kElevatorRightMotorID);
+
   }
   
   public void moveElevator(double value) {
     if (m_topSwitch.get() && value > 0) {
-      m_motor.set(0);
+      m_leftMotor.set(0);
+      m_rightMotor.set(0);
     } else if (m_botomSwitch.get() && value < 0) {
-      m_motor.set(0);
+      m_leftMotor.set(0);
+      m_rightMotor.set(0);
     } else {
-      m_motor.set(value);
+      m_leftMotor.set(value);
+      m_rightMotor.set(-value);
     }
   }
 
