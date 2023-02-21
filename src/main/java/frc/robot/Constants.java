@@ -38,7 +38,8 @@ public final class Constants {
     public static final I2C.Port kI2cPort = I2C.Port.kOnboard;
   }
   public static class ElevatorConstants{
-    public static final int kElevatorMotorID = 5;
+    public static final int kElevatorLeftMotorID = 5;
+    public static final int kElevatorRightMotorID = 5;
     public static final int kTopSwitchPort = 0;
     public static final int kBotomSwitchPort = 1;
   }
@@ -63,11 +64,17 @@ public final class Constants {
     public static final double kCameraPitchRadians = 69;
     public static final double kRetroReflectiveHeight = 69;
     public static final double kAprilTagHeight = 69;
+  }
 
   public static class TurnPIDConstants {
     public static final double kTurnP = 0;
     public static final double kTurnI = 0;
     public static final double kTurnD = 0;
+
+    public static final double kS = 0;
+    public static final double kV = 0;
+    public static final double kA = 0;
+
 
     public static final double kTurnToleranceDeg =0;
     public static final double kTurnRateToleranceDegPerS = 0;
