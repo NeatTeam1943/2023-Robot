@@ -37,12 +37,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void lift(double speed) {
-    if (m_topLimitSwitch.get() && speed > 0)
-      m_liftMotor.set(0);
-    else if (m_bottomLimitSwitch.get() && speed < 0)
-      m_liftMotor.set(0);
-    else
-      m_liftMotor.set(speed);
+    if ((m_topLimitSwitch.get() && speed > 0) || (m_bottomLimitSwitch.get() && speed < 0)) {
+      speed = 0;
+    }
+    
+    m_liftMotor.set(speed);
   }
 
   public Color getColor() {

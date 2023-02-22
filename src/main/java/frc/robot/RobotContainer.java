@@ -23,16 +23,20 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+
 public class RobotContainer {
   private final DriveTrain m_driveTrain = new DriveTrain();
 
   private final Elevator m_elevatorSubsystem = new Elevator();
-  
+
   private final Arm m_armSubsystem = new Arm();
 
   private final Intake m_intakeSubsystem = new Intake();
@@ -40,13 +44,15 @@ public class RobotContainer {
   private final PhotonVision m_photonVision = new PhotonVision();
 
   private final PhotonCamera m_camera = m_photonVision.getCamera();
-  
+
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
 
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
-  
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
 
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -61,16 +67,21 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * Use this method to define your trigger->command mappings. Triggers can be
+   * created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+   * an arbitrary
    * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+   * {@link
+   * CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
   private void configureBindings() {
-       // ELEVATOR:
+    // ELEVATOR:
     // up
     m_driverController.povRight().whileTrue(new RunCommand(() -> {
       m_elevatorSubsystem.moveElevator(0.5);
@@ -109,8 +120,16 @@ public class RobotContainer {
     }, m_armSubsystem));
 
     // grab
+    // m_driverController.a().whileTrue(new RunCommand(() -> {
+    //   m_armSubsystem.grabArm(0.1);
+    // }, m_armSubsystem));
+
     m_driverController.a().whileTrue(new RunCommand(() -> {
       m_armSubsystem.grabArm(0.1);
+    }, m_armSubsystem));
+
+    m_driverController.b().whileTrue(new RunCommand(() -> {
+      m_armSubsystem.grabArm(-0.1);
     }, m_armSubsystem));
 
     m_driverController.a().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kAprilPipline));

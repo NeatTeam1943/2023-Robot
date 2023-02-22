@@ -26,29 +26,29 @@ public final class Constants {
   }
 
   public static class IntakeConstants{
-    public static final int kLeftIntakeMotorID = -1;
-    public static final int kRightIntakeMotorID = -1;
-    public static final int kLiftMotorID = -1;
+    public static final int kLeftIntakeMotorID = 89;
+    public static final int kRightIntakeMotorID = 77;
+    public static final int kLiftMotorID = 79;
     public static final double kLiftMotorSpeed = .5;
   }
 
   public static class SensorConstants{
     public static final int kTopLimitSwitchPort = 0;
-    public static final int kBottomLimitSwitchPort = 0;
+    public static final int kBottomLimitSwitchPort = 1;
     public static final I2C.Port kI2cPort = I2C.Port.kOnboard;
   }
   public static class ElevatorConstants{
-    public static final int kElevatorLeftMotorID = 5;
-    public static final int kElevatorRightMotorID = 5;
-    public static final int kTopSwitchPort = 0;
-    public static final int kBotomSwitchPort = 1;
+    public static final int kElevatorFrontMotorID = 6;
+    public static final int kElevatorRearMotorID = 5;
+    public static final int kTopSwitchPort = 2;
+    public static final int kBotomSwitchPort = 3;
   }
   
   public static class ArmConstants {
-    public static final int kRotateArmMotorID = 5;
-    public static final int kGrabArmMotorID = 6;
-    public static final int kLimitSwitchUpPort = 2;
-    public static final int kLimitSwitchDownPort = 3;
+    public static final int kRotateArmMotorID = 8;
+    public static final int kGrabArmMotorID = 7;
+    public static final int kLimitSwitchUpPort = 4;
+    public static final int kLimitSwitchDownPort = 5;
     public static final Color kCubeColor = new Color(0, 0, 0);
     public static final Color kConeColor = new Color(0, 0, 0);
   }
