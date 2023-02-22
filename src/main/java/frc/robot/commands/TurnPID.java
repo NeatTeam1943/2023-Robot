@@ -27,7 +27,7 @@ public class TurnPID extends PIDCommand {
         () -> drivetrain.getHeading() + angleGoal,
         // This uses the output
         output -> {
-          drivetrain.arcadeDrive(0, output + m_feedforward.calculate(drivetrain.getHeading() + angleGoal));
+          drivetrain.arcadeDrive(0, output + m_feedforward.calculate(drivetrain.getHeading() + angleGoal), true);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     getController().enableContinuousInput(-180, 180);
