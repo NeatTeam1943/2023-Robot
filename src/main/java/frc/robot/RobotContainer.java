@@ -50,10 +50,6 @@ public class RobotContainer {
 
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   public RobotContainer() {
@@ -119,11 +115,6 @@ public class RobotContainer {
       m_armSubsystem.rotateArm(-0.5);
     }, m_armSubsystem));
 
-    // grab
-    // m_driverController.a().whileTrue(new RunCommand(() -> {
-    //   m_armSubsystem.grabArm(0.1);
-    // }, m_armSubsystem));
-
     m_driverController.a().whileTrue(new RunCommand(() -> {
       m_armSubsystem.grabArm(0.1);
     }, m_armSubsystem));
@@ -133,6 +124,6 @@ public class RobotContainer {
     }, m_armSubsystem));
 
     m_driverController.a().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kAprilPipline));
-    m_driverController.b().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kRetroPipline));
+    m_driverController.back().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kRetroPipline));
   }
 }
