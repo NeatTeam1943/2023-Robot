@@ -58,6 +58,8 @@ public class RobotContainer {
 
     SmartDashboard.putData("Routine selector", m_chooser);
 
+    m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
+
     // Configure the trigger bindings
     configureBindings();
   }
