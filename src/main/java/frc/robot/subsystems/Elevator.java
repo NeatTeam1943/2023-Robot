@@ -32,12 +32,13 @@ public class Elevator extends SubsystemBase {
   }
 
   public void moveElevator(double value) {
-    if ((m_topSwitch.get() && value > 0) || (m_bottomSwitch.get() && value < 0)) {
-      value = 0;
-    }
+    // if ((m_topSwitch.get() && value > 0) || (m_bottomSwitch.get() && value < 0)) {
+    //   value = 0;
+    // }
 
     m_leftMotor.set(value);
     m_rightMotor.set(value);
+    System.out.println("working!!!: " +  value);
   }
 
   @Override
