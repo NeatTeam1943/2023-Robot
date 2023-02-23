@@ -55,7 +55,8 @@ public final class Constants {
   }
   
   public static class ArmConstants {
-    public static final int kRotateArmMotorID = 8;
+    public static final int kRotateArmFrontID = 8;
+    public static final int kRotateArmRearID = 23;
     public static final int kGrabArmMotorID = 7;
     public static final int kLimitSwitchUpPort = 4;
     public static final int kLimitSwitchDownPort = 5;
@@ -85,7 +86,7 @@ public final class Constants {
     public static final double kV = 0;
     public static final double kA = 0;
 
-    public static final double kTurnToleranceDeg =0;
+    public static final double kTurnToleranceDeg = 0;
     public static final double kTurnRateToleranceDegPerS = 0;
   }
   
