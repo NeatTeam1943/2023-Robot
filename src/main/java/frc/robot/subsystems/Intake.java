@@ -27,8 +27,8 @@ public class Intake extends SubsystemBase {
     m_intakeMotor = new WPI_TalonFX(IntakeConstants.kLeftIntakeMotorID);
     m_liftMotor = new WPI_TalonFX(IntakeConstants.kLiftMotorID);
 
-    m_topLimitSwitch = new DigitalInput(SensorConstants.kTopLimitSwitchPort);
-    m_bottomLimitSwitch = new DigitalInput(SensorConstants.kBottomLimitSwitchPort);
+    m_topLimitSwitch = new DigitalInput(IntakeConstants.kTopLimitSwitchPort);
+    m_bottomLimitSwitch = new DigitalInput(IntakeConstants.kTopBottomLimitSwitchPort);
 
     m_colorSensor = new ColorSensorV3(SensorConstants.kI2cPort);
 
