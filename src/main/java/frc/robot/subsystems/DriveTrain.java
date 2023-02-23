@@ -5,10 +5,15 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.fasterxml.jackson.databind.util.PrimitiveArrayBuilder;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveTrainConstants;
 
@@ -25,6 +30,12 @@ public class DriveTrain extends SubsystemBase {
 
   private ADIS16448_IMU m_imu;
 
+  private Field2d m_field2d;
+
+  private DifferentialDriveOdometry m_odometry;
+
+  private DifferentialDrivetrainSim m_driveSim;
+
   public DriveTrain() {
     m_leftFront = new WPI_TalonFX(DriveTrainConstants.kLeftFrontPort);
     m_leftRear = new WPI_TalonFX(DriveTrainConstants.kLeftRearPort);
@@ -37,6 +48,10 @@ public class DriveTrain extends SubsystemBase {
     m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
     m_imu = new ADIS16448_IMU();
+
+    m_field2d = new Field2d();
+    m_odometry = new DifferentialDriveOdometry(new Rotation2d(m_imu.getAngle()), 0, 0);
+    m_driveSim = new DifferentialDrivetrainSim(null, getRightWheelsRPM(), getLeftWheelsRPM(), getHeading(), getDistance(), getAverageWheelsRPM(), null)
   }
 
   public void arcadeDrive(double move, double rot, boolean squareInputs) {
