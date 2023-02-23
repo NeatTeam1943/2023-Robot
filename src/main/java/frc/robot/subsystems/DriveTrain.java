@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveTrainConstants;
 
@@ -52,9 +53,13 @@ public class DriveTrain extends SubsystemBase {
     m_imu = new ADIS16448_IMU();
 
     m_field2d = new Field2d();
+
     m_odometry = new DifferentialDriveOdometry(new Rotation2d(m_imu.getAngle()), 0, 0);
+    
     m_driveSim = new DifferentialDrivetrainSim(DCMotor.getCIM(2), DriveTrainConstants.kGearRatio, 2.1, 25,
     Units.inchesToMeters(DriveTrainConstants.kWheelRadiusInches), 0.546, null);
+
+    SmartDashboard.putData("field", m_field2d);
   }
 
   @Override
