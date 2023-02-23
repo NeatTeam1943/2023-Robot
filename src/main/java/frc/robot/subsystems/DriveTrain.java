@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.util.PrimitiveArrayBuilder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -51,9 +53,15 @@ public class DriveTrain extends SubsystemBase {
 
     m_field2d = new Field2d();
     m_odometry = new DifferentialDriveOdometry(new Rotation2d(m_imu.getAngle()), 0, 0);
-    m_driveSim = new DifferentialDrivetrainSim(null, getRightWheelsRPM(), getLeftWheelsRPM(), getHeading(), getDistance(), getAverageWheelsRPM(), null)
+    m_driveSim = new DifferentialDrivetrainSim(DCMotor.getCIM(2), DriveTrainConstants.kGearRatio, 2.1, 25,
+    Units.inchesToMeters(DriveTrainConstants.kWheelRadiusInches), 0.546, null);
   }
 
+  @Override
+  public void periodic() {
+      
+  }
+  
   public void arcadeDrive(double move, double rot, boolean squareInputs) {
     /*
      * move - robot movement speed across the x axis.
