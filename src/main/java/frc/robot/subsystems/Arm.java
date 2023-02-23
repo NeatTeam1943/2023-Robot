@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -15,7 +16,8 @@ import frc.robot.Constants.ArmConstants;
 
 public class Arm extends SubsystemBase {
 
-  private WPI_TalonSRX m_rotateArmMotor;
+  private WPI_TalonFX m_rotateArmFront;
+  private WPI_TalonFX m_rotateArmRear;
   private WPI_TalonSRX m_grabArmMotor;
 
   private DigitalInput m_topLimitSwitch;
@@ -25,10 +27,11 @@ public class Arm extends SubsystemBase {
   private Intake m_intake;
 
   public Arm() {
-    m_rotateArmMotor = new WPI_TalonSRX(ArmConstants.kRotateArmMotorID);
+    m_rotateArmFront = new WPI_TalonFX(ArmConstants.kRotateArmFrontID);
+    m_rotateArmRear = new WPI_TalonFX(ArmConstants.kRotateArmRearID);
     m_grabArmMotor = new WPI_TalonSRX(ArmConstants.kGrabArmMotorID);
 
-    m_rotateArmMotor.setNeutralMode(NeutralMode.Brake);
+    m_rotateArmFront.setNeutralMode(NeutralMode.Brake);
     
     m_topLimitSwitch = new DigitalInput(ArmConstants.kLimitSwitchUpPort);
     m_bottomLimitSwitch = new DigitalInput(ArmConstants.kLimitSwitchDownPort);
@@ -40,11 +43,12 @@ public class Arm extends SubsystemBase {
   }
 
   public void rotateArm(double value) {
-    if ((m_topLimitSwitch.get() && value > 0) || (m_bottomLimitSwitch.get() && value < 0)) {
-      value = 0;
-    }
-
-    m_rotateArmMotor.set(value);
+    // if ((m_topLimitSwitch.get() && value > 0) || (m_bottomLimitSwitch.get() && value < 0)) {
+    //   value = 0;
+    // }
+    
+    m_rotateArmFront.set(value);
+    m_rotateArmRear.set(value);
   }
 
   public void grabArm(double value) {
