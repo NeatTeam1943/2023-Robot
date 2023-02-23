@@ -64,7 +64,10 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-      
+    m_odometry.update(new Rotation2d(m_imu.getAngle()),
+    nativeUnitsToDistanceMeters(m_leftFront.getSelectedSensorPosition()),
+    nativeUnitsToDistanceMeters(m_rightFront.getSelectedSensorPosition()));
+    m_field2d.setRobotPose(m_odometry.getPoseMeters());
   }
   
   public void arcadeDrive(double move, double rot, boolean squareInputs) {
@@ -74,6 +77,13 @@ public class DriveTrain extends SubsystemBase {
      * squareInputs - If set to true, it decreases the input sensitivity at low speeds.
      */
     m_drive.arcadeDrive(move, rot, squareInputs);
+  }
+
+  public static double nativeUnitsToDistanceMeters(double sensorCounts) {
+    double motorRotations = (double) sensorCounts / DriveTrainConstants.kCountsPerRev;
+    double wheelRotations = motorRotations / DriveTrainConstants.kSensorGearRatio;
+    double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(DriveTrainConstants.kWheelRadiusInches));
+    return positionMeters;
   }
 
   public void tankDrive(double left, double right) {
