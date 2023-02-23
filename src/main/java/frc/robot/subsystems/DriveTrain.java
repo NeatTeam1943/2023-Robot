@@ -5,16 +5,13 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.fasterxml.jackson.databind.util.PrimitiveArrayBuilder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -37,13 +34,14 @@ public class DriveTrain extends SubsystemBase {
 
   private DifferentialDriveOdometry m_odometry;
 
-  private DifferentialDrivetrainSim m_driveSim;
-
   public DriveTrain() {
     m_leftFront = new WPI_TalonFX(DriveTrainConstants.kLeftFrontPort);
     m_leftRear = new WPI_TalonFX(DriveTrainConstants.kLeftRearPort);
     m_rightFront = new WPI_TalonFX(DriveTrainConstants.kRightFrontPort);
     m_rightRear = new WPI_TalonFX(DriveTrainConstants.kRightRearPort);
+
+    m_leftFront.setSelectedSensorPosition(0);
+    m_rightFront.setSelectedSensorPosition(0); 
 
     m_leftMotors = new MotorControllerGroup(m_leftRear, m_leftFront);
     m_rightMotors = new MotorControllerGroup(m_rightRear, m_rightFront);
@@ -56,26 +54,19 @@ public class DriveTrain extends SubsystemBase {
 
     m_odometry = new DifferentialDriveOdometry(new Rotation2d(m_imu.getAngle()), 0, 0);
     
-    m_driveSim = new DifferentialDrivetrainSim(DCMotor.getCIM(2), DriveTrainConstants.kGearRatio, 2.1, 25,
-    Units.inchesToMeters(DriveTrainConstants.kWheelRadiusInches), 0.546, null);
-
     SmartDashboard.putData("field", m_field2d);
   }
 
   @Override
   public void periodic() {
     m_odometry.update(new Rotation2d(m_imu.getAngle()),
-    nativeUnitsToDistanceMeters(m_leftFront.getSelectedSensorPosition()),
-    nativeUnitsToDistanceMeters(m_rightFront.getSelectedSensorPosition()));
+    0,
+    0);
     m_field2d.setRobotPose(m_odometry.getPoseMeters());
+    
   }
   
   public void arcadeDrive(double move, double rot, boolean squareInputs) {
-    /*
-     * move - robot movement speed across the x axis.
-     * rot - robot rotation speed in the z axis.
-     * squareInputs - If set to true, it decreases the input sensitivity at low speeds.
-     */
     m_drive.arcadeDrive(move, rot, squareInputs);
   }
 
