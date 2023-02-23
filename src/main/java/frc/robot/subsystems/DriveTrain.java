@@ -42,6 +42,8 @@ public class DriveTrain extends SubsystemBase {
 
     m_leftFront.setSelectedSensorPosition(0);
     m_rightFront.setSelectedSensorPosition(0); 
+    m_leftRear.setSelectedSensorPosition(0); 
+    m_rightRear.setSelectedSensorPosition(0); 
 
     m_leftMotors = new MotorControllerGroup(m_leftRear, m_leftFront);
     m_rightMotors = new MotorControllerGroup(m_rightRear, m_rightFront);
@@ -60,10 +62,9 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     m_odometry.update(new Rotation2d(m_imu.getAngle()),
-    0,
+    0, // Should fix and add acutal angle value
     0);
     m_field2d.setRobotPose(m_odometry.getPoseMeters());
-    
   }
   
   public void arcadeDrive(double move, double rot, boolean squareInputs) {
