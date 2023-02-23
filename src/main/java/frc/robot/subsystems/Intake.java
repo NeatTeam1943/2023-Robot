@@ -14,6 +14,8 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.TogglePipeline;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 public class Intake extends SubsystemBase {
@@ -24,6 +26,7 @@ public class Intake extends SubsystemBase {
   private DigitalInput m_bottomLimitSwitch;
 
   private final ColorSensorV3 m_colorSensor;
+  private ColorMatch m_colorMatcher;
 
   private PhotonVision m_PhotonVision;
 
@@ -35,6 +38,9 @@ public class Intake extends SubsystemBase {
     m_bottomLimitSwitch = new DigitalInput(SensorConstants.kBottomLimitSwitchPort);
 
     m_colorSensor = new ColorSensorV3(SensorConstants.kI2cPort);
+    m_colorMatcher = new ColorMatch();
+
+    m_colorMatcher.addColorMatch(ColorSensorConstants.kCone);
   }
 
   public void grab(double speed) {
@@ -58,22 +64,25 @@ public class Intake extends SubsystemBase {
     return m_colorSensor.getProximity();
   }
 
-  public boolean isTopSwitchPressed(){
+  public boolean isTopSwitchPressed() {
     return m_topLimitSwitch.get();
   }
 
-  public boolean isBottomSwitchPressed(){
+  public boolean isBottomSwitchPressed() {
     return m_bottomLimitSwitch.get();
+  }
+
+  public String getDetectedGamePiece() {
+    ColorMatchResult match = m_colorMatcher.matchClosestColor(getColor());
+
+    if (match.color == ColorSensorConstants.kCone)
+      return "Cone";
+    else {
+      return "Cube";
+    }
   }
 
   @Override
   public void periodic() {
-    if(m_colorSensor.getRed() >= ColorSensorConstants.kConemin[0] && m_colorSensor.getRed() <= ColorSensorConstants.kConemax[0] && m_colorSensor.getGreen() >= ColorSensorConstants.kConemin[1] && m_colorSensor.getGreen() <= ColorSensorConstants.kConemax[1] && m_colorSensor.getBlue() >= ColorSensorConstants.kConemin[2] && m_colorSensor.getBlue() <= ColorSensorConstants.kConemax[2]){
-      new TogglePipeline(m_PhotonVision,VisionConstants.kRetroPipline);
-    }
-    if(m_colorSensor.getRed() >= ColorSensorConstants.kCubemin[0] && m_colorSensor.getRed() <= ColorSensorConstants.kCubemax[0] && m_colorSensor.getGreen() >= ColorSensorConstants.kCubemin[1] && m_colorSensor.getGreen() <= ColorSensorConstants.kCubemax[1] && m_colorSensor.getBlue() >= ColorSensorConstants.kCubemin[2] && m_colorSensor.getBlue() <= ColorSensorConstants.kCubemax[2]){
-      new TogglePipeline(m_PhotonVision,VisionConstants.kAprilPipline);
-    }
-    // This method will be called once per scheduler run
   }
 }
