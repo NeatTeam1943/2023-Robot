@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.Random;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -41,9 +43,9 @@ public class DriveTrain extends SubsystemBase {
     m_rightRear = new WPI_TalonFX(DriveTrainConstants.kRightRearPort);
 
     m_leftFront.setSelectedSensorPosition(0);
-    m_rightFront.setSelectedSensorPosition(0); 
-    m_leftRear.setSelectedSensorPosition(0); 
-    m_rightRear.setSelectedSensorPosition(0); 
+    m_rightFront.setSelectedSensorPosition(0);
+    m_leftRear.setSelectedSensorPosition(0);
+    m_rightRear.setSelectedSensorPosition(0);
 
     m_leftMotors = new MotorControllerGroup(m_leftRear, m_leftFront);
     m_rightMotors = new MotorControllerGroup(m_rightRear, m_rightFront);
@@ -55,18 +57,19 @@ public class DriveTrain extends SubsystemBase {
     m_field2d = new Field2d();
 
     m_odometry = new DifferentialDriveOdometry(new Rotation2d(m_imu.getAngle()), 0, 0);
-    
+
     SmartDashboard.putData("field", m_field2d);
   }
 
   @Override
   public void periodic() {
     m_odometry.update(new Rotation2d(m_imu.getAngle()),
-    0, // Should fix and add acutal angle value
-    0);
+        nativeUnitsToDistanceMeters(m_leftFront.getSelectedSensorPosition()), // Should fix and add acutal angle value
+        nativeUnitsToDistanceMeters(m_rightFront.getSelectedSensorPosition()));
+        
     m_field2d.setRobotPose(m_odometry.getPoseMeters());
   }
-  
+
   public void arcadeDrive(double move, double rot, boolean squareInputs) {
     m_drive.arcadeDrive(move, rot, squareInputs);
   }
@@ -74,7 +77,8 @@ public class DriveTrain extends SubsystemBase {
   public static double nativeUnitsToDistanceMeters(double sensorCounts) {
     double motorRotations = (double) sensorCounts / DriveTrainConstants.kCountsPerRev;
     double wheelRotations = motorRotations / DriveTrainConstants.kSensorGearRatio;
-    double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(DriveTrainConstants.kWheelRadiusInches));
+    double positionMeters = wheelRotations
+        * (2 * Math.PI * Units.inchesToMeters(DriveTrainConstants.kWheelRadiusInches));
     return positionMeters;
   }
 
