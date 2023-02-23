@@ -1,14 +1,35 @@
 {
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "Routine selector": {
+          "open": true
+        },
+        "open": true
+      },
+      "photonvision": {
+        "open": true
+      }
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Routine selector": "String Chooser"
+    }
+  },
   "NetworkTables Settings": {
-    "visible": false
+    "mode": "Client (NT4)",
+    "serverTeam": "localhost"
   },
   "Plots": {
     "Plot <0>": {
       "plots": [
         {
-          "height": 332
+          "height": 0
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }
