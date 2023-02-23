@@ -27,6 +27,8 @@ public class Arm extends SubsystemBase {
     m_rotateArmMotor = new WPI_TalonSRX(ArmConstants.kRotateArmMotorID);
     m_grabArmMotor = new WPI_TalonSRX(ArmConstants.kGrabArmMotorID);
 
+    m_rotateArmMotor.setNeutralMode(NeutralMode.Brake);
+    
     m_topLimitSwitch = new DigitalInput(ArmConstants.kLimitSwitchUpPort);
     m_bottomLimitSwitch = new DigitalInput(ArmConstants.kLimitSwitchDownPort);
   }
