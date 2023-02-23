@@ -3,33 +3,25 @@
     "transitory": {
       "SmartDashboard": {
         "Routine selector": {
-          "open": true
-        },
-        "open": true
-      },
-      "photonvision": {
-        "open": true
+          "open": false
+        }
       }
     },
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/SmartDashboard/Routine selector": "String Chooser"
+      "/SmartDashboard/Routine selector": "String Chooser",
+      "/SmartDashboard/field": "Field2d"
+    },
+    "windows": {
+      "/SmartDashboard/field": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables Settings": {
-    "mode": "Client (NT4)",
+    "mode": "Client (NT3)",
     "serverTeam": "localhost"
-  },
-  "Plots": {
-    "Plot <0>": {
-      "plots": [
-        {
-          "height": 0
-        }
-      ],
-      "window": {
-        "visible": false
-      }
-    }
   }
 }
