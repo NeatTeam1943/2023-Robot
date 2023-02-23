@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -31,13 +32,18 @@ public class Arm extends SubsystemBase {
     
     m_topLimitSwitch = new DigitalInput(ArmConstants.kLimitSwitchUpPort);
     m_bottomLimitSwitch = new DigitalInput(ArmConstants.kLimitSwitchDownPort);
+
+    this.setDefaultCommand(new RunCommand(() -> {
+      rotateArm(0);
+      grabArm(0);
+    }, this));
   }
 
   public void rotateArm(double value) {
     if ((m_topLimitSwitch.get() && value > 0) || (m_bottomLimitSwitch.get() && value < 0)) {
       value = 0;
     }
-    
+
     m_rotateArmMotor.set(value);
   }
 
@@ -47,6 +53,5 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void periodic() {
-    this.setDefaultCommand(new RunCommand(() -> {rotateArm(0); grabArm(0);}, this));
   }
 }
