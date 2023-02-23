@@ -31,6 +31,8 @@ public class Intake extends SubsystemBase {
     m_bottomLimitSwitch = new DigitalInput(SensorConstants.kBottomLimitSwitchPort);
 
     m_colorSensor = new ColorSensorV3(SensorConstants.kI2cPort);
+
+    this.setDefaultCommand(new RunCommand(() -> {grab(0); lift(0);}, this));
   }
 
   public void grab(double speed) {
@@ -62,7 +64,5 @@ public class Intake extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    this.setDefaultCommand(new RunCommand(() -> {grab(0); lift(0);}, this));
-  }
+  public void periodic() {}
 }
