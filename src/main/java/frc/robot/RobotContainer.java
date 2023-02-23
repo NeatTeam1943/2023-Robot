@@ -82,12 +82,12 @@ public class RobotContainer {
     // ELEVATOR:
     // up
     m_driverController.povRight().whileTrue(new RunCommand(() -> {
-      m_elevatorSubsystem.moveElevator(.1);
+      m_elevatorSubsystem.moveElevator(.3);
     }, m_elevatorSubsystem));
 
     // down
     m_driverController.povLeft().whileTrue(new RunCommand(() -> {
-      m_elevatorSubsystem.moveElevator(-.1);
+      m_elevatorSubsystem.moveElevator(-.3);
     }, m_elevatorSubsystem));
 
     // INTAKE:
@@ -109,7 +109,7 @@ public class RobotContainer {
     // ARM:
     // rotate up
     m_driverController.povUp().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.rotateArm(0.5);
+      m_armSubsystem.rotateArm(1);
     }, m_armSubsystem));
 
     // rotate down
