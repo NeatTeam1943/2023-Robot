@@ -30,23 +30,22 @@ public class Arm extends SubsystemBase {
     m_bottomLimitSwitch = new DigitalInput(ArmConstants.kLimitSwitchDownPort);
   }
 
-  public void rotateArm(double value){
-    if (m_topLimitSwitch.get() && value > 0) {
-      m_rotateArmMotor.set(0);
-    } else if (m_bottomLimitSwitch.get() && value < 0) {
-      m_rotateArmMotor.set(0);
-    } else {
-      m_rotateArmMotor.set(value);
+  public void rotateArm(double value) {
+    if ((m_topLimitSwitch.get() && value > 0) || (m_bottomLimitSwitch.get() && value < 0)) {
+      value = 0;
     }
+    
+    m_rotateArmMotor.set(value);
   }
 
   public void grabArm(double value) {
-    m_color = m_intake.getColor();
-    if (m_color == ArmConstants.kConeColor || m_color == ArmConstants.kCubeColor) {
-      m_grabArmMotor.set(value);
-    } else {
-      m_grabArmMotor.set(-value);
-    }
+    // m_color = m_intake.getColor();
+    // if (m_color == ArmConstants.kConeColor || m_color == ArmConstants.kCubeColor) {
+    //   m_grabArmMotor.set(value);
+    // } else {
+    //   m_grabArmMotor.set(-value);
+    // }
+    m_grabArmMotor.set(value);
   }
 
   @Override
