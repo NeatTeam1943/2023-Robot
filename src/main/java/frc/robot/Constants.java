@@ -17,6 +17,14 @@ public final class Constants {
     public static final int kLeftRearPort = 2;
     public static final int kRightFrontPort = 3;
     public static final int kRightRearPort = 4;
+    
+    // field2d sim
+    public static final double kUpdateTime = 0.02;
+    public static final int kCountsPerRev = 4096;
+    public static final double kWheelRadiusInches = 3;
+    public static final double kSensorGearRatio = 1.0;
+    public static final double kGearRatio = 10.71;
+    public static final int k100msPerSecond = 10;
 
     // Encoder calculation for rate and distance
     public static final double k100msTo60sRatio = 600;
@@ -75,8 +83,8 @@ public final class Constants {
     public static final double kV = 0;
     public static final double kA = 0;
 
-
     public static final double kTurnToleranceDeg =0;
     public static final double kTurnRateToleranceDegPerS = 0;
   }
+  
 }
