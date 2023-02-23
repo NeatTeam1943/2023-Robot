@@ -37,10 +37,13 @@ public final class Constants {
     public static final int kRightIntakeMotorID = 77;
     public static final int kLiftMotorID = 79;
     public static final double kLiftMotorSpeed = .5;
+    public static final int kTopLimitSwitchPort = 8;
+    public static final int kTopBottomLimitSwitchPort = 9;
+
   }
 
   public static class SensorConstants{
-    public static final int kTopLimitSwitchPort = 0;
+    public static final int kTopLimitSwitchPort = 25;
     public static final int kBottomLimitSwitchPort = 1;
     public static final I2C.Port kI2cPort = I2C.Port.kOnboard;
   }
@@ -48,7 +51,7 @@ public final class Constants {
     public static final int kElevatorFrontMotorID = 6;
     public static final int kElevatorRearMotorID = 5;
     public static final int kTopSwitchPort = 2;
-    public static final int kBotomSwitchPort = 3;
+    public static final int kBotomSwitchPort = 12;
   }
   
   public static class ArmConstants {
@@ -61,7 +64,7 @@ public final class Constants {
   }
 
   public static class VisionConstants {
-    public static final String kCameraName = "photonvision";
+    public static final String kCameraName = "Microsoft_LifeCam_HD-3000";
     public static final int kAprilPipline = 0;
     public static final int kRetroPipline = 1;
     public static final double kForwardP = 0;
