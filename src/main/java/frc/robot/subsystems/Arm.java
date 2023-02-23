@@ -40,12 +40,6 @@ public class Arm extends SubsystemBase {
   }
 
   public void grabArm(double value) {
-    // m_color = m_intake.getColor();
-    // if (m_color == ArmConstants.kConeColor || m_color == ArmConstants.kCubeColor) {
-    //   m_grabArmMotor.set(value);
-    // } else {
-    //   m_grabArmMotor.set(-value);
-    // }
     m_grabArmMotor.set(value);
   }
 
