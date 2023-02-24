@@ -10,23 +10,30 @@ public class Elevator extends SubsystemBase {
 
   private WPI_TalonSRX m_motor;
 
-  private DigitalInput m_topSwitch;
-  private DigitalInput m_botomSwitch;
+  private DigitalInput m_topLimitSwitch;
+  private DigitalInput m_botomLimitSwitch;
   /** Creates a new Elevator. */
   public Elevator() {
     m_motor = new WPI_TalonSRX(ElevatorConstants.kElevatorMotor);
   }
   
   public void moveElevator(double value) {
-    if (m_topSwitch.get() && value > 0) {
+    if (m_topLimitSwitch.get() && value > 0) {
       m_motor.set(0);
-    } else if (m_botomSwitch.get() && value < 0) {
+    } else if (m_botomLimitSwitch.get() && value < 0) {
       m_motor.set(0);
     } else {
       m_motor.set(value);
     }
   }
 
+  public boolean getTopLimitSwitchState(){
+    return m_topLimitSwitch.get();
+  }
+
+  public boolean getBotomLimitSwitchState(){
+    return m_botomLimitSwitch.get();
+  }
 
   @Override
   public void periodic() {
