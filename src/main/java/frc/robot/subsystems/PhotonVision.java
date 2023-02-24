@@ -31,7 +31,7 @@ public class PhotonVision extends SubsystemBase {
     return m_distance;
   }
 
-  public PhotonTrackedTarget getM_target(){
+  public PhotonTrackedTarget getTarget(){
     return m_target;
   }
 
