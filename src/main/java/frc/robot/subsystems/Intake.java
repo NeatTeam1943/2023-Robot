@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ColorSensorConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.SensorConstants;
-import frc.robot.Constants.VisionConstants;
-import frc.robot.commands.TogglePipeline;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.ColorMatch;
@@ -26,9 +24,7 @@ public class Intake extends SubsystemBase {
   private DigitalInput m_bottomLimitSwitch;
 
   private final ColorSensorV3 m_colorSensor;
-  private ColorMatch m_colorMatcher;
-
-  private PhotonVision m_PhotonVision;
+  private ColorMatch  m_colorMatcher;
 
   public Intake() {
     m_intakeMotor = new WPI_TalonFX(IntakeConstants.kLeftIntakeMotorID);
@@ -72,17 +68,17 @@ public class Intake extends SubsystemBase {
     return m_bottomLimitSwitch.get();
   }
 
-  public String getDetectedGamePiece() {
-    ColorMatchResult match = m_colorMatcher.matchClosestColor(getColor());
+  public int getDetectedGamePiece() {
+    ColorMatchResult match = (m_colorMatcher.matchClosestColor(getColor()));
 
-    if (match.color == ColorSensorConstants.kCone)
-      return "Cone";
-    else {
-      return "Cube";
+    if (match.color == ColorSensorConstants.kCone) {
+      return 1;
     }
+    return 0;
   }
 
   @Override
   public void periodic() {
+
   }
 }
