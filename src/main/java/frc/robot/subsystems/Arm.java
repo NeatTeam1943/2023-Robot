@@ -45,7 +45,8 @@ public class Arm extends SubsystemBase {
   public void rotateArm(double value) {
     // if ((m_topLimitSwitch.get() && value > 0) || (m_bottomLimitSwitch.get() && value < 0)) {
     //   value = 0;
-    // }
+    // } 
+    //TODO: Need for lated
     
     m_rotateArmFront.set(value);
     m_rotateArmRear.set(value);

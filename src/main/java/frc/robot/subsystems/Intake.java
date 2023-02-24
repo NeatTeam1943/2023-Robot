@@ -40,9 +40,10 @@ public class Intake extends SubsystemBase {
   }
 
   public void lift(double speed) {
-    if ((m_topLimitSwitch.get() && speed > 0) || (m_bottomLimitSwitch.get() && speed < 0)) {
-      speed = 0;
-    }
+    // if ((m_topLimitSwitch.get() && speed > 0) || (m_bottomLimitSwitch.get() && speed < 0)) {
+    //   speed = 0;
+    // }
+    //TODO: Need for lated
     
     m_liftMotor.set(speed);
   }
