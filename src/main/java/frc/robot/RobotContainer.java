@@ -11,7 +11,6 @@ import frc.robot.commands.DriveArcade;
 import frc.robot.commands.DropItem;
 import frc.robot.commands.DriveMeters;
 import frc.robot.commands.PickupItem;
-import frc.robot.commands.AutoRoutines;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -22,6 +21,7 @@ import frc.robot.subsystems.PhotonVision;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -138,10 +138,10 @@ public class RobotContainer {
   }
 
   public Command getChargeStationRoutine(){
-    return AutoRoutines.chargeStationRoutine(m_pickupItemCommand,m_dropItemCommand, m_driveMetersCommand,new TurnPID(m_driveTrain, -(m_photonVision.getTarget().getYaw())));
+    return Commands.sequence(m_pickupItemCommand,  new TurnPID(m_driveTrain, -(m_photonVision.getTarget().getYaw())), m_driveMetersCommand,  m_dropItemCommand, m_driveMetersCommand);
   }
 
   public Command getPickupRoutine(){
-    return AutoRoutines.pickupRoutine(m_pickupItemCommand, m_dropItemCommand, m_driveMetersCommand,new TurnPID(m_driveTrain, -(m_photonVision.getTarget().getYaw())), new TurnPID(m_driveTrain, 180));
+    return Commands.sequence(m_pickupItemCommand, new TurnPID(m_driveTrain, -(m_photonVision.getTarget().getYaw())), m_driveMetersCommand, m_dropItemCommand, new TurnPID(m_driveTrain, -(m_photonVision.getTarget().getYaw())), m_driveMetersCommand, new TurnPID(m_driveTrain, 180), m_driveMetersCommand);
   }
 }
