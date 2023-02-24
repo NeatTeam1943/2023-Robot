@@ -8,13 +8,17 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.DriveArcade;
+import frc.robot.commands.DropItem;
+import frc.robot.commands.DriveMeters;
+import frc.robot.commands.PickupItem;
+import frc.robot.commands.AutoRoutines;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.commands.TogglePipeline;
+import frc.robot.commands.TurnPID;
 import frc.robot.subsystems.PhotonVision;
-import org.photonvision.PhotonCamera;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,17 +42,19 @@ public class RobotContainer {
   private final Intake m_intakeSubsystem = new Intake();
 
   private final PhotonVision m_photonVision = new PhotonVision();
-
-  private final PhotonCamera m_camera = m_photonVision.getCamera();
-
+  
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
 
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  private final PickupItem m_pickupItemCommand = new PickupItem(m_armSubsystem, m_elevatorSubsystem,m_intakeSubsystem);
+
+  private final DropItem m_dropItemCommand = new DropItem(m_armSubsystem, m_elevatorSubsystem);
+  
+  private final DriveMeters m_driveMetersCommand = new DriveMeters(m_driveTrain, 0);
+  
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
 
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -129,5 +135,13 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return null;
+  }
+
+  public Command getChargeStationRoutine(){
+    return AutoRoutines.chargeStationRoutine(m_pickupItemCommand,m_dropItemCommand, m_driveMetersCommand,new TurnPID(m_driveTrain, -(m_photonVision.getTarget().getYaw())));
+  }
+
+  public Command getPickupRoutine(){
+    return AutoRoutines.pickupRoutine(m_pickupItemCommand, m_dropItemCommand, m_driveMetersCommand,new TurnPID(m_driveTrain, -(m_photonVision.getTarget().getYaw())), new TurnPID(m_driveTrain, 180));
   }
 }
