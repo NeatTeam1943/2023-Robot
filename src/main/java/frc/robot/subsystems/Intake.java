@@ -7,10 +7,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ColorSensorConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.SensorConstants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 public class Intake extends SubsystemBase {
@@ -21,6 +24,7 @@ public class Intake extends SubsystemBase {
   private DigitalInput m_bottomLimitSwitch;
 
   private final ColorSensorV3 m_colorSensor;
+  private ColorMatch  m_colorMatcher;
 
   public Intake() {
     m_intakeMotor = new WPI_TalonFX(IntakeConstants.kLeftIntakeMotorID);
@@ -30,6 +34,9 @@ public class Intake extends SubsystemBase {
     m_bottomLimitSwitch = new DigitalInput(SensorConstants.kBottomLimitSwitchPort);
 
     m_colorSensor = new ColorSensorV3(SensorConstants.kI2cPort);
+    m_colorMatcher = new ColorMatch();
+
+    m_colorMatcher.addColorMatch(ColorSensorConstants.kCone);
   }
 
   public void grab(double speed) {
@@ -53,16 +60,25 @@ public class Intake extends SubsystemBase {
     return m_colorSensor.getProximity();
   }
 
-  public boolean isTopSwitchPressed(){
+  public boolean isTopSwitchPressed() {
     return m_topLimitSwitch.get();
   }
 
-  public boolean isBottomSwitchPressed(){
+  public boolean isBottomSwitchPressed() {
     return m_bottomLimitSwitch.get();
+  }
+
+  public int getDetectedGamePiece() {
+    ColorMatchResult match = (m_colorMatcher.matchClosestColor(getColor()));
+
+    if (match.color == ColorSensorConstants.kCone) {
+      return 1;
+    }
+    return 0;
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
   }
 }

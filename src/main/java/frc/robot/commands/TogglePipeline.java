@@ -5,17 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.PhotonVision;
 
 public class TogglePipeline extends CommandBase {
   private final PhotonVision m_photonVision;
-  private final int m_pipelineIndex;
+  private final Intake m_intake;
 
-  public TogglePipeline(PhotonVision photon, int pipe) {
+  public TogglePipeline(PhotonVision photon, Intake intake) {
     m_photonVision = photon;
-    m_pipelineIndex = pipe;
+    m_intake = intake;
 
-    addRequirements(m_photonVision);
+    addRequirements(m_photonVision,m_intake);
   }
 
   // Called when the command is initially scheduled.
@@ -25,7 +26,7 @@ public class TogglePipeline extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_photonVision.getCamera().setPipelineIndex(m_pipelineIndex);
+    m_photonVision.getCamera().setPipelineIndex(m_intake.getDetectedGamePiece());
   }
 
   // Called once the command ends or is interrupted.
