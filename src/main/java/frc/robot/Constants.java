@@ -50,8 +50,8 @@ public final class Constants {
   public static class ElevatorConstants{
     public static final int kElevatorFrontMotorID = 6;
     public static final int kElevatorRearMotorID = 5;
-    public static final int kTopSwitchPort = 2;
-    public static final int kBotomSwitchPort = 12;
+    public static final int kTopSwitchPort = 1;
+    public static final int kBotomSwitchPort = 0;
   }
   
   public static class ArmConstants {
