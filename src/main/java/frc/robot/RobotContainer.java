@@ -4,9 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.DropItem;
 import frc.robot.commands.DriveMeters;
@@ -15,7 +15,6 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
-import frc.robot.commands.TogglePipeline;
 import frc.robot.commands.TurnPID;
 import frc.robot.subsystems.PhotonVision;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -42,17 +41,15 @@ public class RobotContainer {
   private final Intake m_intakeSubsystem = new Intake();
 
   private final PhotonVision m_photonVision = new PhotonVision();
-  
+
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
 
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
 
-  private final PickupItem m_pickupItemCommand = new PickupItem(m_armSubsystem, m_elevatorSubsystem,m_intakeSubsystem);
+  private final PickupItem m_pickupItemCommand = new PickupItem(m_armSubsystem, m_elevatorSubsystem, m_intakeSubsystem);
 
   private final DropItem m_dropItemCommand = new DropItem(m_armSubsystem, m_elevatorSubsystem);
-  
-  private final DriveMeters m_driveMetersCommand = new DriveMeters(m_driveTrain, 0);
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
 
@@ -137,11 +134,44 @@ public class RobotContainer {
     return null;
   }
 
-  public Command getChargeStationRoutine(){
-    return Commands.sequence(m_pickupItemCommand,  new TurnPID(m_driveTrain, -(m_photonVision.getTarget().getYaw())), m_driveMetersCommand,  m_dropItemCommand, m_driveMetersCommand);
+  public Command getChargeStationRoutine() {
+    DriveMeters driveToTarget = new DriveMeters(
+        m_driveTrain,
+        m_photonVision.getDistance(
+            FieldConstants.kTargeteight[m_photonVision.getCamera().getPipelineIndex()],
+            m_photonVision.getTarget().getPitch()));
+
+    TurnPID turnToTarget = new TurnPID(m_driveTrain, m_photonVision.getTarget().getYaw() * -1);
+
+    DriveMeters driveToChargeStation = new DriveMeters(m_driveTrain, -FieldConstants.kDistanceToChargeStation);
+
+    return Commands.sequence(
+          m_pickupItemCommand
+        , turnToTarget
+        , driveToTarget
+        , m_dropItemCommand
+        , driveToChargeStation);
   }
 
-  public Command getPickupRoutine(){
-    return Commands.sequence(m_pickupItemCommand, new TurnPID(m_driveTrain, -(m_photonVision.getTarget().getYaw())), m_driveMetersCommand, m_dropItemCommand, new TurnPID(m_driveTrain, -(m_photonVision.getTarget().getYaw())), m_driveMetersCommand, new TurnPID(m_driveTrain, 180), m_driveMetersCommand);
+  public Command getPickupRoutine() {
+    DriveMeters driveToTarget = new DriveMeters(
+        m_driveTrain,
+        m_photonVision.getDistance(
+            FieldConstants.kTargeteight[m_photonVision.getCamera().getPipelineIndex()],
+            m_photonVision.getTarget().getPitch()));
+
+    DriveMeters driveToFourthItem = new DriveMeters(m_driveTrain, -FieldConstants.kDistanceToFourthItem);
+
+    TurnPID turn180 = new TurnPID(m_driveTrain, 180);
+
+    TurnPID turnToTarget = new TurnPID(m_driveTrain, m_photonVision.getTarget().getYaw() * -1);
+
+    return Commands.sequence(
+        m_pickupItemCommand
+        , turnToTarget
+        , driveToTarget
+        , m_dropItemCommand
+        , turn180
+        , driveToFourthItem);
   }
 }
