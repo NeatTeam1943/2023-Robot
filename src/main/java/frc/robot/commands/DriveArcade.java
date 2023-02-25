@@ -23,8 +23,11 @@ public class DriveArcade extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double mov = m_joystick.getLeftX(); // m_joystick.getRightTrigger() - m_joystick.getLeftTrigger();
+    double mov = m_joystick.getRightTriggerAxis() - m_joystick.getLeftTriggerAxis(); // m_joystick.getRightTrigger() - m_joystick.getLeftTrigger();
     double rot = m_joystick.getLeftY();
+
+    mov *= Math.abs(mov);
+    rot *= Math.abs(rot);
 
     m_driveTrain.arcadeDrive(-mov, rot, true);
   }
