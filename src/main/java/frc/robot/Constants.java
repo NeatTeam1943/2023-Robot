@@ -77,6 +77,13 @@ public final class Constants {
     public static final double kTurnRateToleranceDegPerS = 0;
   }
 
+  public static class FieldConstants {
+    public static final double[] kTargeteight = {0.461, 0.6056};
+    public static final double[] kTargetDistanceFromGrid = {0.35,0.595};
+    public static final double kDistanceToFourthItem = 5.518;
+    public static final double kDistanceToChargeStation = 1.218;
+  }
+
   public static class ColorSensorConstants {
     public static Color kCone = new Color(69, 69, 69);
   }
