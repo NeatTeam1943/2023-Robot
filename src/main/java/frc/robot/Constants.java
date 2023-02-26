@@ -60,7 +60,6 @@ public final class Constants {
     public static final int kGrabArmMotorID = 7;
     public static final int kLimitSwitchUpPort = 4;
     public static final int kLimitSwitchDownPort = 5;
-    public static final Color kCubeColor = new Color(0, 0, 0);
     public static final Color kConeColor = new Color(0, 0, 0);
   }
 
@@ -71,10 +70,8 @@ public final class Constants {
     public static final double kForwardP = 0;
     public static final double kForwardI = 0;
     public static final double kForwardD = 0;
-    public static final double kCameraHeight = 69;
-    public static final double kCameraPitchRadians = 69;
-    public static final double kRetroReflectiveHeight = 69;
-    public static final double kAprilTagHeight = 69;
+    public static final double kCameraHeight = 1.15;
+    public static final double kCameraPitchRadians = 0;
   }
 
   public static class TurnPIDConstants {
