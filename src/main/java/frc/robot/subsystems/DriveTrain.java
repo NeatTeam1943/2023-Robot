@@ -6,8 +6,10 @@ package frc.robot.subsystems;
 
 import java.util.Random;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.util.Units;
@@ -36,16 +38,27 @@ public class DriveTrain extends SubsystemBase {
 
   private DifferentialDriveOdometry m_odometry;
 
+  private SlewRateLimiter m_filter;
+
+
   public DriveTrain() {
     m_leftFront = new WPI_TalonFX(DriveTrainConstants.kLeftFrontPort);
     m_leftRear = new WPI_TalonFX(DriveTrainConstants.kLeftRearPort);
     m_rightFront = new WPI_TalonFX(DriveTrainConstants.kRightFrontPort);
     m_rightRear = new WPI_TalonFX(DriveTrainConstants.kRightRearPort);
 
+    m_leftFront.setNeutralMode(NeutralMode.Brake);
+    m_leftRear.setNeutralMode(NeutralMode.Brake);
+    m_rightFront.setNeutralMode(NeutralMode.Brake);
+    m_rightRear.setNeutralMode(NeutralMode.Brake);
+
     m_leftFront.setSelectedSensorPosition(0);
     m_rightFront.setSelectedSensorPosition(0);
     m_leftRear.setSelectedSensorPosition(0);
     m_rightRear.setSelectedSensorPosition(0);
+
+    m_rightFront.setInverted(true);
+    m_rightRear.setInverted(true);
 
     m_leftMotors = new MotorControllerGroup(m_leftRear, m_leftFront);
     m_rightMotors = new MotorControllerGroup(m_rightRear, m_rightFront);
@@ -57,6 +70,8 @@ public class DriveTrain extends SubsystemBase {
     m_field2d = new Field2d();
 
     m_odometry = new DifferentialDriveOdometry(new Rotation2d(m_imu.getAngle()), 0, 0);
+
+    m_filter = new SlewRateLimiter(0.5);
 
     SmartDashboard.putData("field", m_field2d);
   }
@@ -71,7 +86,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double move, double rot, boolean squareInputs) {
-    m_drive.arcadeDrive(move, rot, squareInputs);
+    m_drive.arcadeDrive(m_filter.calculate(move), rot, squareInputs);
   }
 
   public static double nativeUnitsToDistanceMeters(double sensorCounts) {

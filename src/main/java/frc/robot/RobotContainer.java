@@ -93,43 +93,50 @@ public class RobotContainer {
       m_elevatorSubsystem.moveElevator(-.3);
     }, m_elevatorSubsystem));
 
-    // INTAKE:
-    // get out
-    m_driverController.y().whileTrue(new RunCommand(() -> {
-      m_intakeSubsystem.lift(IntakeConstants.kLiftMotorSpeed);
-    }, m_intakeSubsystem));
+    // // INTAKE:
+    // // get out
+    // m_driverController.y().whileTrue(new RunCommand(() -> {
+    //   m_intakeSubsystem.lift(IntakeConstants.kLiftMotorSpeed);
+    // }, m_intakeSubsystem));
 
-    // get in
-    m_driverController.b().whileTrue(new RunCommand(() -> {
-      m_intakeSubsystem.lift(-IntakeConstants.kLiftMotorSpeed);
-    }, m_intakeSubsystem));
+    // // get in
+    // m_driverController.b().whileTrue(new RunCommand(() -> {
+    //   m_intakeSubsystem.lift(-IntakeConstants.kLiftMotorSpeed);
+    // }, m_intakeSubsystem));
 
-    // grab
-    m_driverController.x().whileTrue(new RunCommand(() -> {
-      m_intakeSubsystem.grab(0.7);
-    }, m_intakeSubsystem));
+    // // grab
+    // m_driverController.x().whileTrue(new RunCommand(() -> {
+    //   m_intakeSubsystem.grab(0.7);
+    // }, m_intakeSubsystem));
 
     // ARM:
     // rotate up
     m_driverController.povUp().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.rotateArm(1);
+      m_armSubsystem.rotateArm(0.2);
     }, m_armSubsystem));
 
     // rotate down
     m_driverController.povDown().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.rotateArm(-0.5);
+      m_armSubsystem.rotateArm(-0.2);
     }, m_armSubsystem));
 
+    // hold arm in place
+    m_driverController.rightBumper().whileTrue(new RunCommand(() -> {
+      m_armSubsystem.rotateArm(0.15);
+    }, m_armSubsystem));
+
+    // grab
     m_driverController.a().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.grabArm(0.1);
+      m_armSubsystem.grabArm(0.5);
     }, m_armSubsystem));
 
+    // !grab
     m_driverController.b().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.grabArm(-0.1);
+      m_armSubsystem.grabArm(-0.5);
     }, m_armSubsystem));
 
-    m_driverController.a().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kAprilPipline));
-    m_driverController.back().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kRetroPipline));
+    // m_driverController.a().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kAprilPipline));
+    // m_driverController.back().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kRetroPipline));
   }
 
   public Command getAuto() {

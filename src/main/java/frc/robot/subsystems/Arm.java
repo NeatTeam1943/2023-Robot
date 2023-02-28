@@ -16,8 +16,8 @@ import frc.robot.Constants.ArmConstants;
 
 public class Arm extends SubsystemBase {
 
-  private WPI_TalonFX m_rotateArmFront;
-  private WPI_TalonFX m_rotateArmRear;
+  private WPI_TalonFX m_rotateArmTop;
+  private WPI_TalonFX m_rotateArmBottom;
   private WPI_TalonSRX m_grabArmMotor;
 
   private DigitalInput m_topLimitSwitch;
@@ -27,11 +27,12 @@ public class Arm extends SubsystemBase {
   private Intake m_intake;
 
   public Arm() {
-    m_rotateArmFront = new WPI_TalonFX(ArmConstants.kRotateArmFrontID);
-    m_rotateArmRear = new WPI_TalonFX(ArmConstants.kRotateArmRearID);
+    m_rotateArmTop = new WPI_TalonFX(ArmConstants.kRotateArmTopID);
+    m_rotateArmBottom = new WPI_TalonFX(ArmConstants.kRotateArmBottomID);
     m_grabArmMotor = new WPI_TalonSRX(ArmConstants.kGrabArmMotorID);
 
-    m_rotateArmFront.setNeutralMode(NeutralMode.Brake);
+    m_rotateArmTop.setNeutralMode(NeutralMode.Brake);
+    m_rotateArmBottom.setNeutralMode(NeutralMode.Brake);
     
     m_topLimitSwitch = new DigitalInput(ArmConstants.kLimitSwitchUpPort);
     m_bottomLimitSwitch = new DigitalInput(ArmConstants.kLimitSwitchDownPort);
@@ -46,10 +47,10 @@ public class Arm extends SubsystemBase {
     // if ((m_topLimitSwitch.get() && value > 0) || (m_bottomLimitSwitch.get() && value < 0)) {
     //   value = 0;
     // } 
-    //TODO: Need for lated
+    //TODO: Need for later
     
-    m_rotateArmFront.set(value);
-    m_rotateArmRear.set(value);
+    m_rotateArmTop.set(value);
+    m_rotateArmBottom.set(value);
   }
 
   public void grabArm(double value) {

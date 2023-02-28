@@ -44,7 +44,7 @@ public final class Constants {
 
   public static class SensorConstants{
     public static final int kTopLimitSwitchPort = 25;
-    public static final int kBottomLimitSwitchPort = 1;
+    public static final int kBottomLimitSwitchPort = 23;
     public static final I2C.Port kI2cPort = I2C.Port.kOnboard;
   }
   public static class ElevatorConstants{
@@ -55,8 +55,8 @@ public final class Constants {
   }
   
   public static class ArmConstants {
-    public static final int kRotateArmFrontID = 8;
-    public static final int kRotateArmRearID = 23;
+    public static final int kRotateArmTopID = 12;
+    public static final int kRotateArmBottomID = 11;
     public static final int kGrabArmMotorID = 7;
     public static final int kLimitSwitchUpPort = 4;
     public static final int kLimitSwitchDownPort = 5;
@@ -88,7 +88,15 @@ public final class Constants {
   }
   
   public static class AutoConstants {
-    public static final double kSpeed = 0.3;
-    public static final double kTime = 3;
+    public static final double kSpeed = -0.4;
+
+    // Long auto
+    // public static final double kTime = 8;
+
+    // Short auto
+    // public static final double kTime = 3.5;
+
+    // Charge
+    public static final double kTime = 4;
   }
 }
