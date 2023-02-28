@@ -71,7 +71,7 @@ public class DriveTrain extends SubsystemBase {
 
     m_odometry = new DifferentialDriveOdometry(new Rotation2d(m_imu.getAngle()), 0, 0);
 
-    m_filter = new SlewRateLimiter(0.5);
+    m_filter = new SlewRateLimiter(1.3);
 
     SmartDashboard.putData("field", m_field2d);
   }
