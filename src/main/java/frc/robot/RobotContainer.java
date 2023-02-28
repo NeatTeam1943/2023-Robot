@@ -8,6 +8,7 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.DriveArcade;
+import frc.robot.commands.TimerDrive;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -51,6 +52,8 @@ public class RobotContainer {
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
 
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+  private final TimerDrive m_auto = new TimerDrive(m_driveTrain);
 
   public RobotContainer() {
     m_chooser.setDefaultOption("first trajectory", null);
@@ -127,5 +130,9 @@ public class RobotContainer {
 
     m_driverController.a().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kAprilPipline));
     m_driverController.back().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kRetroPipline));
+  }
+
+  public Command getAuto() {
+    return m_auto;
   }
 }

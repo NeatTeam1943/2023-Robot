@@ -87,4 +87,8 @@ public final class Constants {
     public static final double kTurnRateToleranceDegPerS = 0;
   }
   
+  public static class AutoConstants {
+    public static final double kSpeed = 0.3;
+    public static final double kTime = 3;
+  }
 }
