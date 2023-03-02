@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveTrainConstants;
 
@@ -74,6 +75,13 @@ public class DriveTrain extends SubsystemBase {
     m_filter = new SlewRateLimiter(1.3);
 
     SmartDashboard.putData("field", m_field2d);
+
+    this.setDefaultCommand(new RunCommand(() -> {
+      m_rightFront.setInverted(true);
+      m_rightRear.setInverted(true);
+      m_leftFront.setInverted(false);
+      m_leftRear.setInverted(false);},
+      this));
   }
 
   @Override
@@ -149,5 +157,13 @@ public class DriveTrain extends SubsystemBase {
 
   public double getAverageWheelsRPM() {
     return (getLeftWheelsRPM() + getRightWheelsRPM()) / 2;
+  }
+
+  public void invertMotors()
+  {
+    m_rightFront.setInverted(false);
+    m_rightRear.setInverted(false);
+    m_leftFront.setInverted(true);
+    m_leftRear.setInverted(true);
   }
 }
