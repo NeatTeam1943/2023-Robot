@@ -39,6 +39,7 @@ public final class Constants {
     public static final double kLiftMotorSpeed = .5;
     public static final int kTopLimitSwitchPort = 8;
     public static final int kTopBottomLimitSwitchPort = 9;
+    public static final int kRollerGripperMotorID = 5;
 
   }
 
