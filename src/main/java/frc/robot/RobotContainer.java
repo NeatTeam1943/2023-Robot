@@ -8,6 +8,8 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.DriveArcade;
+import frc.robot.commands.EncoderAuto;
+import frc.robot.commands.GyroAuto;
 import frc.robot.commands.TimerDrive;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
@@ -15,6 +17,9 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.commands.TogglePipeline;
 import frc.robot.subsystems.PhotonVision;
+
+import java.util.concurrent.locks.ReadWriteLock;
+
 import org.photonvision.PhotonCamera;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -53,7 +58,11 @@ public class RobotContainer {
 
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  private final TimerDrive m_auto = new TimerDrive(m_driveTrain);
+  private final Command m_auto = new GyroAuto(m_driveTrain);
+
+  // private GyroAuto m_autoGyro = new GyroAuto(m_driveTrain);
+
+
 
   public RobotContainer() {
     m_chooser.setDefaultOption("first trajectory", null);
@@ -63,8 +72,14 @@ public class RobotContainer {
 
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
 
+    // m_driveTrain.setDefaultCommand(m_autoGyro);
+
     // Configure the trigger bindings
     configureBindings();
+  }
+
+  public DriveTrain getDriveTrain(){
+    return m_driveTrain;
   }
 
   /**
