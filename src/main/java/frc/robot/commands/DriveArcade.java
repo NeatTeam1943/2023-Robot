@@ -28,10 +28,10 @@ public class DriveArcade extends CommandBase {
     double mov = m_joystick.getRightTriggerAxis() - m_joystick.getLeftTriggerAxis(); // m_joystick.getRightTrigger() - m_joystick.getLeftTrigger();
     double rot = m_joystick.getLeftX();
 
-    if (mov > 0.75)
-      mov = 0.75;
-    if (mov < -0.75)
-      mov = -0.75; 
+    if (mov > 0.9)
+      mov = 0.9;
+    if (mov < -0.9)
+      mov = -0.9; 
       
     if (rot > 0.6)
       rot = 0.6;
