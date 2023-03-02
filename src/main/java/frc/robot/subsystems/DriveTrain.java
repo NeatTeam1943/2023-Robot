@@ -40,7 +40,6 @@ public class DriveTrain extends SubsystemBase {
 
   private SlewRateLimiter m_filter;
 
-
   public DriveTrain() {
     m_leftFront = new WPI_TalonFX(DriveTrainConstants.kLeftFrontPort);
     m_leftRear = new WPI_TalonFX(DriveTrainConstants.kLeftRearPort);
@@ -82,7 +81,7 @@ public class DriveTrain extends SubsystemBase {
     m_odometry.update(new Rotation2d(m_imu.getAngle()),
         nativeUnitsToDistanceMeters(m_leftFront.getSelectedSensorPosition()), // Should fix and add acutal angle value
         nativeUnitsToDistanceMeters(m_rightFront.getSelectedSensorPosition()));
-        
+
     m_field2d.setRobotPose(m_odometry.getPoseMeters());
   }
 
@@ -116,6 +115,10 @@ public class DriveTrain extends SubsystemBase {
 
   public void calibrateIMU() {
     m_imu.calibrate();
+  }
+
+  public double getEncoderMeasurement() {
+    return nativeUnitsToDistanceMeters(m_rightFront.getSelectedSensorPosition());
   }
 
   public double getDistance() {
