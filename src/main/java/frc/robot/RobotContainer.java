@@ -15,6 +15,8 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.commands.TogglePipeline;
 import frc.robot.subsystems.PhotonVision;
+import frc.robot.subsystems.RollerGripper;
+
 import org.photonvision.PhotonCamera;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -54,6 +56,8 @@ public class RobotContainer {
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   private final TimerDrive m_auto = new TimerDrive(m_driveTrain);
+
+  private final RollerGripper m_gripper = new RollerGripper();
 
   public RobotContainer() {
     m_chooser.setDefaultOption("first trajectory", null);
@@ -125,15 +129,20 @@ public class RobotContainer {
       m_armSubsystem.rotateArm(0.15);
     }, m_armSubsystem));
 
+    // invert motors
+    m_driverController.start().toggleOnTrue(new RunCommand(() -> {
+      m_driveTrain.invertMotors();
+    }, m_driveTrain));
+
     // grab
     m_driverController.a().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.grabArm(0.5);
-    }, m_armSubsystem));
+      m_gripper.grip(0.1);
+    }, m_gripper));
 
     // !grab
     m_driverController.b().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.grabArm(-0.5);
-    }, m_armSubsystem));
+      m_gripper.grip(-0.1);
+    }, m_gripper));
 
     // m_driverController.a().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kAprilPipline));
     // m_driverController.back().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kRetroPipline));
