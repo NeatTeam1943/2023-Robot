@@ -4,25 +4,20 @@
 
 package frc.robot.commands;
 
-import javax.print.attribute.standard.PrinterURI;
-import javax.swing.plaf.basic.BasicLookAndFeel;
-import javax.xml.crypto.KeySelector.Purpose;
-
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
 public class GyroAuto extends CommandBase {
 
   private DriveTrain m_drive;
-  private Timer m_time;
+  private ADIS16448_IMU m_imu;
 
   /** Creates a new GyroAuto. */
   public GyroAuto(DriveTrain driveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = driveTrain;
-    m_time = new Timer();
+    m_imu = m_drive.getIMU();
 
     addRequirements(m_drive);
   }
@@ -30,9 +25,9 @@ public class GyroAuto extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_drive.getIMU().calibrate();
-    m_time.reset();
-    m_time.start();
+    // TODO: Make sure this works with other commands
+    m_imu.calibrate();
+    m_drive.resetEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,13 +39,12 @@ public class GyroAuto extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_time.stop();
-    m_drive.getIMU().calibrate();
+    m_drive.arcadeDrive(0, 0, false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_time.get() > 2 && m_drive.getIMU().getGyroAngleX() > -1 && m_drive.getIMU().getGyroAngleX() < 1;
+    return m_drive.getDistance() > 1.5 && (-1 < m_imu.getGyroAngleX() && m_imu.getGyroAngleX() < 1);
   }
 }
