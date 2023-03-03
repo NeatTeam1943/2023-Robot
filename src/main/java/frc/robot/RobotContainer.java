@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import frc.robot.Constants.DoorConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Climb;
 import frc.robot.commands.DriveArcade;
@@ -11,6 +13,7 @@ import frc.robot.commands.DriveToChargeStaion;
 import frc.robot.commands.DriveToCommunity;
 import frc.robot.commands.Stabilize;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Door;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 
