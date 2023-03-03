@@ -10,24 +10,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DoorConstants;
 
 public class Door extends SubsystemBase {
-  private Servo m_door1;
-  private Servo m_door2;
+  private Servo m_door;
 
 
   /** Creates a new Door. */
   public Door() {
-    m_door1 = new Servo(DoorConstants.kDoor1Channel);
-    m_door1 = new Servo(DoorConstants.kDoor2Channel);
+    m_door = new Servo(DoorConstants.kDoor1Channel);
+    m_door = new Servo(DoorConstants.kDoor2Channel);
     this.setDefaultCommand(new RunCommand(() -> {
       MoveDoor(0, 0);
     },this));
   }
 
-  public void MoveDoor(double value,double angle){
-    m_door1.set(value);
-    m_door2.set(-value);
-    m_door1.setAngle(angle);
-    m_door2.setAngle(-angle);
+  public void MoveDoor(double value, double angle){
+    m_door.set(value);
+    m_door.setAngle(angle);
   }
 
   @Override
