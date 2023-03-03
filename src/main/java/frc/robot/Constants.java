@@ -103,4 +103,11 @@ public final class Constants {
     public static final double k_GridToChargeStationMeters = 1.44;
     public static final double k_DistanceToStable = 1;
   }
+
+  public static class DoorConstants{
+    public static final int kDoor1Channel = 0;
+    public static final int kDoor2Channel = 1;
+    public static final double kDoorValue = 0.1;
+    public static final double kDoorAngle = 90;
+  }
 }
