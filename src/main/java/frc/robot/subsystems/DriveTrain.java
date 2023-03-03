@@ -38,8 +38,6 @@ public class DriveTrain extends SubsystemBase {
 
   private DifferentialDriveOdometry m_odometry;
 
-  private SlewRateLimiter m_filter;
-
   public DriveTrain() {
     m_leftFront = new WPI_TalonFX(DriveTrainConstants.kLeftFrontPort);
     m_leftRear = new WPI_TalonFX(DriveTrainConstants.kLeftRearPort);
@@ -70,8 +68,6 @@ public class DriveTrain extends SubsystemBase {
 
     m_odometry = new DifferentialDriveOdometry(new Rotation2d(m_imu.getAngle()), 0, 0);
 
-    m_filter = new SlewRateLimiter(1.3);
-
     SmartDashboard.putData("field", m_field2d);
 
   }
@@ -86,7 +82,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double move, double rot, boolean squareInputs) {
-    m_drive.arcadeDrive(m_filter.calculate(move), rot, squareInputs);
+    m_drive.arcadeDrive(move, rot, squareInputs);
   }
 
   public static double nativeUnitsToDistanceMeters(double sensorCounts) {
