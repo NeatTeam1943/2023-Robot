@@ -4,23 +4,13 @@
 
 package frc.robot;
 
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.DriveArcade;
-import frc.robot.commands.EncoderAuto;
 import frc.robot.commands.GyroAuto;
-import frc.robot.commands.TimerDrive;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
-import frc.robot.commands.TogglePipeline;
-import frc.robot.subsystems.PhotonVision;
 
-import java.util.concurrent.locks.ReadWriteLock;
-
-import org.photonvision.PhotonCamera;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,12 +35,6 @@ public class RobotContainer {
 
   private final Arm m_armSubsystem = new Arm();
 
-  private final Intake m_intakeSubsystem = new Intake();
-
-  private final PhotonVision m_photonVision = new PhotonVision();
-
-  private final PhotonCamera m_camera = m_photonVision.getCamera();
-
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
 
@@ -60,10 +44,6 @@ public class RobotContainer {
 
   private final Command m_auto = new GyroAuto(m_driveTrain);
 
-  // private GyroAuto m_autoGyro = new GyroAuto(m_driveTrain);
-
-
-
   public RobotContainer() {
     m_chooser.setDefaultOption("first trajectory", null);
     m_chooser.addOption("second trajectory", m_driveArcadeCommand);
@@ -71,8 +51,6 @@ public class RobotContainer {
     SmartDashboard.putData("Routine selector", m_chooser);
 
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
-
-    // m_driveTrain.setDefaultCommand(m_autoGyro);
 
     // Configure the trigger bindings
     configureBindings();
@@ -82,47 +60,17 @@ public class RobotContainer {
     return m_driveTrain;
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be
-   * created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-   * an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link
-   * CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
   private void configureBindings() {
     // ELEVATOR:
     // up
     m_driverController.povRight().whileTrue(new RunCommand(() -> {
       m_elevatorSubsystem.moveElevator(.3);
     }, m_elevatorSubsystem));
-
+    
     // down
     m_driverController.povLeft().whileTrue(new RunCommand(() -> {
       m_elevatorSubsystem.moveElevator(-.3);
     }, m_elevatorSubsystem));
-
-    // // INTAKE:
-    // // get out
-    // m_driverController.y().whileTrue(new RunCommand(() -> {
-    //   m_intakeSubsystem.lift(IntakeConstants.kLiftMotorSpeed);
-    // }, m_intakeSubsystem));
-
-    // // get in
-    // m_driverController.b().whileTrue(new RunCommand(() -> {
-    //   m_intakeSubsystem.lift(-IntakeConstants.kLiftMotorSpeed);
-    // }, m_intakeSubsystem));
-
-    // // grab
-    // m_driverController.x().whileTrue(new RunCommand(() -> {
-    //   m_intakeSubsystem.grab(0.7);
-    // }, m_intakeSubsystem));
 
     // ARM:
     // rotate up
@@ -149,9 +97,6 @@ public class RobotContainer {
     m_driverController.b().whileTrue(new RunCommand(() -> {
       m_armSubsystem.grabArm(-0.5);
     }, m_armSubsystem));
-
-    // m_driverController.a().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kAprilPipline));
-    // m_driverController.back().onTrue(new TogglePipeline(m_photonVision, VisionConstants.kRetroPipline));
   }
 
   public Command getAuto() {
