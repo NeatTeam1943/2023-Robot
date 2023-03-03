@@ -38,8 +38,8 @@ public class Elevator extends SubsystemBase {
 
     m_leftMotor.set(value);
     m_rightMotor.set(value);
-    System.out.print("bottom: "+m_bottomSwitch);
-    System.out.print("top: "+m_topSwitch);
+    // System.out.print("bottom: "+m_bottomSwitch);
+    // System.out.print("top: "+m_topSwitch);
   }
 
   @Override

@@ -17,10 +17,10 @@ public final class Constants {
     public static final int kLeftRearPort = 2;
     public static final int kRightFrontPort = 3;
     public static final int kRightRearPort = 4;
-    
+
     // field2d sim
     public static final int kCountsPerRev = 4096;
-    public static final double kWheelRadiusInches = 3;
+    public static final double kWheelRadiusCm = 3 * 2.54;
     public static final double kSensorGearRatio = 1.0;
     public static final double kGearRatio = 1 / 24;
     public static final double kRobotMass = 45;
@@ -29,10 +29,10 @@ public final class Constants {
     public static final double k100msTo60sRatio = 600;
     public static final double kEncoderResolution = 2048;
     public static final double kMotorToWheelRatio = 4;
-    public static final double kWheelCircumference = 47.879;
+    public static final double kWheelCircumference = 47.879 / 100;
   }
 
-  public static class IntakeConstants{
+  public static class IntakeConstants {
     public static final int kLeftIntakeMotorID = 89;
     public static final int kRightIntakeMotorID = 77;
     public static final int kLiftMotorID = 79;
@@ -42,18 +42,19 @@ public final class Constants {
 
   }
 
-  public static class SensorConstants{
+  public static class SensorConstants {
     public static final int kTopLimitSwitchPort = 25;
     public static final int kBottomLimitSwitchPort = 23;
     public static final I2C.Port kI2cPort = I2C.Port.kOnboard;
   }
-  public static class ElevatorConstants{
+
+  public static class ElevatorConstants {
     public static final int kElevatorFrontMotorID = 6;
     public static final int kElevatorRearMotorID = 5;
     public static final int kTopSwitchPort = 1;
     public static final int kBotomSwitchPort = 0;
   }
-  
+
   public static class ArmConstants {
     public static final int kRotateArmTopID = 12;
     public static final int kRotateArmBottomID = 11;
@@ -86,7 +87,7 @@ public final class Constants {
     public static final double kTurnToleranceDeg = 0;
     public static final double kTurnRateToleranceDegPerS = 0;
   }
-  
+
   public static class AutoConstants {
     public static final double kSpeed = -0.4;
 
@@ -98,5 +99,8 @@ public final class Constants {
 
     // Charge
     public static final double kTime = 4;
+    public static final double kChargeStationWidthMeters = 1.93;
+    public static final double k_GridToChargeStationMeters = 1.44;
+    public static final double k_DistanceToStable = 1;
   }
 }

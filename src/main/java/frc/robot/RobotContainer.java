@@ -5,8 +5,10 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Climb;
 import frc.robot.commands.DriveArcade;
-import frc.robot.commands.GyroAuto;
+import frc.robot.commands.DriveToChargeStaion;
+import frc.robot.commands.Stabilize;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -14,6 +16,8 @@ import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -42,7 +46,10 @@ public class RobotContainer {
 
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  private final Command m_auto = new GyroAuto(m_driveTrain);
+  // Auto phase
+  private final DriveToChargeStaion m_driveToChargeStation = new DriveToChargeStaion(m_driveTrain);
+  private final Climb m_climb = new Climb(m_driveTrain);
+  private final Stabilize m_stable = new Stabilize(m_driveTrain);
 
   public RobotContainer() {
     m_chooser.setDefaultOption("first trajectory", null);
@@ -56,7 +63,7 @@ public class RobotContainer {
     configureBindings();
   }
 
-  public DriveTrain getDriveTrain(){
+  public DriveTrain getDriveTrain() {
     return m_driveTrain;
   }
 
@@ -66,7 +73,7 @@ public class RobotContainer {
     m_driverController.povRight().whileTrue(new RunCommand(() -> {
       m_elevatorSubsystem.moveElevator(.3);
     }, m_elevatorSubsystem));
-    
+
     // down
     m_driverController.povLeft().whileTrue(new RunCommand(() -> {
       m_elevatorSubsystem.moveElevator(-.3);
@@ -99,7 +106,8 @@ public class RobotContainer {
     }, m_armSubsystem));
   }
 
-  public Command getAuto() {
-    return m_auto;
+  public CommandBase getAuto() {
+
+    return Commands.sequence(m_driveToChargeStation ,m_climb, m_stable);
   }
 }

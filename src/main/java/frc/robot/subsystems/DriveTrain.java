@@ -93,7 +93,7 @@ public class DriveTrain extends SubsystemBase {
     double motorRotations = (double) sensorCounts / DriveTrainConstants.kCountsPerRev;
     double wheelRotations = motorRotations / DriveTrainConstants.kSensorGearRatio;
     double positionMeters = wheelRotations
-        * (2 * Math.PI * Units.inchesToMeters(DriveTrainConstants.kWheelRadiusInches));
+        * (2 * Math.PI * Units.inchesToMeters(DriveTrainConstants.kWheelRadiusCm));
     return positionMeters;
   }
 
@@ -118,19 +118,20 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double getEncoderMeasurement() {
-    return nativeUnitsToDistanceMeters(m_rightFront.getSelectedSensorPosition());
+    // return nativeUnitsToDistanceMeters(m_rightFront.getSelectedSensorPosition());
+    return m_rightFront.getSelectedSensorPosition();
   }
 
   public double getDistance() {
     double leftAvgPos = (m_leftFront.getSelectedSensorPosition() + m_leftRear.getSelectedSensorPosition()) / 2;
     double rightAvgPos = (m_rightFront.getSelectedSensorPosition() + m_rightRear.getSelectedSensorPosition()) / 2;
-    double centralAvg = (leftAvgPos + rightAvgPos) / 2;
+    double centralAvg = (leftAvgPos + rightAvgPos) / 4;
     double centralMotorAvg = centralAvg / DriveTrainConstants.kEncoderResolution;
     double centralWheelAvg = centralMotorAvg / DriveTrainConstants.kMotorToWheelRatio;
 
-    return centralWheelAvg * DriveTrainConstants.kWheelCircumference;
+    return (-centralWheelAvg * DriveTrainConstants.kWheelCircumference);
   }
-
+  
   public void resetEncoders() {
     m_leftFront.setSelectedSensorPosition(0);
     m_leftRear.setSelectedSensorPosition(0);
