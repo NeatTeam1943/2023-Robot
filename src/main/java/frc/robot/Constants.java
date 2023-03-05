@@ -105,9 +105,9 @@ public final class Constants {
   }
 
   public static class DoorConstants{
-    public static final int kDoor1Channel = 0;
-    public static final int kDoor2Channel = 1;
-    public static final double kDoorValue = 0.1;
-    public static final double kDoorAngle = 90;
+    public static final int kDoorMotorID = 0;
+    public static final int kTopSwitchPort = 1;
+    public static final int kBottomSwitchPort = 2;
+    public static final double m_doorSpeed = 0.1;
   }
 }

@@ -16,9 +16,9 @@ public class DriveToCommunity extends CommandBase {
   private boolean m_onChargingStation = false;
   private boolean m_passChargingStation = false;
   private boolean m_hasSafeDistance = false;
-
+  
   // Arabic line
-  private boolean m_passedStation = false;
+  private boolean m_passedStaition = false; 
 
   private boolean m_inverted;
 
@@ -46,49 +46,48 @@ public class DriveToCommunity extends CommandBase {
   @Override
   public void execute() {
     final double voltage = 0.15;
-
-    if (!m_inverted) {
-
-      m_drive.arcadeDrive(-voltage, 0, false);
-
+    if (m_inverted){
+      if (m_imu.getGyroAngleX() < -10) {
+        m_onChargingStation = true;
+      }
+  
+      if (m_imu.getGyroAngleX() > -1 && m_imu.getGyroAngleX() < 1 && m_onChargingStation) {
+        m_passChargingStation = true; 
+      }
+  
+      if (m_onChargingStation && m_passChargingStation && !m_passedStaition){
+        m_setpoint = m_drive.getDistance() - 0.25; 
+        m_passedStaition = true; 
+      }
+  
+      if (m_drive.getDistance() < m_setpoint && m_passedStaition){
+        m_hasSafeDistance = true; 
+      }
+  
+  
+    } else{
       if (m_imu.getGyroAngleX() > 10) {
         m_onChargingStation = true;
       }
-
+  
       if (m_imu.getGyroAngleX() > -1 && m_imu.getGyroAngleX() < 1 && m_onChargingStation) {
-        m_passChargingStation = true;
+        m_passChargingStation = true; 
       }
-
-      if (m_onChargingStation && m_passChargingStation && !m_passedStation) {
-        m_setpoint = m_drive.getDistance() + 0.25;
-        m_passedStation = true;
+  
+      if (m_onChargingStation && m_passChargingStation && !m_passedStaition){
+        m_setpoint = m_drive.getDistance() + 0.25; 
+        m_passedStaition = true; 
       }
-
-      if (m_drive.getDistance() > m_setpoint && m_passedStation) {
-        m_hasSafeDistance = true;
-      }
-
-    } else {
-      // Inverted:
-      m_drive.arcadeDrive(voltage, 0, false);
-
-      if (m_imu.getGyroAngleX() > -10) { // Change oparator to > from < 
-        m_onChargingStation = true;
-      }
-
-      if (m_imu.getGyroAngleX() > -1 && m_imu.getGyroAngleX() < 1 && m_onChargingStation) {
-        m_passChargingStation = true;
-      }
-
-      if (m_onChargingStation && m_passChargingStation && !m_passedStation) {
-        m_setpoint = m_drive.getDistance() - 0.25; // Should check how encoders count backwords movement, test carfully 
-        m_passedStation = true;
-      }
-
-      if (m_setpoint > m_drive.getDistance()){ // Add get distance waypoint || maybe should change oparator
+  
+      if (m_drive.getDistance() > m_setpoint && m_passedStaition){
         m_hasSafeDistance = true; 
       }
+    }
 
+    if (m_inverted){
+      m_drive.arcadeDrive(voltage, 0, false);
+    } else{
+      m_drive.arcadeDrive(-voltage, 0, false);
     }
   }
 
