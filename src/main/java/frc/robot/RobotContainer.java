@@ -45,6 +45,11 @@ public class RobotContainer {
 
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
 
+
+  private final Door m_door = new Door();
+
+  // private GyroAuto m_autoGyro = new GyroAuto(m_driveTrain);
+
   public RobotContainer() {
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
     //m_driveTrain.calibrateIMU();
@@ -59,38 +64,39 @@ public class RobotContainer {
 
   private void configureBindings() {
     // ELEVATOR:
-    // up
+    // Up
     m_driverController.povRight().whileTrue(new RunCommand(() -> {
       m_elevatorSubsystem.moveElevator(.3);
     }, m_elevatorSubsystem));
 
-    // down
+    // Down
     m_driverController.povLeft().whileTrue(new RunCommand(() -> {
       m_elevatorSubsystem.moveElevator(-.3);
     }, m_elevatorSubsystem));
 
     // ARM:
-    // rotate up
+
+    // Rotate up
     m_driverController.povUp().whileTrue(new RunCommand(() -> {
       m_armSubsystem.rotateArm(0.2);
     }, m_armSubsystem));
 
-    // rotate down
+    // Rotate down
     m_driverController.povDown().whileTrue(new RunCommand(() -> {
       m_armSubsystem.rotateArm(-0.2);
     }, m_armSubsystem));
 
-    // hold arm in place
+    // Hold arm in place
     m_driverController.rightBumper().whileTrue(new RunCommand(() -> {
       m_armSubsystem.rotateArm(0.15);
     }, m_armSubsystem));
 
-    // grab
+    //Grab
     m_driverController.a().whileTrue(new RunCommand(() -> {
       m_armSubsystem.grabArm(0.5);
     }, m_armSubsystem));
 
-    // !grab
+    // !Grab
     m_driverController.b().whileTrue(new RunCommand(() -> {
       m_armSubsystem.grabArm(-0.5);
     }, m_armSubsystem));
