@@ -13,11 +13,14 @@ public class DriveToChargeStaion extends CommandBase {
   private DriveTrain m_drive;
   private ADIS16448_IMU m_imu;
 
+  private boolean m_inverted;
+
   /** Creates a new GyroAuto. */
-  public DriveToChargeStaion(DriveTrain driveTrain) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public DriveToChargeStaion(DriveTrain driveTrain, boolean inverted) {
     m_drive = driveTrain;
     m_imu = m_drive.getIMU();
+
+    m_inverted = inverted;
 
     addRequirements(m_drive);
   }
@@ -25,14 +28,18 @@ public class DriveToChargeStaion extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_imu.calibrate();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.arcadeDrive(-0.15, 0, false);
-    System.out.println("Driving, angle: " + m_imu.getGyroAngleX());
+    final double voltage = 0.15;
+
+    if (m_inverted) {
+      m_drive.arcadeDrive(voltage, 0, false);
+    } else {
+      m_drive.arcadeDrive(-voltage, 0, false);
+    }
   }
 
   // Called once the command ends or is interrupted.

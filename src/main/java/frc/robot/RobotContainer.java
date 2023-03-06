@@ -8,19 +8,17 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Climb;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.DriveToChargeStaion;
+import frc.robot.commands.DriveToCommunity;
 import frc.robot.commands.Stabilize;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -44,20 +42,9 @@ public class RobotContainer {
 
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
 
-  private final SendableChooser<Command> m_chooser = new SendableChooser<>();
-
-  // Auto phase
-  private final DriveToChargeStaion m_driveToChargeStation = new DriveToChargeStaion(m_driveTrain);
-  private final Climb m_climb = new Climb(m_driveTrain);
-  private final Stabilize m_stable = new Stabilize(m_driveTrain);
-
   public RobotContainer() {
-    m_chooser.setDefaultOption("first trajectory", null);
-    m_chooser.addOption("second trajectory", m_driveArcadeCommand);
-
-    SmartDashboard.putData("Routine selector", m_chooser);
-
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
+    //m_driveTrain.calibrateIMU();
 
     // Configure the trigger bindings
     configureBindings();
@@ -107,7 +94,11 @@ public class RobotContainer {
   }
 
   public CommandBase getAuto() {
+    DriveToCommunity m_driveToCommunity = new DriveToCommunity(m_driveTrain);
+    DriveToChargeStaion m_driveToChargeStaion = new DriveToChargeStaion(m_driveTrain, true);
+    Climb m_climb = new Climb(m_driveTrain, true);
+    Stabilize m_stabilize = new Stabilize(m_driveTrain);
 
-    return Commands.sequence(m_driveToChargeStation ,m_climb, m_stable);
+    return Commands.sequence(m_driveToCommunity, m_driveToChargeStaion, m_climb, m_stabilize);
   }
 }

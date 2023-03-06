@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.DriveTrain;
 
 public class Stabilize extends CommandBase {
@@ -42,8 +41,6 @@ public class Stabilize extends CommandBase {
     }else{
       m_drive.arcadeDrive(0, 0, false);
     }
-
-    System.out.println("Stabilizing, angle: " + angleX);
   }
 
   // Called once the command ends or is interrupted.

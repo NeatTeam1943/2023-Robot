@@ -1,10 +1,11 @@
 {
   "NetworkTables": {
+    "Persistent Values": {
+      "open": false
+    },
     "transitory": {
       "SmartDashboard": {
-        "Routine selector": {
-          "open": false
-        }
+        "open": true
       }
     },
     "types": {
