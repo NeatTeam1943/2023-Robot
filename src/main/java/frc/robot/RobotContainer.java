@@ -94,7 +94,7 @@ public class RobotContainer {
   }
 
   public CommandBase getAuto() {
-    DriveToCommunity m_driveToCommunity = new DriveToCommunity(m_driveTrain);
+    DriveToCommunity m_driveToCommunity = new DriveToCommunity(m_driveTrain, true);
     DriveToChargeStaion m_driveToChargeStaion = new DriveToChargeStaion(m_driveTrain, true);
     Climb m_climb = new Climb(m_driveTrain, true);
     Stabilize m_stabilize = new Stabilize(m_driveTrain);
