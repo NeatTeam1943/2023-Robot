@@ -7,47 +7,43 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DoorConstants;
 
 public class Door extends SubsystemBase {
-  private WPI_TalonSRX m_door;
-
-  private DigitalInput m_topLimitSwitch;
-  private DigitalInput m_bottomLimitSwitch;
-
-
   /** Creates a new Door. */
+
+  private DigitalInput m_switchOpen; 
+  private DigitalInput m_switchClose; 
+
+  private WPI_TalonSRX m_motor;
+  
   public Door() {
-    m_door = new WPI_TalonSRX(DoorConstants.kDoorMotorID);
-    m_topLimitSwitch = new DigitalInput(DoorConstants.kTopSwitchPort);
-    m_bottomLimitSwitch = new DigitalInput(DoorConstants.kBottomSwitchPort);
-    this.setDefaultCommand(new RunCommand(() -> {
-      MoveDoor(DoorConstants.m_doorSpeed);
-    },this));
+    m_switchOpen = new DigitalInput(DoorConstants.kOpenSwitch);
+    m_switchClose = new DigitalInput(DoorConstants.kCloseSwitch);
+
+    m_motor = new WPI_TalonSRX(DoorConstants.kDoorMotorID);
+
+    this.setDefaultCommand(new RunCommand(() -> {moveDoor(-0.2);}, this));
   }
 
-  public boolean isTopSwitchPressed(){
-    return m_topLimitSwitch.get();
+  public DigitalInput getOpenSwitch(){
+    return m_switchOpen;
   }
 
-  public boolean isBottomSwitchPressed(){
-    return m_bottomLimitSwitch.get();
+  public DigitalInput getCloseSwitch(){
+    return m_switchClose;
   }
 
-  public void MoveDoor(double speed){
-    if((isTopSwitchPressed() && speed > 0) || (isBottomSwitchPressed() && speed < 0)){
-      m_door.set(0);
+  public void moveDoor(double value){
+    if ((m_switchOpen.get() && value > 0) || (m_switchClose.get() && value < 0)) {
+      value = 0;
     }
-    else if(speed > 0){
-      m_door.set(speed);
-    }
-    else if(speed < 0){
-      m_door.set(-speed);
-    }
+
+    m_motor.set(value);
   }
+  
 
   @Override
   public void periodic() {
