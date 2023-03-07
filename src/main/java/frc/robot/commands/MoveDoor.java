@@ -21,15 +21,18 @@ public class MoveDoor extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_door.moveDoor(m_value);
     if (m_value>0){
       m_Opening = true;
+    } else {
+      m_Opening = false;
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_door.moveDoor(m_value);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -38,7 +41,7 @@ public class MoveDoor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_Opening){
+    if(!m_Opening){
       return m_door.getCloseSwitch();
     } else {
       return m_door.getOpenSwitch();

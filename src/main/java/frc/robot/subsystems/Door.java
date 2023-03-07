@@ -46,6 +46,6 @@ public class Door extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println("open: "+m_switchOpen+"\nclose: "+m_switchClose);
+    System.out.println("open: "+m_switchOpen.get()+"\nclose: "+m_switchClose.get());
   }
 }
