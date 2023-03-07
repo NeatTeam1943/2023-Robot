@@ -67,49 +67,22 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // ELEVATOR:
-    // Up
-    m_driverController.povRight().whileTrue(new RunCommand(() -> {
-      m_elevatorSubsystem.moveElevator(.3);
-    }, m_elevatorSubsystem));
-
-    // Down
-    m_driverController.povLeft().whileTrue(new RunCommand(() -> {
-      m_elevatorSubsystem.moveElevator(-.3);
-    }, m_elevatorSubsystem));
-
-    // ARM:
-
-    // Rotate up
-    m_driverController.povUp().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.rotateArm(0.2);
-    }, m_armSubsystem));
-
-    // Rotate down
-    m_driverController.povDown().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.rotateArm(-0.2);
-    }, m_armSubsystem));
-
-    // Hold arm in place
-    m_driverController.rightBumper().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.rotateArm(0.15);
-    }, m_armSubsystem));
-
-    // Grab
+    // DOOR
+    // open
     m_driverController.a().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.grabArm(0.5);
-    }, m_armSubsystem));
+      m_door.moveDoor(0.1);
+    }, m_door));
 
-    // !Grab
-    m_driverController.b().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.grabArm(-0.5);
-    }, m_armSubsystem));
+    // close
+    m_driverController.a().whileFalse(new RunCommand(() -> {
+      m_door.moveDoor(-0.1);
+    }, m_door));
   }
 
   public Command getAuto() { 
+    MoveDoor open = new MoveDoor(m_door, 0.1);
+    MoveDoor close = new MoveDoor(m_door, -0.1);
     DriveToCommunity driveToCommunity = new DriveToCommunity(m_driveTrain, true);
-    MoveDoor open = new MoveDoor(m_door, 0.7);
-    MoveDoor close = new MoveDoor(m_door, -0.7);
     ParallelCommandGroup moveToCommunity = new ParallelCommandGroup(close, driveToCommunity);
     DriveToChargeStaion driveToChargeStaion = new DriveToChargeStaion(m_driveTrain, false);
     Climb climb = new Climb(m_driveTrain, false);

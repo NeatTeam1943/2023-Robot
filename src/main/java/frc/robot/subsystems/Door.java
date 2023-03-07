@@ -25,7 +25,7 @@ public class Door extends SubsystemBase {
 
     m_motor = new WPI_TalonSRX(DoorConstants.kDoorMotorID);
 
-    this.setDefaultCommand(new RunCommand(() -> {moveDoor(-0);}, this));
+    this.setDefaultCommand(new RunCommand(() -> {moveDoor(0);}, this));
   }
 
   public boolean getOpenSwitch(){
@@ -34,10 +34,6 @@ public class Door extends SubsystemBase {
 
   public boolean getCloseSwitch(){
     return m_switchClose.get();
-  }
-
-  public WPI_TalonSRX getMotor(){ 
-    return m_motor;
   }
 
   public void moveDoor(double value){
@@ -50,6 +46,6 @@ public class Door extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    System.out.println("open: "+m_switchOpen+"\nclose: "+m_switchClose);
   }
 }
