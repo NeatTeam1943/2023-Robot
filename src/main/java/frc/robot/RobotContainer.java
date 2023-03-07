@@ -12,6 +12,9 @@ import frc.robot.commands.DriveArcade;
 import frc.robot.commands.DriveToChargeStaion;
 import frc.robot.commands.DriveToCommunity;
 import frc.robot.commands.Stabilize;
+import frc.robot.commands.DriveToCommunity;
+import frc.robot.commands.MoveDoor;
+import frc.robot.commands.TimerDrive;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Door;
 import frc.robot.subsystems.DriveTrain;
@@ -20,6 +23,7 @@ import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -91,7 +95,7 @@ public class RobotContainer {
       m_armSubsystem.rotateArm(0.15);
     }, m_armSubsystem));
 
-    //Grab
+    // Grab
     m_driverController.a().whileTrue(new RunCommand(() -> {
       m_armSubsystem.grabArm(0.5);
     }, m_armSubsystem));
@@ -102,12 +106,12 @@ public class RobotContainer {
     }, m_armSubsystem));
   }
 
-  public CommandBase getAuto() {
-    DriveToCommunity m_driveToCommunity = new DriveToCommunity(m_driveTrain, true);
-    DriveToChargeStaion m_driveToChargeStaion = new DriveToChargeStaion(m_driveTrain, true);
-    Climb m_climb = new Climb(m_driveTrain, true);
-    Stabilize m_stabilize = new Stabilize(m_driveTrain);
-
-    return Commands.sequence(m_driveToCommunity, m_driveToChargeStaion, m_climb, m_stabilize);
+  public Command getAuto() { 
+    DriveToCommunity driveToCommunity = new DriveToCommunity(m_driveTrain, true);
+    MoveDoor open = new MoveDoor(m_door, 0.7);
+    MoveDoor close = new MoveDoor(m_door, -0.7);
+    ParallelCommandGroup moveToCommunity = new ParallelCommandGroup(close, driveToCommunity);
+    
+    return Commands.sequence(open, moveToCommunity, ); 
   }
 }

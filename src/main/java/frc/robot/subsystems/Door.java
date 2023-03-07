@@ -25,15 +25,19 @@ public class Door extends SubsystemBase {
 
     m_motor = new WPI_TalonSRX(DoorConstants.kDoorMotorID);
 
-    this.setDefaultCommand(new RunCommand(() -> {moveDoor(-0.2);}, this));
+    this.setDefaultCommand(new RunCommand(() -> {moveDoor(-0);}, this));
   }
 
-  public DigitalInput getOpenSwitch(){
-    return m_switchOpen;
+  public boolean getOpenSwitch(){
+    return m_switchOpen.get();
   }
 
-  public DigitalInput getCloseSwitch(){
-    return m_switchClose;
+  public boolean getCloseSwitch(){
+    return m_switchClose.get();
+  }
+
+  public WPI_TalonSRX getMotor(){ 
+    return m_motor;
   }
 
   public void moveDoor(double value){
@@ -43,7 +47,6 @@ public class Door extends SubsystemBase {
 
     m_motor.set(value);
   }
-  
 
   @Override
   public void periodic() {
