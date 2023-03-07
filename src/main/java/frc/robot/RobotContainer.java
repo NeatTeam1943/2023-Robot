@@ -112,6 +112,6 @@ public class RobotContainer {
     MoveDoor close = new MoveDoor(m_door, -0.7);
     ParallelCommandGroup moveToCommunity = new ParallelCommandGroup(close, driveToCommunity);
     
-    return Commands.sequence(open, moveToCommunity, ); 
+    return Commands.sequence(open, moveToCommunity); 
   }
 }
