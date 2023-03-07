@@ -111,7 +111,10 @@ public class RobotContainer {
     MoveDoor open = new MoveDoor(m_door, 0.7);
     MoveDoor close = new MoveDoor(m_door, -0.7);
     ParallelCommandGroup moveToCommunity = new ParallelCommandGroup(close, driveToCommunity);
+    DriveToChargeStaion driveToChargeStaion = new DriveToChargeStaion(m_driveTrain, false);
+    Climb climb = new Climb(m_driveTrain, false);
+    Stabilize stabilize = new Stabilize(m_driveTrain);
     
-    return Commands.sequence(open, moveToCommunity); 
+    return Commands.sequence(open, moveToCommunity, driveToChargeStaion, climb, stabilize); 
   }
 }
