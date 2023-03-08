@@ -105,14 +105,11 @@ public final class Constants {
   }
 
   public static class DoorConstants{
-    public static final int kDoorMotorID = 2; // Change value
+    public static final int kDoorMotorID = 5;
+
     public static final int kCloseSwitch = 0;
     public static final int kOpenSwitch = 1;
-    public static final double kDoorSpeed = 0.1;
-    public static final double kDoorValue = 0.1; // Please change value
-    public static final double kDoorAngle = 0.1; // Please change value
 
-    public static final double kMotorVoltage = 0.2; // Please Change Value
-
+    public static final double kDoorSpeed = 0.15;
   }
 }

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -27,19 +27,24 @@ public class Stabilize extends CommandBase {
   public void initialize() {
   }
 
-  // Called every time the scheduler runs while the command is scheduled. 
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    final double voltage = 0.095;
-    final double threshold = 2.8;
-    final double angleX = m_imu.getGyroAngleX();
+    final double voltage = 0.094;
+    final double threshold = 4.8;
+    final double angleY = m_imu.getGyroAngleY();
 
-    if (angleX < -threshold) {
+    // System.out.println("Stable -> angle: " + angleX);
+
+    if (angleY > threshold) {
       m_drive.arcadeDrive(-voltage, 0, false);
-    } else if (angleX > threshold) {
+      System.out.println("going forward");
+    } else if (angleY < -threshold) {
       m_drive.arcadeDrive(voltage, 0, false);
-    }else{
+      System.out.println("going backwards");
+    } else {
       m_drive.arcadeDrive(0, 0, false);
+      System.out.println("stable");
     }
   }
 

@@ -4,27 +4,21 @@
 
 package frc.robot;
 
-import frc.robot.Constants.DoorConstants;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Climb;
 import frc.robot.commands.DriveArcade;
-import frc.robot.commands.DriveToChargeStaion;
-import frc.robot.commands.DriveToCommunity;
-import frc.robot.commands.Stabilize;
-import frc.robot.commands.DriveToCommunity;
-import frc.robot.commands.MoveDoor;
-import frc.robot.commands.TimerDrive;
-import frc.robot.subsystems.Arm;
+import frc.robot.commands.auto.Climb;
+import frc.robot.commands.auto.DriveToChargeStaion;
+import frc.robot.commands.auto.DriveToCommunity;
+import frc.robot.commands.auto.Stabilize;
+import frc.robot.commands.auto.DriveMeters;
+import frc.robot.commands.door.CloseDoor;
+import frc.robot.commands.door.OpenDoor;
 import frc.robot.subsystems.Door;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /**
@@ -40,23 +34,19 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class RobotContainer {
   private final DriveTrain m_driveTrain = new DriveTrain();
 
-  private final Elevator m_elevatorSubsystem = new Elevator();
-
-  private final Arm m_armSubsystem = new Arm();
-
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
 
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
 
-
   private final Door m_door = new Door();
 
-  // private GyroAuto m_autoGyro = new GyroAuto(m_driveTrain);
+  private final OpenDoor m_open = new OpenDoor(m_door);
+
+  private final CloseDoor m_close = new CloseDoor(m_door);
 
   public RobotContainer() {
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
-    //m_driveTrain.calibrateIMU();
 
     // Configure the trigger bindings
     configureBindings();
@@ -67,27 +57,27 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // DOOR
-    // open
-    m_driverController.a().whileTrue(new RunCommand(() -> {
-      m_door.moveDoor(0.1);
-    }, m_door));
+    // Open door
+    m_driverController.a().onTrue(new OpenDoor(m_door));
 
-    // close
-    m_driverController.a().whileFalse(new RunCommand(() -> {
-      m_door.moveDoor(-0.1);
-    }, m_door));
+    // Close door
+    m_driverController.a().onFalse(new CloseDoor(m_door));
   }
 
-  public Command getAuto() { 
-    MoveDoor open = new MoveDoor(m_door, 0.1);
-    MoveDoor close = new MoveDoor(m_door, -0.1);
+  public Command getAuto() {
     DriveToCommunity driveToCommunity = new DriveToCommunity(m_driveTrain, true);
-    ParallelCommandGroup moveToCommunity = new ParallelCommandGroup(close, driveToCommunity);
+    //ParallelCommandGroup goToCommunity = new ParallelCommandGroup(m_open, driveToCommunity);
     DriveToChargeStaion driveToChargeStaion = new DriveToChargeStaion(m_driveTrain, false);
+    ParallelCommandGroup goToChargeStation = new ParallelCommandGroup(m_close, driveToChargeStaion);
     Climb climb = new Climb(m_driveTrain, false);
     Stabilize stabilize = new Stabilize(m_driveTrain);
-    
-    return Commands.sequence(open, moveToCommunity, driveToChargeStaion, climb, stabilize); 
+
+    return Commands.sequence(m_open, driveToCommunity, goToChargeStation, climb, stabilize);
+  }
+
+  public Command getAutoLeaveCommunity(){
+    DriveMeters driveOut = new DriveMeters(m_driveTrain, 3, true);
+
+    return Commands.sequence(m_open, driveOut, m_close);
   }
 }
