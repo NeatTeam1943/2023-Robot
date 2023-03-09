@@ -112,4 +112,10 @@ public final class Constants {
 
     public static final double kDoorSpeed = 0.15;
   }
+
+  public static final class AutonomousNames{
+    public static final String kjustStabilize = "stabilize";
+    public static final String kdriveMeters = "drive";
+    public static final String kdriveToComunityAndStabilize = "drive to community";
+  }
 }

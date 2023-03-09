@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.AutonomousNames;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.auto.Climb;
@@ -15,7 +16,7 @@ import frc.robot.commands.door.CloseDoor;
 import frc.robot.commands.door.OpenDoor;
 import frc.robot.subsystems.Door;
 import frc.robot.subsystems.DriveTrain;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -50,6 +51,8 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     configureBindings();
+
+    SmartDashboard.putStringArray("Auto List", new String[]{AutonomousNames.kdriveMeters, AutonomousNames.kdriveToComunityAndStabilize, AutonomousNames.kjustStabilize});
   }
 
   public DriveTrain getDriveTrain() {
@@ -64,9 +67,8 @@ public class RobotContainer {
     m_driverController.a().onFalse(new CloseDoor(m_door));
   }
 
-  public Command getAuto() {
+  public Command LeaveCommunityAndStabilze() {
     DriveToCommunity driveToCommunity = new DriveToCommunity(m_driveTrain, true);
-    //ParallelCommandGroup goToCommunity = new ParallelCommandGroup(m_open, driveToCommunity);
     DriveToChargeStaion driveToChargeStaion = new DriveToChargeStaion(m_driveTrain, false);
     ParallelCommandGroup goToChargeStation = new ParallelCommandGroup(m_close, driveToChargeStaion);
     Climb climb = new Climb(m_driveTrain, false);
@@ -75,9 +77,32 @@ public class RobotContainer {
     return Commands.sequence(m_open, driveToCommunity, goToChargeStation, climb, stabilize);
   }
 
-  public Command getAutoLeaveCommunity(){
+  public Command DriveMeters(){
     DriveMeters driveOut = new DriveMeters(m_driveTrain, 3, true);
 
     return Commands.sequence(m_open, driveOut, m_close);
+  }
+
+  public Command JustStabilize(){
+    DriveToChargeStaion driveToChargeStaion = new DriveToChargeStaion(m_driveTrain, true);
+    Climb climb = new Climb(m_driveTrain, true);
+    Stabilize stabilize = new Stabilize(m_driveTrain);
+
+    return Commands.sequence(m_open,driveToChargeStaion,m_close,climb,stabilize);
+  }
+
+  public Command getAuto(){
+    String auto = SmartDashboard.getString("Auto List", AutonomousNames.kdriveToComunityAndStabilize);
+    System.out.println("pls work");
+    switch (auto) {
+      case AutonomousNames.kdriveToComunityAndStabilize:
+        return LeaveCommunityAndStabilze();
+      case AutonomousNames.kjustStabilize:
+        return JustStabilize();
+      case AutonomousNames.kdriveMeters:
+        return DriveMeters();
+      default:
+        return null;
+    }
   }
 }

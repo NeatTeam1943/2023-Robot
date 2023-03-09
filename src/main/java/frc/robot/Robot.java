@@ -31,7 +31,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    m_autonomousCommand = m_robotContainer.getAuto();
 
     UsbCamera storageCam = CameraServer.startAutomaticCapture("Storage", 0);
     UsbCamera frontCam = CameraServer.startAutomaticCapture("Front", 1);
@@ -63,6 +62,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    System.out.println(m_robotContainer.getDriveTrain().getIMU().getGyroAngleY());
   }
   
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -70,6 +70,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
+    } else {
+      m_autonomousCommand = m_robotContainer.getAuto();
     }
     
     // schedule the autonomous command (example)
@@ -87,7 +89,10 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+      m_autonomousCommand = null;
     }
+
+    m_robotContainer.getDriveTrain().getIMU().calibrate();
   }
 
   /** This function is called periodically during operator control. */
