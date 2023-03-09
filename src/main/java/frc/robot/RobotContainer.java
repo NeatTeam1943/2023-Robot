@@ -16,10 +16,12 @@ import frc.robot.commands.door.CloseDoor;
 import frc.robot.commands.door.OpenDoor;
 import frc.robot.subsystems.Door;
 import frc.robot.subsystems.DriveTrain;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /**
@@ -42,17 +44,14 @@ public class RobotContainer {
 
   private final Door m_door = new Door();
 
-  private final OpenDoor m_open = new OpenDoor(m_door);
-
-  private final CloseDoor m_close = new CloseDoor(m_door);
-
   public RobotContainer() {
+    SmartDashboard.putStringArray("Auto List", new String[] { AutonomousNames.kdriveMeters,
+        AutonomousNames.kdriveToComunityAndStabilize, AutonomousNames.kjustStabilize });
+
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
 
     // Configure the trigger bindings
     configureBindings();
-
-    SmartDashboard.putStringArray("Auto List", new String[]{AutonomousNames.kdriveMeters, AutonomousNames.kdriveToComunityAndStabilize, AutonomousNames.kjustStabilize});
   }
 
   public DriveTrain getDriveTrain() {
@@ -67,42 +66,56 @@ public class RobotContainer {
     m_driverController.a().onFalse(new CloseDoor(m_door));
   }
 
-  public Command LeaveCommunityAndStabilze() {
+  public Command leaveCommunityAndStabilze() {
+    OpenDoor open = new OpenDoor(m_door);
+    CloseDoor close = new CloseDoor(m_door);
+
     DriveToCommunity driveToCommunity = new DriveToCommunity(m_driveTrain, true);
+    Command driveToCommunityAndCloseDoor = Commands.parallel(driveToCommunity, close);
+
     DriveToChargeStaion driveToChargeStaion = new DriveToChargeStaion(m_driveTrain, false);
-    ParallelCommandGroup goToChargeStation = new ParallelCommandGroup(m_close, driveToChargeStaion);
     Climb climb = new Climb(m_driveTrain, false);
     Stabilize stabilize = new Stabilize(m_driveTrain);
 
-    return Commands.sequence(m_open, driveToCommunity, goToChargeStation, climb, stabilize);
+    return Commands.sequence(open, driveToCommunityAndCloseDoor, driveToChargeStaion, climb, stabilize);
   }
 
-  public Command DriveMeters(){
+  public Command driveMeters() {
+    OpenDoor open = new OpenDoor(m_door);
+
+    CloseDoor close = new CloseDoor(m_door);
     DriveMeters driveOut = new DriveMeters(m_driveTrain, 3, true);
 
-    return Commands.sequence(m_open, driveOut, m_close);
+    return Commands.sequence(open, driveOut, close);
   }
 
-  public Command JustStabilize(){
+  public Command justStabilize() {
+    OpenDoor open = new OpenDoor(m_door);
+    CloseDoor close = new CloseDoor(m_door);
+
     DriveToChargeStaion driveToChargeStaion = new DriveToChargeStaion(m_driveTrain, true);
     Climb climb = new Climb(m_driveTrain, true);
     Stabilize stabilize = new Stabilize(m_driveTrain);
 
-    return Commands.sequence(m_open,driveToChargeStaion,m_close,climb,stabilize);
+    return Commands.sequence(open, driveToChargeStaion, close, climb, stabilize);
   }
 
-  public Command getAuto(){
-    String auto = SmartDashboard.getString("Auto List", AutonomousNames.kdriveToComunityAndStabilize);
-    System.out.println("pls work");
-    switch (auto) {
+  public Command getAuto() {
+    String autoName = SmartDashboard.getString("Auto Selector", AutonomousNames.kdriveMeters);
+    switch (autoName) {
       case AutonomousNames.kdriveToComunityAndStabilize:
-        return LeaveCommunityAndStabilze();
+        System.out.println("Driving to community and stabilizing...");
+        return leaveCommunityAndStabilze();
+
       case AutonomousNames.kjustStabilize:
-        return JustStabilize();
+        System.out.println("Stabilizing...");
+        return justStabilize();
+
       case AutonomousNames.kdriveMeters:
-        return DriveMeters();
-      default:
-        return null;
+        System.out.println("Exiting community...");
+        return new DriveToCommunity(m_driveTrain, false);
     }
+
+    return null; 
   }
 }
