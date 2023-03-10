@@ -64,7 +64,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void calibrateIMU() {
-    m_imu.calibrate();
+    m_imu.reset();
   }
 
   public double getDistance() {
