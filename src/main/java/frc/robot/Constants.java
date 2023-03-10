@@ -114,9 +114,9 @@ public final class Constants {
   }
 
   public static final class AutonomousNames {
+    public static final String kPassLine = "pass line";
     public static final String kPassShort = "pass short";
     public static final String kPassLong = "pass long";
-    public static final String kPassLine = "pass line";
     public static final String kPassThroughCharge = "pass through charge";
 
     public static final String kStabilize = "stabilize only";
@@ -128,7 +128,7 @@ public final class Constants {
     public static final String kGamePieceNShort = "game piece & pass short";
     public static final String kGamePieceNLong = "game piece & pass long";
 
-    public static final String kFullRoutine = "full route";
+    public static final String kFullRoute = "full route";
 
     public static final String kDoNothing = "nothing";
   }
