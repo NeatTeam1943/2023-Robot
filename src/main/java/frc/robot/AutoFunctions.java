@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ExitCommConstants;
-import frc.robot.commands.auto.Climb;
 import frc.robot.commands.auto.DriveDistance;
 import frc.robot.commands.auto.DriveToChargeStaion;
 import frc.robot.commands.auto.DriveToCommunity;
@@ -79,7 +78,7 @@ public class AutoFunctions {
 
         return Commands.sequence(
                 driveAndClose,
-                new Climb(m_drive, backwards),
+                new DriveDistance(m_drive, 0.93, backwards),
                 new Stabilize(m_drive));
     }
 
@@ -102,10 +101,13 @@ public class AutoFunctions {
      * Requirements: Placing the robot close to the grids facing the grids
      */
     public Command gamePiece() {
-        return Commands.sequence(
-                new OpenDoor(m_door),
+        Command closeAndDriveDistance = Commands.parallel(
                 new DriveDistance(m_drive, 0.3, true),
                 new CloseDoor(m_door));
+
+        return Commands.sequence(
+                new OpenDoor(m_door),
+                closeAndDriveDistance);
     }
 
     /**
