@@ -104,7 +104,7 @@ public final class Constants {
     public static final double k_DistanceToStable = 1;
   }
 
-  public static class DoorConstants{
+  public static class DoorConstants {
     public static final int kDoorMotorID = 5;
 
     public static final int kCloseSwitch = 0;
@@ -113,9 +113,29 @@ public final class Constants {
     public static final double kDoorSpeed = 0.15;
   }
 
-  public static final class AutonomousNames{
-    public static final String kjustStabilize = "stabilize";
-    public static final String kdriveMeters = "drive";
-    public static final String kdriveToComunityAndStabilize = "drive to community";
+  public static final class AutonomousNames {
+    public static final String kPassShort = "pass short";
+    public static final String kPassLong = "pass long";
+    public static final String kPassLine = "pass line";
+    public static final String kPassThroughCharge = "pass through charge";
+
+    public static final String kStabilize = "stabilize only";
+    public static final String kPassNStable = "pass & stabilize";
+
+    public static final String kGamePieceOnly = "game piece only";
+
+    public static final String kGamePieceNStable = "game piece & stable";
+    public static final String kGamePieceNShort = "game piece & pass short";
+    public static final String kGamePieceNLong = "game piece & pass long";
+
+    public static final String kFullRoutine = "full route";
+
+    public static final String kDoNothing = "nothing";
+  }
+
+  public static final class ExitCommConstants {
+    public static final double kShortDistance = 0.3;
+    public static final double kLongDistance = 1.2;
+    public static final double kLineDistance = 0.1;
   }
 }
