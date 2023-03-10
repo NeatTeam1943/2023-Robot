@@ -39,5 +39,11 @@ public final class Constants {
 
     public static final double kCloseDoorDelay = 0.2;
   }
+
+  public static final class CommunityConstants {
+    public static final double kShortDistance = 2.2;
+    public static final double kLongDistance = 3.8;
+    public static final double kLineDistance = 1;
+  }
   }
 }
