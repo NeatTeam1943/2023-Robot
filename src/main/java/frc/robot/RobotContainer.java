@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveArcade;
+import frc.robot.commands.door.CloseDoor;
+import frc.robot.commands.door.OpenDoor;
+import frc.robot.subsystems.Door;
 import frc.robot.subsystems.DriveTrain;
 
 /**
@@ -26,6 +29,8 @@ public class RobotContainer {
   private final DriveArcade m_driveArcadeCommand =
       new DriveArcade(m_driveTrain, m_driverController);
 
+  private final Door m_door = new Door();
+
   public RobotContainer() {
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
 
@@ -42,7 +47,13 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {}
+  private void configureBindings() {
+    // Open door
+    m_driverController.a().onTrue(new OpenDoor(m_door));
+
+    // Close door
+    m_driverController.a().onFalse(new CloseDoor(m_door));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
