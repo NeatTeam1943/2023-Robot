@@ -4,16 +4,65 @@
 
 package frc.robot;
 
-/**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
- *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
- */
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+  }
+
+  public static class DriveTrainConstants {
+    public static final int kLeftFrontPort = 1;
+    public static final int kLeftRearPort = 2;
+    public static final int kRightFrontPort = 3;
+    public static final int kRightRearPort = 4;
+
+    // field2d sim
+    public static final int kCountsPerRev = 4096;
+    public static final double kWheelRadiusCm = 3 * 2.54;
+    public static final double kSensorGearRatio = 1.0;
+    public static final double kGearRatio = 1 / 24;
+    public static final double kRobotMass = 45;
+
+    // Encoder calculation for rate and distance
+    public static final double k100msTo60sRatio = 600;
+    public static final double kEncoderResolution = 2048;
+    public static final double kMotorToWheelRatio = 4;
+    public static final double kWheelCircumference = 47.879;
+  }
+
+  public static class DoorConstants {
+    public static final int kDoorMotorID = 5;
+
+    public static final int kCloseSwitch = 0;
+    public static final int kOpenSwitch = 1;
+
+    public static final double kDoorSpeed = 0.15;
+
+    public static final double kCloseDoorDelay = 0.2;
+  }
+
+  public static final class CommunityConstants {
+    public static final double kShortDistance = 2.2;
+    public static final double kLongDistance = 3.8;
+    public static final double kLineDistance = 1;
+  }
+
+  public static final class AutonomousNames {
+    public static final String kPassLine = "pass line";
+    public static final String kPassShort = "pass short";
+    public static final String kPassLong = "pass long";
+    public static final String kPassThroughCharge = "pass through charge";
+
+    public static final String kStabilize = "stabilize only";
+    public static final String kPassNStable = "pass & stabilize";
+
+    public static final String kGamePieceOnly = "game piece only";
+
+    public static final String kGamePieceNStable = "game piece & stable";
+    public static final String kGamePieceNShort = "game piece & pass short";
+    public static final String kGamePieceNLong = "game piece & pass long";
+
+    public static final String kFullRoute = "full route";
+
+    public static final String kDoNothing = "nothing";
   }
 }
