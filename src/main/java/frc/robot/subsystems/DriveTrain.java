@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -69,8 +68,10 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double getDistance() {
-    double leftAvgPos = (m_leftFront.getSelectedSensorPosition() + m_leftRear.getSelectedSensorPosition()) / 2;
-    double rightAvgPos = (m_rightFront.getSelectedSensorPosition() + m_rightRear.getSelectedSensorPosition()) / 2;
+    double leftAvgPos =
+        (m_leftFront.getSelectedSensorPosition() + m_leftRear.getSelectedSensorPosition()) / 2;
+    double rightAvgPos =
+        (m_rightFront.getSelectedSensorPosition() + m_rightRear.getSelectedSensorPosition()) / 2;
     double centralAvg = (leftAvgPos + rightAvgPos) / 2;
     double centralMotorAvg = centralAvg / DriveTrainConstants.kEncoderResolution;
     double centralWheelAvg = centralMotorAvg / DriveTrainConstants.kMotorToWheelRatio;
@@ -86,16 +87,20 @@ public class DriveTrain extends SubsystemBase {
   }
 
   private double rawSpeedToRPM(double rawSpeed) {
-    return rawSpeed * DriveTrainConstants.k100msTo60sRatio / DriveTrainConstants.kEncoderResolution
+    return rawSpeed
+        * DriveTrainConstants.k100msTo60sRatio
+        / DriveTrainConstants.kEncoderResolution
         / DriveTrainConstants.kMotorToWheelRatio;
   }
 
   public double getLeftWheelsRPM() {
-    return rawSpeedToRPM((m_leftFront.getSelectedSensorVelocity() + m_leftRear.getSelectedSensorVelocity()) / 2);
+    return rawSpeedToRPM(
+        (m_leftFront.getSelectedSensorVelocity() + m_leftRear.getSelectedSensorVelocity()) / 2);
   }
 
   public double getRightWheelsRPM() {
-    return rawSpeedToRPM((m_rightFront.getSelectedSensorVelocity() + m_rightRear.getSelectedSensorVelocity()) / 2);
+    return rawSpeedToRPM(
+        (m_rightFront.getSelectedSensorVelocity() + m_rightRear.getSelectedSensorVelocity()) / 2);
   }
 
   public double getAverageWheelsRPM() {
