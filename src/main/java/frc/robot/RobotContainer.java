@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.AutonomousNames;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.door.CloseDoor;
@@ -32,6 +34,23 @@ public class RobotContainer {
   private final Door m_door = new Door();
 
   public RobotContainer() {
+    SmartDashboard.putStringArray(
+        "Auto List",
+        new String[] {
+          AutonomousNames.kPassLine,
+          AutonomousNames.kPassShort,
+          AutonomousNames.kPassLong,
+          AutonomousNames.kPassThroughCharge,
+          AutonomousNames.kStabilize,
+          AutonomousNames.kPassNStable,
+          AutonomousNames.kGamePieceOnly,
+          AutonomousNames.kGamePieceNStable,
+          AutonomousNames.kGamePieceNShort,
+          AutonomousNames.kGamePieceNLong,
+          AutonomousNames.kFullRoute,
+          AutonomousNames.kDoNothing,
+        });
+
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
 
     // Configure the trigger bindings
@@ -61,7 +80,56 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
+    AutoFunctions autos = new AutoFunctions(m_driveTrain, m_door);
+    String autoName = SmartDashboard.getString("Auto Selector", AutonomousNames.kDoNothing);
+
+    System.out.print("Choosen autonomous: ");
+    switch (autoName) {
+        // Pass
+      case AutonomousNames.kPassLine:
+        System.out.println("Pass line");
+        return autos.passLine();
+
+      case AutonomousNames.kPassShort:
+        System.out.println("Pass line on short distance");
+        return autos.passShort();
+
+      case AutonomousNames.kPassLong:
+        System.out.println("Pass line on long distance");
+        return autos.passLong();
+
+      case AutonomousNames.kPassThroughCharge:
+        System.out.println("Pass line trough charge station");
+        return autos.passChargeStation();
+
+        // Stabilize
+      case AutonomousNames.kStabilize:
+        System.out.println("Stabilize");
+        return autos.stabilize(true);
+
+        // Game piece
+      case AutonomousNames.kGamePieceOnly:
+        System.out.println("Score");
+        return autos.gamePiece();
+
+      case AutonomousNames.kGamePieceNStable:
+        System.out.println("Score and stabilize");
+        return autos.gamePieceAndStabilize();
+
+      case AutonomousNames.kGamePieceNShort:
+        System.out.println("Score and pass line on short distance");
+        return autos.gamePieceAndPassShort();
+
+      case AutonomousNames.kGamePieceNLong:
+        System.out.println("Score and pass line on long distance");
+        return autos.gamePieceAndPassLong();
+
+        // Perform full routine
+      case AutonomousNames.kFullRoute:
+        System.out.println("Score, pass line trough charge station and stabilize");
+        return autos.fullRoute();
+    }
+
     return null;
   }
 }
