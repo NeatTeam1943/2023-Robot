@@ -14,7 +14,7 @@ public class Climb extends CommandBase {
   private double m_setpoint;
   private boolean m_backwards;
 
-  private double m_distance = 1.1;
+  private double m_distance = 0.93;
 
   /** Creates a new GyroAuto. */
   public Climb(DriveTrain driveTrain, boolean backwards) {
