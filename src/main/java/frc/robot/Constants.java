@@ -134,8 +134,8 @@ public final class Constants {
   }
 
   public static final class ExitCommConstants {
-    public static final double kShortDistance = 0.3;
-    public static final double kLongDistance = 1.2;
-    public static final double kLineDistance = 0.1;
-  }
+    public static final double kShortDistance = 2.2;
+    public static final double kLongDistance = 3.8;
+    public static final double kLineDistance = 1;
+  } 
 }
