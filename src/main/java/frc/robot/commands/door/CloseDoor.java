@@ -4,12 +4,14 @@
 
 package frc.robot.commands.door;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DoorConstants;
 import frc.robot.subsystems.Door;
 
 public class CloseDoor extends CommandBase {
   private Door m_door;
+  private Timer m_time;
 
   public CloseDoor(Door door) {
     m_door = door;
@@ -21,12 +23,16 @@ public class CloseDoor extends CommandBase {
   @Override
   public void initialize() {
     System.out.println("========== Start CloseDoor() ==========");
+    m_time.start();
+    m_time.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_door.move(DoorConstants.kDoorSpeed);
+    if (m_time.get() > 0.2){
+      m_door.move(DoorConstants.kDoorSpeed);
+    }
   }
 
   // Called once the command ends or is interrupted.
