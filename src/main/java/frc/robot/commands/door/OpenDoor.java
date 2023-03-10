@@ -21,6 +21,7 @@ public class OpenDoor extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("========== Start OpenDoor() ==========");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,6 +36,7 @@ public class OpenDoor extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_door.move(0);
+    System.out.println("========== Finished OpenDoor() ==========");
   }
 
   // Returns true when the command should end.

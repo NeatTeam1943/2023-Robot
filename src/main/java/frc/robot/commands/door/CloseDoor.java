@@ -19,20 +19,21 @@ public class CloseDoor extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println("========== Start CloseDoor() ==========");
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_door.move(DoorConstants.kDoorSpeed);
-
-    // System.out.println("close door");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_door.move(0);
+    System.out.println("========== Finished CloseDoor() ==========");
   }
 
   // Returns true when the command should end.

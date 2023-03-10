@@ -19,7 +19,7 @@ public class Climb extends CommandBase {
   /** Creates a new GyroAuto. */
   public Climb(DriveTrain driveTrain, boolean backwards) {
     m_drive = driveTrain;
-    m_backwards = backwards; 
+    m_backwards = backwards;
 
     addRequirements(m_drive);
   }
@@ -27,18 +27,20 @@ public class Climb extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_backwards){
+    if (m_backwards) {
       m_setpoint = m_drive.getDistance() - m_distance;
     } else {
-      m_setpoint = m_drive.getDistance() + m_distance; 
+      m_setpoint = m_drive.getDistance() + m_distance;
     }
+
+    System.out.println("========== Start Climbing( " + m_backwards + " ) ==========");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("climb");
-    System.out.println("difference: "+(m_drive.getDistance() - m_setpoint));
+    System.out.println("drove: " + m_drive.getDistance());
+    System.out.println("difference: " + (m_drive.getDistance() - m_setpoint));
     final double voltage = -0.15;
 
     if (m_backwards) {
@@ -52,6 +54,7 @@ public class Climb extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drive.arcadeDrive(0, 0, false);
+    System.out.println("========== Finished Climb() ==========");
   }
 
   // Returns true when the command should end.

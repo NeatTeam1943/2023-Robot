@@ -25,6 +25,7 @@ public class Stabilize extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("========== Start Stabilize() ==========");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,13 +39,13 @@ public class Stabilize extends CommandBase {
 
     if (angleY > threshold) {
       m_drive.arcadeDrive(-voltage, 0, false);
-      System.out.println("going forward");
+      System.out.println("Going forward, angleY: " + angleY);
     } else if (angleY < -threshold) {
       m_drive.arcadeDrive(voltage, 0, false);
-      System.out.println("going backwards");
+      System.out.println("Going backwards, angleY: " + angleY);
     } else {
       m_drive.arcadeDrive(0, 0, false);
-      System.out.println("stable");
+      System.out.println("Stable, angleY: " + angleY);
     }
   }
 

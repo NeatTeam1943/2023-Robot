@@ -28,27 +28,28 @@ public class DriveToChargeStaion extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("========== Start DriveToChargeStation( " + m_inverted + " ) ==========");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("drive to charge station");
     final double voltage = 0.15;
-
-    // System.out.println("drive to charge station: angle -> " + m_imu.getGyroAngleX());
 
     if (m_inverted) {
       m_drive.arcadeDrive(voltage, 0, false);
     } else {
       m_drive.arcadeDrive(-voltage, 0, false);
     }
+
+    System.out.println("Current angleY: " + m_imu.getGyroAngleY());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_drive.arcadeDrive(0, 0, false);
+    System.out.println("========== Finished DriveToChargeStation() ==========");
   }
 
   // Returns true when the command should end.

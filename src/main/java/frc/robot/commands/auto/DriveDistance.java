@@ -12,20 +12,23 @@ public class DriveDistance extends CommandBase {
 
   private double m_meters;
   private double m_setpoint;
-  private boolean m_inverted;
+  private boolean m_backwards;
   private final double m_voltage = 0.25;
+
   /** Creates a new driveMeters. */
-  public DriveDistance(DriveTrain drive, double meters, boolean inverted) {
+  public DriveDistance(DriveTrain drive, double meters, boolean backwards) {
     m_drive = drive;
     m_meters = meters;
-    m_inverted = inverted;
+    m_backwards = backwards;
     addRequirements(m_drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_inverted){
+    System.out.println("========== Start DriveDistance( " + m_meters + " meters, " + m_backwards + " ) ==========");
+
+    if (m_backwards) {
       m_setpoint = m_drive.getDistance() - m_meters;
     } else {
       m_setpoint = m_drive.getDistance() + m_meters;
@@ -35,21 +38,26 @@ public class DriveDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_inverted){
+    if (m_backwards) {
       m_drive.arcadeDrive(m_voltage, 0, false);
     } else {
       m_drive.arcadeDrive(-m_voltage, 0, false);
     }
+
+    System.out.println("Drove: " + m_drive.getDistance());
+    System.out.println("Distance to setpoint: " + (m_drive.getDistance() - m_setpoint));
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("========== finished DriveDistance() ==========");
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_inverted){
+    if (m_backwards) {
       return m_drive.getDistance() < m_setpoint;
     } else {
       return m_drive.getDistance() > m_setpoint;

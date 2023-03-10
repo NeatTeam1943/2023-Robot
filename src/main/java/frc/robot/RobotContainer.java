@@ -74,39 +74,50 @@ public class RobotContainer {
     AutoFunctions autos = new AutoFunctions(m_driveTrain, m_door);
     String autoName = SmartDashboard.getString("Auto Selector", AutonomousNames.kDoNothing);
 
+    System.out.print("Choosen autonomous: ");
     switch (autoName) {
       // Pass
       case AutonomousNames.kPassLine:
+        System.out.println("Pass line");
         return autos.passLine();
 
       case AutonomousNames.kPassShort:
+        System.out.println("Pass line on short distance");
         return autos.passShort();
 
       case AutonomousNames.kPassLong:
+        System.out.println("Pass line on long distance");
         return autos.passLong();
 
       case AutonomousNames.kPassThroughCharge:
+        System.out.println("Pass line trough charge station");
         return autos.passChargeStation();
 
       // Stabilize
       case AutonomousNames.kStabilize:
+        System.out.println("Stabilize");
         return autos.stabilize(true);
 
       // Game piece
       case AutonomousNames.kGamePieceOnly:
+        System.out.println("Score");
         return autos.gamePiece();
 
       case AutonomousNames.kGamePieceNStable:
+        System.out.println("Score and stabilize");
         return autos.gamePieceAndStabilize();
 
       case AutonomousNames.kGamePieceNShort:
+        System.out.println("Score and pass line on short distance");
         return autos.gamePieceAndPassShort();
 
       case AutonomousNames.kGamePieceNLong:
+        System.out.println("Score and pass line on long distance");
         return autos.gamePieceAndPassLong();
 
       // Perform full routine
       case AutonomousNames.kFullRoute:
+        System.out.println("Score, pass line trough charge station and stabilize");
         return autos.fullRoute();
     }
 

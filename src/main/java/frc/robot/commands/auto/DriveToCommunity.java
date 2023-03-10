@@ -27,6 +27,7 @@ public class DriveToCommunity extends CommandBase {
   final double downVoltage = 0.15;
 
   private final double m_distance = 0.25;
+
   /** Creates a new GyroAuto. */
   public DriveToCommunity(DriveTrain driveTrain, boolean backwards) {
     m_drive = driveTrain;
@@ -46,18 +47,12 @@ public class DriveToCommunity extends CommandBase {
     m_hasSafeDistance = false;
     m_passedStaition = false;
 
-    System.out.println("start drive to community");
+    System.out.println("========== Start DriveToCommunity( " + m_backwards + " ) ==========");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("on station: " + m_onChargingStation);
-    System.out.println("pass station: " + m_passChargingStation);
-    System.out.println("distance: " + m_hasSafeDistance);
-    System.out.println("passed away: "+m_passedStaition);
-    System.out.println("drive to community: angle: " + m_imu.getGyroAngleY());
-
     if (m_backwards) {
       if (m_imu.getGyroAngleY() > 10) {
         m_onChargingStation = true;
@@ -116,6 +111,7 @@ public class DriveToCommunity extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("========== Finished DriveToCommunity() ==========");
     m_drive.arcadeDrive(0, 0, false);
   }
 
