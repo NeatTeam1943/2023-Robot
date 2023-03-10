@@ -4,21 +4,10 @@
 
 package frc.robot;
 
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.DriveArcade;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
-import frc.robot.commands.TogglePipeline;
-import frc.robot.subsystems.PhotonVision;
-import org.photonvision.PhotonCamera;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -31,32 +20,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   private final DriveTrain m_driveTrain = new DriveTrain();
 
-  private final Elevator m_elevatorSubsystem = new Elevator();
-
-  private final Arm m_armSubsystem = new Arm();
-
-  private final Intake m_intakeSubsystem = new Intake();
-
-  private final PhotonVision m_photonVision = new PhotonVision();
-
-  private final PhotonCamera m_camera = m_photonVision.getCamera();
-
-  private final CommandXboxController m_driverController = new CommandXboxController(
-      OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-
-  private final SendableChooser<Command> m_chooser = new SendableChooser<>();
-
   public RobotContainer() {
-    m_chooser.setDefaultOption("first trajectory", null);
-    m_chooser.addOption("second trajectory", m_driveArcadeCommand);
-
-    SmartDashboard.putData("Routine selector", m_chooser);
+    m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
 
     // Configure the trigger bindings
     configureBindings();
@@ -77,48 +46,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // ELEVATOR:
-    // up
-    m_driverController.povRight().whileTrue(new RunCommand(() -> {
-      m_elevatorSubsystem.moveElevator(0.5);
-    }, m_elevatorSubsystem));
-
-    // down
-    m_driverController.povLeft().whileTrue(new RunCommand(() -> {
-      m_elevatorSubsystem.moveElevator(-0.5);
-    }, m_elevatorSubsystem));
-
-    // INTAKE:
-    // get out
-    m_driverController.y().whileTrue(new RunCommand(() -> {
-      m_intakeSubsystem.lift(IntakeConstants.kLiftMotorSpeed);
-    }, m_intakeSubsystem));
-
-    // get in
-    m_driverController.b().whileTrue(new RunCommand(() -> {
-      m_intakeSubsystem.lift(-IntakeConstants.kLiftMotorSpeed);
-    }, m_intakeSubsystem));
-
-    // grab
-    m_driverController.x().whileTrue(new RunCommand(() -> {
-      m_intakeSubsystem.grab(0.7);
-    }, m_intakeSubsystem));
-
-    // ARM:
-    // rotate up
-    m_driverController.povUp().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.rotateArm(0.5);
-    }, m_armSubsystem));
-
-    // rotate down
-    m_driverController.povDown().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.rotateArm(-0.5);
-    }, m_armSubsystem));
-
-    // grab
-    m_driverController.a().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.grabArm(0.1);
-    }, m_armSubsystem));
   }
 
   /**
