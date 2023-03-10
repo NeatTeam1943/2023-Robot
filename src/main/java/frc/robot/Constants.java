@@ -21,4 +21,16 @@ public final class Constants {
     public static final double kMotorToWheelRatio = 4;
     public static final double kWheelCircumference = 47.879;
   }
+
+  public static class DoorConstants {
+    public static final int kDoorMotorID = 5;
+
+    public static final int kCloseSwitch = 0;
+    public static final int kOpenSwitch = 1;
+
+    public static final double kDoorSpeed = 0.15;
+
+    public static final double kCloseDoorDelay = 0.2;
+  }
+  }
 }
