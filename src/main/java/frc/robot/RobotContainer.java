@@ -7,11 +7,6 @@ package frc.robot;
 import frc.robot.Constants.AutonomousNames;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveArcade;
-import frc.robot.commands.auto.Climb;
-import frc.robot.commands.auto.DriveToChargeStaion;
-import frc.robot.commands.auto.DriveToCommunity;
-import frc.robot.commands.auto.Stabilize;
-import frc.robot.commands.auto.DriveMeters;
 import frc.robot.commands.door.CloseDoor;
 import frc.robot.commands.door.OpenDoor;
 import frc.robot.subsystems.Door;
@@ -19,9 +14,6 @@ import frc.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /**
@@ -45,8 +37,20 @@ public class RobotContainer {
   private final Door m_door = new Door();
 
   public RobotContainer() {
-    SmartDashboard.putStringArray("Auto List", new String[] { AutonomousNames.kdriveMeters,
-        AutonomousNames.kdriveToComunityAndStabilize, AutonomousNames.kjustStabilize });
+    SmartDashboard.putStringArray("Auto List", new String[] {
+        AutonomousNames.kPassLine,
+        AutonomousNames.kPassShort,
+        AutonomousNames.kPassLong,
+        AutonomousNames.kPassThroughCharge,
+        AutonomousNames.kStabilize,
+        AutonomousNames.kPassNStable,
+        AutonomousNames.kGamePieceOnly,
+        AutonomousNames.kGamePieceNStable,
+        AutonomousNames.kGamePieceNShort,
+        AutonomousNames.kGamePieceNLong,
+        AutonomousNames.kFullRoute,
+        AutonomousNames.kDoNothing,
+    });
 
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
 
@@ -66,56 +70,46 @@ public class RobotContainer {
     m_driverController.a().onFalse(new CloseDoor(m_door));
   }
 
-  public Command leaveCommunityAndStabilze() {
-    OpenDoor open = new OpenDoor(m_door);
-    CloseDoor close = new CloseDoor(m_door);
-
-    DriveToCommunity driveToCommunity = new DriveToCommunity(m_driveTrain, true);
-    Command driveToCommunityAndCloseDoor = Commands.parallel(driveToCommunity, close);
-
-    DriveToChargeStaion driveToChargeStaion = new DriveToChargeStaion(m_driveTrain, false);
-    Climb climb = new Climb(m_driveTrain, false);
-    Stabilize stabilize = new Stabilize(m_driveTrain);
-
-    return Commands.sequence(open, driveToCommunityAndCloseDoor, driveToChargeStaion, climb, stabilize);
-  }
-
-  public Command driveMeters() {
-    OpenDoor open = new OpenDoor(m_door);
-
-    CloseDoor close = new CloseDoor(m_door);
-    DriveMeters driveOut = new DriveMeters(m_driveTrain, 3, true);
-
-    return Commands.sequence(open, driveOut, close);
-  }
-
-  public Command justStabilize() {
-    OpenDoor open = new OpenDoor(m_door);
-    CloseDoor close = new CloseDoor(m_door);
-
-    DriveToChargeStaion driveToChargeStaion = new DriveToChargeStaion(m_driveTrain, true);
-    Climb climb = new Climb(m_driveTrain, true);
-    Stabilize stabilize = new Stabilize(m_driveTrain);
-
-    return Commands.sequence(open, driveToChargeStaion, close, climb, stabilize);
-  }
-
   public Command getAuto() {
-    String autoName = SmartDashboard.getString("Auto Selector", AutonomousNames.kdriveMeters);
+    AutoFunctions autos = new AutoFunctions(m_driveTrain, m_door);
+    String autoName = SmartDashboard.getString("Auto Selector", AutonomousNames.kDoNothing);
+
     switch (autoName) {
-      case AutonomousNames.kdriveToComunityAndStabilize:
-        System.out.println("Driving to community and stabilizing...");
-        return leaveCommunityAndStabilze();
+      // Pass
+      case AutonomousNames.kPassLine:
+        return autos.passLine();
 
-      case AutonomousNames.kjustStabilize:
-        System.out.println("Stabilizing...");
-        return justStabilize();
+      case AutonomousNames.kPassShort:
+        return autos.passShort();
 
-      case AutonomousNames.kdriveMeters:
-        System.out.println("Exiting community...");
-        return new DriveToCommunity(m_driveTrain, false);
+      case AutonomousNames.kPassLong:
+        return autos.passLong();
+
+      case AutonomousNames.kPassThroughCharge:
+        return autos.passChargeStation();
+
+      // Stabilize
+      case AutonomousNames.kStabilize:
+        return autos.stabilize(true);
+
+      // Game piece
+      case AutonomousNames.kGamePieceOnly:
+        return autos.gamePiece();
+
+      case AutonomousNames.kGamePieceNStable:
+        return autos.gamePieceAndStabilize();
+
+      case AutonomousNames.kGamePieceNShort:
+        return autos.gamePieceAndPassShort();
+
+      case AutonomousNames.kGamePieceNLong:
+        return autos.gamePieceAndPassLong();
+
+      // Perform full routine
+      case AutonomousNames.kFullRoute:
+        return autos.fullRoute();
     }
 
-    return null; 
+    return null;
   }
 }
