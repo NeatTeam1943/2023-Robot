@@ -72,11 +72,11 @@ public class DriveTrain extends SubsystemBase {
         (m_leftFront.getSelectedSensorPosition() + m_leftRear.getSelectedSensorPosition()) / 2;
     double rightAvgPos =
         (m_rightFront.getSelectedSensorPosition() + m_rightRear.getSelectedSensorPosition()) / 2;
-    double centralAvg = (leftAvgPos + rightAvgPos) / 2;
+    double centralAvg = (leftAvgPos + rightAvgPos) / 4;
     double centralMotorAvg = centralAvg / DriveTrainConstants.kEncoderResolution;
     double centralWheelAvg = centralMotorAvg / DriveTrainConstants.kMotorToWheelRatio;
 
-    return centralWheelAvg * DriveTrainConstants.kWheelCircumference;
+    return (-centralWheelAvg * DriveTrainConstants.kWheelCircumference);
   }
 
   public void resetEncoders() {
