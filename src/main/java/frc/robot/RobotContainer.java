@@ -4,23 +4,17 @@
 
 package frc.robot;
 
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.VisionConstants;
-import frc.robot.commands.DriveArcade;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
-import frc.robot.commands.TogglePipeline;
-import frc.robot.subsystems.PhotonVision;
-import org.photonvision.PhotonCamera;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.AutonomousNames;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.DriveArcade;
+import frc.robot.commands.door.CloseDoor;
+import frc.robot.commands.door.OpenDoor;
+import frc.robot.subsystems.Door;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -31,94 +25,53 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   private final DriveTrain m_driveTrain = new DriveTrain();
 
-  private final Elevator m_elevatorSubsystem = new Elevator();
+  private final CommandXboxController m_driverController =
+      new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  private final Arm m_armSubsystem = new Arm();
+  private final DriveArcade m_driveArcadeCommand =
+      new DriveArcade(m_driveTrain, m_driverController);
 
-  private final Intake m_intakeSubsystem = new Intake();
-
-  private final PhotonVision m_photonVision = new PhotonVision();
-
-  private final PhotonCamera m_camera = m_photonVision.getCamera();
-
-  private final CommandXboxController m_driverController = new CommandXboxController(
-      OperatorConstants.kDriverControllerPort);
-
-  private final DriveArcade m_driveArcadeCommand = new DriveArcade(m_driveTrain, m_driverController);
-
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-
-  private final SendableChooser<Command> m_chooser = new SendableChooser<>();
+  private final Door m_door = new Door();
 
   public RobotContainer() {
-    m_chooser.setDefaultOption("first trajectory", null);
-    m_chooser.addOption("second trajectory", m_driveArcadeCommand);
+    SmartDashboard.putStringArray(
+        "Auto List",
+        new String[] {
+          AutonomousNames.kPassLine,
+          AutonomousNames.kPassShort,
+          AutonomousNames.kPassLong,
+          AutonomousNames.kPassThroughCharge,
+          AutonomousNames.kStabilize,
+          AutonomousNames.kPassNStable,
+          AutonomousNames.kGamePieceOnly,
+          AutonomousNames.kGamePieceNStable,
+          AutonomousNames.kGamePieceNShort,
+          AutonomousNames.kGamePieceNLong,
+          AutonomousNames.kFullRoute,
+          AutonomousNames.kDoNothing,
+        });
 
-    SmartDashboard.putData("Routine selector", m_chooser);
+    m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
 
     // Configure the trigger bindings
     configureBindings();
   }
 
   /**
-   * Use this method to define your trigger->command mappings. Triggers can be
-   * created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-   * an arbitrary
+   * Use this method to define your trigger->command mappings. Triggers can be created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
    * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link
-   * CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
   private void configureBindings() {
-    // ELEVATOR:
-    // up
-    m_driverController.povRight().whileTrue(new RunCommand(() -> {
-      m_elevatorSubsystem.moveElevator(0.5);
-    }, m_elevatorSubsystem));
+    // Open door
+    m_driverController.a().onTrue(new OpenDoor(m_door));
 
-    // down
-    m_driverController.povLeft().whileTrue(new RunCommand(() -> {
-      m_elevatorSubsystem.moveElevator(-0.5);
-    }, m_elevatorSubsystem));
-
-    // INTAKE:
-    // get out
-    m_driverController.y().whileTrue(new RunCommand(() -> {
-      m_intakeSubsystem.lift(IntakeConstants.kLiftMotorSpeed);
-    }, m_intakeSubsystem));
-
-    // get in
-    m_driverController.b().whileTrue(new RunCommand(() -> {
-      m_intakeSubsystem.lift(-IntakeConstants.kLiftMotorSpeed);
-    }, m_intakeSubsystem));
-
-    // grab
-    m_driverController.x().whileTrue(new RunCommand(() -> {
-      m_intakeSubsystem.grab(0.7);
-    }, m_intakeSubsystem));
-
-    // ARM:
-    // rotate up
-    m_driverController.povUp().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.rotateArm(0.5);
-    }, m_armSubsystem));
-
-    // rotate down
-    m_driverController.povDown().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.rotateArm(-0.5);
-    }, m_armSubsystem));
-
-    // grab
-    m_driverController.a().whileTrue(new RunCommand(() -> {
-      m_armSubsystem.grabArm(0.1);
-    }, m_armSubsystem));
+    // Close door
+    m_driverController.a().onFalse(new CloseDoor(m_door));
   }
 
   /**
@@ -127,7 +80,56 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
+    AutoFunctions autos = new AutoFunctions(m_driveTrain, m_door);
+    String autoName = SmartDashboard.getString("Auto Selector", AutonomousNames.kDoNothing);
+
+    System.out.print("Choosen autonomous: ");
+    switch (autoName) {
+        // Pass
+      case AutonomousNames.kPassLine:
+        System.out.println("Pass line");
+        return autos.passLine();
+
+      case AutonomousNames.kPassShort:
+        System.out.println("Pass line on short distance");
+        return autos.passShort();
+
+      case AutonomousNames.kPassLong:
+        System.out.println("Pass line on long distance");
+        return autos.passLong();
+
+      case AutonomousNames.kPassThroughCharge:
+        System.out.println("Pass line trough charge station");
+        return autos.passChargeStation();
+
+        // Stabilize
+      case AutonomousNames.kStabilize:
+        System.out.println("Stabilize");
+        return autos.stabilize(true);
+
+        // Game piece
+      case AutonomousNames.kGamePieceOnly:
+        System.out.println("Score");
+        return autos.gamePiece();
+
+      case AutonomousNames.kGamePieceNStable:
+        System.out.println("Score and stabilize");
+        return autos.gamePieceAndStabilize();
+
+      case AutonomousNames.kGamePieceNShort:
+        System.out.println("Score and pass line on short distance");
+        return autos.gamePieceAndPassShort();
+
+      case AutonomousNames.kGamePieceNLong:
+        System.out.println("Score and pass line on long distance");
+        return autos.gamePieceAndPassLong();
+
+        // Perform full routine
+      case AutonomousNames.kFullRoute:
+        System.out.println("Score, pass line trough charge station and stabilize");
+        return autos.fullRoute();
+    }
+
     return null;
   }
 }
