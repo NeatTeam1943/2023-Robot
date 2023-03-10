@@ -15,6 +15,13 @@ public final class Constants {
     public static final int kRightFrontPort = 3;
     public static final int kRightRearPort = 4;
 
+    // field2d sim
+    public static final int kCountsPerRev = 4096;
+    public static final double kWheelRadiusCm = 3 * 2.54;
+    public static final double kSensorGearRatio = 1.0;
+    public static final double kGearRatio = 1 / 24;
+    public static final double kRobotMass = 45;
+
     // Encoder calculation for rate and distance
     public static final double k100msTo60sRatio = 600;
     public static final double kEncoderResolution = 2048;

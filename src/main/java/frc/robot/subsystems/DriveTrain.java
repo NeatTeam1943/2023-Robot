@@ -6,9 +6,14 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveTrainConstants;
 
@@ -24,6 +29,10 @@ public class DriveTrain extends SubsystemBase {
   private DifferentialDrive m_drive;
 
   private ADIS16448_IMU m_imu;
+
+  private Field2d m_field2d;
+
+  private DifferentialDriveOdometry m_odometry;
 
   public DriveTrain() {
     m_leftFront = new WPI_TalonFX(DriveTrainConstants.kLeftFrontPort);
@@ -47,6 +56,23 @@ public class DriveTrain extends SubsystemBase {
     m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
     m_imu = new ADIS16448_IMU();
+
+    m_field2d = new Field2d();
+
+    m_odometry = new DifferentialDriveOdometry(new Rotation2d(m_imu.getAngle()), 0, 0);
+
+    SmartDashboard.putData("field", m_field2d);
+  }
+
+  @Override
+  public void periodic() {
+    m_odometry.update(
+        new Rotation2d(m_imu.getAngle()),
+        nativeUnitsToDistanceMeters(
+            m_leftFront.getSelectedSensorPosition()), // Should fix and add acutal angle value
+        nativeUnitsToDistanceMeters(m_rightFront.getSelectedSensorPosition()));
+
+    m_field2d.setRobotPose(m_odometry.getPoseMeters());
   }
 
   public void arcadeDrive(double move, double rot, boolean squareInputs) {
@@ -56,6 +82,14 @@ public class DriveTrain extends SubsystemBase {
      * squareInputs - If set to true, it decreases the input sensitivity at low speeds.
      */
     m_drive.arcadeDrive(move, rot, squareInputs);
+  }
+
+  public static double nativeUnitsToDistanceMeters(double sensorCounts) {
+    double motorRotations = (double) sensorCounts / DriveTrainConstants.kCountsPerRev;
+    double wheelRotations = motorRotations / DriveTrainConstants.kSensorGearRatio;
+    double positionMeters =
+        wheelRotations * (2 * Math.PI * Units.inchesToMeters(DriveTrainConstants.kWheelRadiusCm));
+    return positionMeters;
   }
 
   public void tankDrive(double left, double right) {
