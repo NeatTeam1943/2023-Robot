@@ -20,7 +20,7 @@ public class DriveToCommunity extends CommandBase {
   // Arabic line
   private boolean m_passedStaition = false;
 
-  private boolean m_inverted;
+  private boolean m_backwards;
 
   private double m_setpoint;
   final double voltage = 0.2;
@@ -28,10 +28,10 @@ public class DriveToCommunity extends CommandBase {
 
   private final double m_distance = 0.25;
   /** Creates a new GyroAuto. */
-  public DriveToCommunity(DriveTrain driveTrain, boolean inverted) {
+  public DriveToCommunity(DriveTrain driveTrain, boolean backwards) {
     m_drive = driveTrain;
     m_imu = m_drive.getIMU();
-    m_inverted = inverted;
+    m_backwards = backwards;
 
     addRequirements(m_drive);
   }
@@ -58,7 +58,7 @@ public class DriveToCommunity extends CommandBase {
     System.out.println("passed away: "+m_passedStaition);
     System.out.println("drive to community: angle: " + m_imu.getGyroAngleY());
 
-    if (m_inverted) {
+    if (m_backwards) {
       if (m_imu.getGyroAngleY() > 10) {
         m_onChargingStation = true;
       }
@@ -95,7 +95,7 @@ public class DriveToCommunity extends CommandBase {
       }
     }
 
-    if (m_inverted) {
+    if (m_backwards) {
       if (!m_onChargingStation) {
         m_drive.arcadeDrive(voltage, 0, false);
       } else {
