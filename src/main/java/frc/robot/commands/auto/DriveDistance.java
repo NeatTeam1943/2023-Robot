@@ -7,7 +7,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
-public class DriveMeters extends CommandBase {
+public class DriveDistance extends CommandBase {
   DriveTrain m_drive;
 
   private double m_meters;
@@ -15,7 +15,7 @@ public class DriveMeters extends CommandBase {
   private boolean m_inverted;
   private final double m_voltage = 0.25;
   /** Creates a new driveMeters. */
-  public DriveMeters(DriveTrain drive, double meters, boolean inverted) {
+  public DriveDistance(DriveTrain drive, double meters, boolean inverted) {
     m_drive = drive;
     m_meters = meters;
     m_inverted = inverted;
