@@ -46,6 +46,28 @@ public final class Constants {
     public static final double kLineDistance = 1;
   }
 
+  public static final class AutoDriveConstans {
+    public static final double kDefaultSpeed = 0.25;
+  }
+
+  public static final class StabilizeConstants {
+    public static final double kSlowSpeed = 0.097;
+    public static final double kAngleThreshold = 3.5;
+  }
+
+  public static final class ChargeStationConstans {
+    public static final double kApproachSpeed = 0.15;
+    public static final double kClimbAngleThreshold = 12;
+    public static final double kClimbDistance = 0.93;
+  }
+
+  public static final class PassChargeStationConstants {
+    public static final double kUpSpeed = 0.2;
+    public static final double kDownSpeed = 0.15;
+    public static final double kUnsafeDistance = 4.25;
+    public static final double kSafeDistance = 0.25;
+  }
+
   public static final class AutonomousNames {
     public static final String kPassLine = "pass line";
     public static final String kPassShort = "pass short";
@@ -60,6 +82,7 @@ public final class Constants {
     public static final String kGamePieceNStable = "game piece & stable";
     public static final String kGamePieceNShort = "game piece & pass short";
     public static final String kGamePieceNLong = "game piece & pass long";
+    public static final String kGamePieceNPassChargeStation = "game piece & pass charge station";
 
     public static final String kFullRoute = "full route";
 
