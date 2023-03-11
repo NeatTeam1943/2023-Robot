@@ -130,6 +130,18 @@ public class AutoFunctions {
   }
 
   /**
+   * Score one game piece and leave the communtiy through charge station
+   *
+   * <p>Requirements: Place the robot close to the grids in front of the charge station facing the
+   * grids
+   */
+  public Command gamePieceAndPassChargeStation() {
+    Command closeAndPassCharge = Commands.parallel(new CloseDoor(m_door), passChargeStation());
+
+    return Commands.sequence(new OpenDoor(m_door), closeAndPassCharge);
+  }
+
+  /**
    * Score one game piece, leave the commuity trough the charge station, go back to charge station
    * and stabilize
    *
