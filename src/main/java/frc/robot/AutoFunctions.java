@@ -136,7 +136,7 @@ public class AutoFunctions {
    * Score one game piece, leave the commuity trough the charge station, go back to charge station
    * and stabilize
    *
-   * <p>Requirements: Place the robot close the grids in front of the charge station facing the
+   * <p>Requirements: Place the robot close to the grids in front of the charge station facing the
    * grids
    */
   public Command fullRoute() {
