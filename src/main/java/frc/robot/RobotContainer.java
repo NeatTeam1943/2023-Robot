@@ -46,6 +46,7 @@ public class RobotContainer {
           AutonomousNames.kGamePieceOnly,
           AutonomousNames.kGamePieceNStable,
           AutonomousNames.kGamePieceNShort,
+          AutonomousNames.kGamePieceNPassChargeStation,
           AutonomousNames.kGamePieceNLong,
           AutonomousNames.kFullRoute,
           AutonomousNames.kDoNothing,
@@ -104,13 +105,17 @@ public class RobotContainer {
         return autos.passLong();
 
       case AutonomousNames.kPassThroughCharge:
-        System.out.println("Pass line trough charge station");
+        System.out.println("Pass charge station");
         return autos.passChargeStation();
 
         // Stabilize
       case AutonomousNames.kStabilize:
         System.out.println("Stabilize");
         return autos.stabilize(true);
+
+      case AutonomousNames.kPassNStable:
+        System.out.println("Pass charge station and stabilize");
+        return autos.passChargeStationAndStabilize();
 
         // Game piece
       case AutonomousNames.kGamePieceOnly:
@@ -129,12 +134,17 @@ public class RobotContainer {
         System.out.println("Score and pass line on long distance");
         return autos.gamePieceAndPassLong();
 
+      case AutonomousNames.kGamePieceNPassChargeStation:
+        System.out.println("Score and pass charge");
+        return autos.gamePieceAndPassChargeStation();
+
         // Perform full routine
       case AutonomousNames.kFullRoute:
         System.out.println("Score, pass line trough charge station and stabilize");
         return autos.fullRoute();
     }
 
+    System.out.println("Nothing");
     return null;
   }
 }
