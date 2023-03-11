@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants.AutoDriveConstans;
+import frc.robot.Constants.ChargeStationConstans;
 import frc.robot.Constants.CommunityConstants;
 import frc.robot.commands.auto.DriveDistance;
 import frc.robot.commands.auto.DriveToChargeStaion;
@@ -31,7 +33,8 @@ public class AutoFunctions {
    * <p>Requirements: Placing the robot right on the line facing the grids
    */
   public Command passLine() {
-    return new DriveDistance(m_drive, CommunityConstants.kLineDistance, true);
+    return new DriveDistance(
+        m_drive, CommunityConstants.kLineDistance, AutoDriveConstans.kDefaultSpeed, true);
   }
 
   /**
@@ -41,7 +44,8 @@ public class AutoFunctions {
    * the grids
    */
   public Command passShort() {
-    return new DriveDistance(m_drive, CommunityConstants.kShortDistance, true);
+    return new DriveDistance(
+        m_drive, CommunityConstants.kShortDistance, AutoDriveConstans.kDefaultSpeed, true);
   }
 
   /**
@@ -50,7 +54,8 @@ public class AutoFunctions {
    * <p>Requirements: Placing the robot next to the grids facing the grids
    */
   public Command passLong() {
-    return new DriveDistance(m_drive, CommunityConstants.kLongDistance, true);
+    return new DriveDistance(
+        m_drive, CommunityConstants.kLongDistance, AutoDriveConstans.kDefaultSpeed, true);
   }
 
   /**
@@ -74,7 +79,13 @@ public class AutoFunctions {
         Commands.parallel(new DriveToChargeStaion(m_drive, backwards), new CloseDoor(m_door));
 
     return Commands.sequence(
-        driveAndClose, new DriveDistance(m_drive, 0.93, backwards), new Stabilize(m_drive));
+        driveAndClose,
+        new DriveDistance(
+            m_drive,
+            ChargeStationConstans.kClimbDistance,
+            AutoDriveConstans.kDefaultSpeed,
+            backwards),
+        new Stabilize(m_drive));
   }
 
   /**
