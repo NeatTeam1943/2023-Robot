@@ -121,7 +121,7 @@ public class DriveTrain extends SubsystemBase {
     double centralMotorAvg = centralAvg / DriveTrainConstants.kEncoderResolution;
     double centralWheelAvg = centralMotorAvg / DriveTrainConstants.kMotorToWheelRatio;
 
-    return (-centralWheelAvg * DriveTrainConstants.kWheelCircumference);
+    return (-centralWheelAvg * DriveTrainConstants.kWheelCircumference) / 100;
   }
 
   public void resetEncoders() {
