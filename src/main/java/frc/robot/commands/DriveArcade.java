@@ -25,8 +25,8 @@ public class DriveArcade extends CommandBase {
     double mov = m_joystick.getRightTriggerAxis() - m_joystick.getLeftTriggerAxis();
     double rot = m_joystick.getLeftX();
 
-    mov = mov > 0.9 ? 0.9 : (mov < -0.9 ? -0.9 : mov); 
-    rot = rot > 0.6 ? 0.6 : (rot < -0.6 ? -0.6 : rot);  
+    mov = mov > 0.9 ? 0.9 : (mov < -0.9 ? -0.9 : mov);
+    rot = rot > 0.6 ? 0.6 : (rot < -0.6 ? -0.6 : rot);
 
     m_driveTrain.arcadeDrive(-mov, -rot, true);
   }
