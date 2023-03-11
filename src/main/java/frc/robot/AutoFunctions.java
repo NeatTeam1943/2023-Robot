@@ -93,10 +93,7 @@ public class AutoFunctions {
    * <p>Requirements: Placing the robot close to the grids facing the grids
    */
   public Command gamePiece() {
-    Command closeAndDriveDistance =
-        Commands.parallel(new DriveDistance(m_drive, 0.3, true), new CloseDoor(m_door));
-
-    return Commands.sequence(new OpenDoor(m_door), closeAndDriveDistance);
+    return Commands.sequence(new OpenDoor(m_door), new CloseDoor(m_door));
   }
 
   /**
