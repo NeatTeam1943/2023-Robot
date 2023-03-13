@@ -81,6 +81,7 @@ public class PassChargeStation extends CommandBase {
 
     } else {
       if (angleY == 0 && currentDistance > m_unsafeSetPoint) {
+        System.out.println("IMU FAILURE! CANCELLING AUTONOMOUS!");
         Robot.cancelAuto();
       }
 
