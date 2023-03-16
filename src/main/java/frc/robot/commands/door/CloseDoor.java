@@ -30,10 +30,16 @@ public class CloseDoor extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
+  // m_time.get() > DoorConstants.kCloseDoorDelay
   @Override
   public void execute() {
-    if (m_time.get() > DoorConstants.kCloseDoorDelay) {
-      m_door.move(DoorConstants.kDoorSpeed);
+    if (!m_door.isClosed()) {
+      if (m_time.get() > DoorConstants.kCloseDoorDelay) {
+        m_door.move(DoorConstants.kDoorSpeed);
+      }
+    } else if (m_door.isClosed()) {
+      m_door.move(0);
+      m_time.restart();
     }
   }
 
@@ -47,6 +53,6 @@ public class CloseDoor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_door.isClosed();
+    return false;
   }
 }

@@ -6,9 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutonomousNames;
+import frc.robot.Constants.DoorConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.door.CloseDoor;
@@ -53,7 +55,7 @@ public class RobotContainer {
         });
 
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
-
+    m_door.setDefaultCommand(new CloseDoor(m_door));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -74,10 +76,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Open door
-    m_driverController.a().onTrue(new OpenDoor(m_door));
-
-    // Close door
-    m_driverController.a().onFalse(new CloseDoor(m_door));
+    m_driverController.a().whileTrue(new RunCommand(() -> m_door.move(-DoorConstants.kDoorSpeed), m_door));
   }
 
   public double getGyroAngleY() {
