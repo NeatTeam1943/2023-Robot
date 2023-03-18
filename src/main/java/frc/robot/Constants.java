@@ -42,29 +42,29 @@ public final class Constants {
 
   public static final class CommunityConstants {
     public static final double kShortDistance = 2.2;
-    public static final double kLongDistance = 3.8;
+    public static final double kLongDistance = 4.05;
     public static final double kLineDistance = 1;
   }
 
   public static final class AutoDriveConstans {
-    public static final double kDefaultSpeed = 0.25;
+    public static final double kDefaultSpeed = 0.2;
   }
 
   public static final class StabilizeConstants {
-    public static final double kSlowSpeed = 0.097;
+    public static final double kSlowSpeed = 0.1;
     public static final double kAngleThreshold = 3.5;
   }
 
   public static final class ChargeStationConstans {
-    public static final double kApproachSpeed = 0.15;
+    public static final double kApproachSpeed = 0.1943;
     public static final double kClimbAngleThreshold = 12;
-    public static final double kClimbDistance = 0.93;
+    public static final double kClimbDistance = 1.2;
   }
 
   public static final class PassChargeStationConstants {
-    public static final double kUpSpeed = 0.2;
-    public static final double kDownSpeed = 0.15;
-    public static final double kUnsafeDistance = 4.25;
+    public static final double kUpSpeed = 0.25;
+    public static final double kDownSpeed = 0.2;
+    public static final double kUnsafeDistance = 5.2;
     public static final double kSafeDistance = 0.25;
   }
 
