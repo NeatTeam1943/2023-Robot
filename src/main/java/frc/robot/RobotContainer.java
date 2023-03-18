@@ -80,10 +80,6 @@ public class RobotContainer {
     m_driverController.a().onFalse(new CloseDoor(m_door));
   }
 
-  public double getGyroAngleY() {
-    return m_driveTrain.getGyroAngleY();
-  }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

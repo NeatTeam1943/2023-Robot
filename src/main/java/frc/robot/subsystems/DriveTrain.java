@@ -10,7 +10,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -29,7 +28,7 @@ public class DriveTrain extends SubsystemBase {
 
   private DifferentialDrive m_drive;
 
-  private ADIS16470_IMU m_imu;
+  private ADIS16448_IMU m_imu;
 
   private Field2d m_field2d;
 
@@ -56,7 +55,7 @@ public class DriveTrain extends SubsystemBase {
 
     m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
-    m_imu = new ADIS16470_IMU();
+    m_imu = new ADIS16448_IMU();
 
     m_field2d = new Field2d();
 
@@ -106,7 +105,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double getGyroAngleY() {
-    return m_imu.getYComplementaryAngle();
+    return m_imu.getGyroAngleY();
   }
 
   public boolean isStable() {
@@ -114,7 +113,7 @@ public class DriveTrain extends SubsystemBase {
     return -1 < angleY && angleY < 1;
   }
 
-  public ADIS16470_IMU getIMU() {
+  public ADIS16448_IMU getIMU() {
     return m_imu;
   }
 
