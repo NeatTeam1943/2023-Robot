@@ -32,8 +32,8 @@ public final class Constants {
   public static class DoorConstants {
     public static final int kDoorMotorID = 5;
 
-    public static final int kCloseSwitch = 0;
-    public static final int kOpenSwitch = 1;
+    public static final int kCloseSwitch = 2;
+    public static final int kOpenSwitch = 3;
 
     public static final double kDoorSpeed = 0.15;
 
@@ -42,8 +42,30 @@ public final class Constants {
 
   public static final class CommunityConstants {
     public static final double kShortDistance = 2.2;
-    public static final double kLongDistance = 3.8;
+    public static final double kLongDistance = 4.05;
     public static final double kLineDistance = 1;
+  }
+
+  public static final class AutoDriveConstans {
+    public static final double kDefaultSpeed = 0.2;
+  }
+
+  public static final class StabilizeConstants {
+    public static final double kSlowSpeed = 0.1;
+    public static final double kAngleThreshold = 3.5;
+  }
+
+  public static final class ChargeStationConstans {
+    public static final double kApproachSpeed = 0.1943;
+    public static final double kClimbAngleThreshold = 12;
+    public static final double kClimbDistance = 1.2;
+  }
+
+  public static final class PassChargeStationConstants {
+    public static final double kUpSpeed = 0.25;
+    public static final double kDownSpeed = 0.2;
+    public static final double kUnsafeDistance = 5.2;
+    public static final double kSafeDistance = 0.25;
   }
 
   public static final class AutonomousNames {
@@ -60,6 +82,7 @@ public final class Constants {
     public static final String kGamePieceNStable = "game piece & stable";
     public static final String kGamePieceNShort = "game piece & pass short";
     public static final String kGamePieceNLong = "game piece & pass long";
+    public static final String kGamePieceNPassChargeStation = "game piece & pass charge station";
 
     public static final String kFullRoute = "full route";
 

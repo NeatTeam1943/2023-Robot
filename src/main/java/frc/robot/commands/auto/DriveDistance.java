@@ -8,16 +8,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
 public class DriveDistance extends CommandBase {
-  DriveTrain m_drive;
+  private DriveTrain m_drive;
 
-  private double m_meters;
   private double m_setpoint;
-  private boolean m_backwards;
-  private final double m_voltage = 0.25;
+  private double m_currentDistance;
+  private double m_speed;
 
-  public DriveDistance(DriveTrain drive, double meters, boolean backwards) {
+  private boolean m_backwards;
+
+  public DriveDistance(DriveTrain drive, double distance, double speed, boolean backwards) {
     m_drive = drive;
-    m_meters = meters;
+
+    m_setpoint = distance;
+    m_speed = speed;
+
     m_backwards = backwards;
 
     addRequirements(m_drive);
@@ -28,29 +32,33 @@ public class DriveDistance extends CommandBase {
   public void initialize() {
     System.out.println(
         "========== Start DriveDistance( "
-            + m_meters
+            + m_setpoint
             + " meters, "
             + m_backwards
             + " ) ==========");
 
+    m_currentDistance = m_drive.getDistance();
+
     if (m_backwards) {
-      m_setpoint = m_drive.getDistance() - m_meters;
+      m_setpoint = m_currentDistance - m_setpoint;
     } else {
-      m_setpoint = m_drive.getDistance() + m_meters;
+      m_setpoint = m_currentDistance + m_setpoint;
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_currentDistance = m_drive.getDistance();
+
     if (m_backwards) {
-      m_drive.arcadeDrive(m_voltage, 0, false);
+      m_drive.arcadeDrive(m_speed, 0, false);
     } else {
-      m_drive.arcadeDrive(-m_voltage, 0, false);
+      m_drive.arcadeDrive(-m_speed, 0, false);
     }
 
-    System.out.println("Drove: " + m_drive.getDistance() + " meters");
-    System.out.println("Distance to setpoint: " + (m_drive.getDistance() - m_setpoint) + " meters");
+    System.out.println("Drove: " + m_currentDistance + " meters");
+    System.out.println("Distance to setpoint: " + (m_currentDistance - m_setpoint) + " meters");
   }
 
   // Called once the command ends or is interrupted.
@@ -63,9 +71,9 @@ public class DriveDistance extends CommandBase {
   @Override
   public boolean isFinished() {
     if (m_backwards) {
-      return m_drive.getDistance() < m_setpoint;
+      return m_currentDistance < m_setpoint;
     } else {
-      return m_drive.getDistance() > m_setpoint;
+      return m_currentDistance > m_setpoint;
     }
   }
 }

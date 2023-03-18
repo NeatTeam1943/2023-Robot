@@ -104,6 +104,15 @@ public class DriveTrain extends SubsystemBase {
     return m_imu.getRate();
   }
 
+  public double getGyroAngleY() {
+    return m_imu.getGyroAngleY();
+  }
+
+  public boolean isStable() {
+    final double angleY = getGyroAngleY();
+    return -1 < angleY && angleY < 1;
+  }
+
   public ADIS16448_IMU getIMU() {
     return m_imu;
   }
@@ -121,7 +130,7 @@ public class DriveTrain extends SubsystemBase {
     double centralMotorAvg = centralAvg / DriveTrainConstants.kEncoderResolution;
     double centralWheelAvg = centralMotorAvg / DriveTrainConstants.kMotorToWheelRatio;
 
-    return (-centralWheelAvg * DriveTrainConstants.kWheelCircumference);
+    return (-centralWheelAvg * DriveTrainConstants.kWheelCircumference) / 100;
   }
 
   public void resetEncoders() {

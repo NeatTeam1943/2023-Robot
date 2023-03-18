@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants.AutoDriveConstans;
+import frc.robot.Constants.ChargeStationConstans;
 import frc.robot.Constants.CommunityConstants;
 import frc.robot.commands.auto.DriveDistance;
 import frc.robot.commands.auto.DriveToChargeStaion;
@@ -31,7 +33,8 @@ public class AutoFunctions {
    * <p>Requirements: Placing the robot right on the line facing the grids
    */
   public Command passLine() {
-    return new DriveDistance(m_drive, CommunityConstants.kLineDistance, true);
+    return new DriveDistance(
+        m_drive, CommunityConstants.kLineDistance, AutoDriveConstans.kDefaultSpeed, true);
   }
 
   /**
@@ -41,7 +44,8 @@ public class AutoFunctions {
    * the grids
    */
   public Command passShort() {
-    return new DriveDistance(m_drive, CommunityConstants.kShortDistance, true);
+    return new DriveDistance(
+        m_drive, CommunityConstants.kShortDistance, AutoDriveConstans.kDefaultSpeed, true);
   }
 
   /**
@@ -50,7 +54,8 @@ public class AutoFunctions {
    * <p>Requirements: Placing the robot next to the grids facing the grids
    */
   public Command passLong() {
-    return new DriveDistance(m_drive, CommunityConstants.kLongDistance, true);
+    return new DriveDistance(
+        m_drive, CommunityConstants.kLongDistance, AutoDriveConstans.kDefaultSpeed, true);
   }
 
   /**
@@ -70,11 +75,17 @@ public class AutoFunctions {
    * @param backwards reverse the robot
    */
   public Command stabilize(boolean backwards) {
-    Command driveAndClose =
-        Commands.parallel(new DriveToChargeStaion(m_drive, backwards), new CloseDoor(m_door));
+    Command stable =
+        Commands.parallel(new Stabilize(m_drive), new CloseDoor(m_door));
 
     return Commands.sequence(
-        driveAndClose, new DriveDistance(m_drive, 0.93, backwards), new Stabilize(m_drive));
+      new DriveToChargeStaion(m_drive, backwards),
+        new DriveDistance(
+            m_drive,
+            ChargeStationConstans.kClimbDistance,
+            AutoDriveConstans.kDefaultSpeed,
+            backwards),
+        stable);
   }
 
   /**
@@ -93,10 +104,7 @@ public class AutoFunctions {
    * <p>Requirements: Placing the robot close to the grids facing the grids
    */
   public Command gamePiece() {
-    Command closeAndDriveDistance =
-        Commands.parallel(new DriveDistance(m_drive, 0.3, true), new CloseDoor(m_door));
-
-    return Commands.sequence(new OpenDoor(m_door), closeAndDriveDistance);
+    return Commands.sequence(new OpenDoor(m_door), new CloseDoor(m_door));
   }
 
   /**
@@ -133,16 +141,25 @@ public class AutoFunctions {
   }
 
   /**
+   * Score one game piece and leave the communtiy through charge station
+   *
+   * <p>Requirements: Place the robot close to the grids in front of the charge station facing the
+   * grids
+   */
+  public Command gamePieceAndPassChargeStation() {
+    Command closeAndPassCharge = Commands.parallel(new CloseDoor(m_door), passChargeStation());
+
+    return Commands.sequence(new OpenDoor(m_door), closeAndPassCharge);
+  }
+
+  /**
    * Score one game piece, leave the commuity trough the charge station, go back to charge station
    * and stabilize
    *
-   * <p>Requirements: Place the robot close the grids in front of the charge station facing the
+   * <p>Requirements: Place the robot close to the grids in front of the charge station facing the
    * grids
    */
   public Command fullRoute() {
-    Command closeAndPassChargeStation =
-        Commands.parallel(new CloseDoor(m_door), passChargeStation());
-
-    return Commands.sequence(new OpenDoor(m_door), closeAndPassChargeStation, stabilize(false));
+    return Commands.sequence(new OpenDoor(m_door), passChargeStation(), stabilize(false));
   }
 }

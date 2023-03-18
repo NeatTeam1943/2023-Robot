@@ -4,18 +4,16 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.StabilizeConstants;
 import frc.robot.subsystems.DriveTrain;
 
 public class Stabilize extends CommandBase {
 
   private DriveTrain m_drive;
-  private ADIS16448_IMU m_imu;
 
   public Stabilize(DriveTrain driveTrain) {
     m_drive = driveTrain;
-    m_imu = m_drive.getIMU();
 
     addRequirements(m_drive);
   }
@@ -29,17 +27,13 @@ public class Stabilize extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    final double speed = 0.090;
-    final double threshold = 3.2;
-    final double angleY = m_imu.getGyroAngleY();
+    final double angleY = m_drive.getGyroAngleY();
 
-    // System.out.println("Stable -> angle: " + angleX);
-
-    if (angleY > threshold) {
-      m_drive.arcadeDrive(-speed, 0, false);
+    if (angleY > StabilizeConstants.kAngleThreshold) {
+      m_drive.arcadeDrive(-StabilizeConstants.kSlowSpeed, 0, false);
       System.out.println("Going forward, angleY: " + angleY);
-    } else if (angleY < -threshold) {
-      m_drive.arcadeDrive(speed, 0, false);
+    } else if (angleY < -StabilizeConstants.kAngleThreshold) {
+      m_drive.arcadeDrive(StabilizeConstants.kSlowSpeed, 0, false);
       System.out.println("Going backwards, angleY: " + angleY);
     } else {
       m_drive.arcadeDrive(0, 0, false);

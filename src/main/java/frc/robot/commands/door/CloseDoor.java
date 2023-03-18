@@ -15,6 +15,7 @@ public class CloseDoor extends CommandBase {
 
   public CloseDoor(Door door) {
     m_door = door;
+    m_time = new Timer();
 
     addRequirements(m_door);
   }
