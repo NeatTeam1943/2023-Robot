@@ -22,6 +22,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private int m_imuCounter = 0;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -58,6 +60,12 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
+    if (m_imuCounter % 50 == 0) {
+      System.out.println("IMU Check: " + m_robotContainer.getGyroAngleY());
+      m_imuCounter = 0;
+    }
+
+    m_imuCounter++;
     CommandScheduler.getInstance().run();
   }
 
