@@ -111,6 +111,7 @@ public class Robot extends TimedRobot {
   public void simulationPeriodic() {}
 
   public static void cancelAuto() {
+    System.out.println("CANCELLING AUTONOMOUS!");
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
