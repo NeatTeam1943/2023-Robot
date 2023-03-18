@@ -32,8 +32,8 @@ public final class Constants {
   public static class DoorConstants {
     public static final int kDoorMotorID = 5;
 
-    public static final int kCloseSwitch = 0;
-    public static final int kOpenSwitch = 1;
+    public static final int kCloseSwitch = 2;
+    public static final int kOpenSwitch = 3;
 
     public static final double kDoorSpeed = 0.15;
 
@@ -57,7 +57,7 @@ public final class Constants {
 
 
   public static final class ChargeStationConstans {
-    public static final double kApproachSpeed = 0.21;
+    public static final double kApproachSpeed = 0.1943;
     public static final double kClimbAngleThreshold = 12;
     public static final double kClimbDistance = 1.2; 
   }

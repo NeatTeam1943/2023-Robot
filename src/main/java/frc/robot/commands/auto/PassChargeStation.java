@@ -57,7 +57,7 @@ public class PassChargeStation extends CommandBase {
 
     System.out.println("angle: " + angleY);
 
-    if (m_backwards) {
+    if (!m_backwards) {
       if (angleY == 0 && currentDistance < m_unsafeSetPoint) {
         Robot.cancelAuto();
       }
