@@ -75,17 +75,17 @@ public class AutoFunctions {
    * @param backwards reverse the robot
    */
   public Command stabilize(boolean backwards) {
-    Command driveAndClose =
-        Commands.parallel(new DriveToChargeStaion(m_drive, backwards), new CloseDoor(m_door));
+    Command stable =
+        Commands.parallel(new Stabilize(m_drive), new CloseDoor(m_door));
 
     return Commands.sequence(
-        driveAndClose,
+      new DriveToChargeStaion(m_drive, backwards),
         new DriveDistance(
             m_drive,
             ChargeStationConstans.kClimbDistance,
             AutoDriveConstans.kDefaultSpeed,
             backwards),
-        new Stabilize(m_drive));
+        stable);
   }
 
   /**
@@ -160,9 +160,6 @@ public class AutoFunctions {
    * grids
    */
   public Command fullRoute() {
-    Command closeAndPassChargeStation =
-        Commands.parallel(new CloseDoor(m_door), passChargeStation());
-
-    return Commands.sequence(new OpenDoor(m_door), closeAndPassChargeStation, stabilize(false));
+    return Commands.sequence(new OpenDoor(m_door), passChargeStation(), stabilize(false));
   }
 }
