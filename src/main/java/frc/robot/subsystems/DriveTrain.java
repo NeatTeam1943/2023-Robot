@@ -68,6 +68,14 @@ public class DriveTrain extends SubsystemBase {
     m_imu.calibrate();
   }
 
+  public double getLeftMotorsEncoder(){
+    return m_leftFront.getSelectedSensorPosition() + m_leftRear.getSelectedSensorPosition() / 2;
+  }
+
+  public double getRightMotorsEncoder(){
+    return m_rightFront.getSelectedSensorPosition() + m_rightRear.getSelectedSensorPosition() / 2;
+  }
+
   public double getDistance() {
     double leftAvgPos = (m_leftFront.getSelectedSensorPosition() + m_leftRear.getSelectedSensorPosition()) / 2;
     double rightAvgPos = (m_rightFront.getSelectedSensorPosition() + m_rightRear.getSelectedSensorPosition()) / 2;
