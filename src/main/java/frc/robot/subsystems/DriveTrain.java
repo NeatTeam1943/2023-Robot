@@ -73,6 +73,12 @@ public class DriveTrain extends SubsystemBase {
         nativeUnitsToDistanceMeters(m_rightFront.getSelectedSensorPosition()));
 
     m_field2d.setRobotPose(m_odometry.getPoseMeters());
+
+
+    SmartDashboard.putData("Right front Motor", m_rightFront);
+    SmartDashboard.putData("Left front Motor", m_leftFront);
+    SmartDashboard.putData("Right Rear Motor", m_rightRear);
+    SmartDashboard.putData("Left Rear Motor", m_leftRear);
   }
 
   public void arcadeDrive(double move, double rot, boolean squareInputs) {

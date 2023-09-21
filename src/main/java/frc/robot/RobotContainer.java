@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutonomousNames;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.DriveArcade;
+import frc.robot.commands.DriveArcade;    
 import frc.robot.commands.door.CloseDoor;
 import frc.robot.commands.door.OpenDoor;
 import frc.robot.subsystems.Door;
@@ -51,6 +51,8 @@ public class RobotContainer {
           AutonomousNames.kFullRoute,
           AutonomousNames.kDoNothing,
         });
+
+    SmartDashboard.putString("hello world", "hello world");
 
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
 

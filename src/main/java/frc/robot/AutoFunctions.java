@@ -75,11 +75,10 @@ public class AutoFunctions {
    * @param backwards reverse the robot
    */
   public Command stabilize(boolean backwards) {
-    Command stable =
-        Commands.parallel(new Stabilize(m_drive), new CloseDoor(m_door));
+    Command stable = Commands.parallel(new Stabilize(m_drive), new CloseDoor(m_door));
 
     return Commands.sequence(
-      new DriveToChargeStaion(m_drive, backwards),
+        new DriveToChargeStaion(m_drive, backwards),
         new DriveDistance(
             m_drive,
             ChargeStationConstans.kClimbDistance,
