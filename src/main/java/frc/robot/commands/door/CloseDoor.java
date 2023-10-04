@@ -35,6 +35,8 @@ public class CloseDoor extends CommandBase {
     if (m_time.get() > DoorConstants.kCloseDoorDelay) {
       m_door.move(DoorConstants.kDoorSpeed);
     }
+
+    System.out.println("Switch Close pressed? " + m_door.isClosed());
   }
 
   // Called once the command ends or is interrupted.

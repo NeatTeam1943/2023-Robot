@@ -53,9 +53,11 @@ public class RobotContainer {
         });
 
     m_driveTrain.setDefaultCommand(m_driveArcadeCommand);
+    m_door.setDefaultCommand(new CloseDoor(m_door)); 
 
-    // Configure the trigger bindings
+    // Configure the trigger bindingsp
     configureBindings();
+
   }
 
   public void resetDriveTrain() {

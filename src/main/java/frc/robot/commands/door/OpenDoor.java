@@ -27,6 +27,8 @@ public class OpenDoor extends CommandBase {
   @Override
   public void execute() {
     m_door.move(-DoorConstants.kDoorSpeed);
+
+    System.out.println("Switch Open pressed? " + m_door.isOpen());
   }
 
   // Called once the command ends or is interrupted.
